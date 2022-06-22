@@ -40,7 +40,7 @@ timeEnd = 0
 # what type of passage
 aiPassage = False
 words1000 = True
-numWords = 10
+numWords = 30
 
 # variable that calibrates the wpm
 avgWordLen = 5
@@ -65,7 +65,7 @@ darkRed = "#990000"
 closeButtonHover = darkRed
 
 # color schemes - uncomment one at a time to try them out
-"""
+
 # 1 - Nord
 salmon = "#D08770"
 lightBlue = "#81A1C1"
@@ -81,8 +81,9 @@ darkestGrey = "#3B4252"
 
 backgroundColor = darkestGrey
 accentColor1 = seaFoamGreen
-"""
+textHighlight = oliveGreen
 
+'''
 # 2 - Forest
 almostBlack = "#121e26"
 deepForestGreen = "#283635"
@@ -92,8 +93,8 @@ clay = "#9d6556"
 
 backgroundColor = almostBlack
 accentColor1 = lightBeige
-textHighlight = darkRed
-
+textHighlight = "#8FBCBB"
+'''
 '''
 # 3 - Blue
 purple = "#9674d4"
@@ -104,6 +105,7 @@ grey = "#e8e8e8"
 
 backgroundColor = midnightBlue
 accentColor1 = grey
+textHighlight = brightBlue
 '''
 '''
 # 4 - Soft beach colors
@@ -113,8 +115,9 @@ dustyWhite = "#edf756"
 pinkSand = "#ffa8B6"
 darkSand = "#a28089"
 
-backgroundColor = midnightBlue
-accentColor1 = grey
+backgroundColor = blueGreen
+accentColor1 = darkSand
+textHighlight = pinkSand
 '''
 '''
 # 5 - Purple color scheme
@@ -126,6 +129,7 @@ heavyPurple = "#494D5F"
 
 backgroundColor = heavyPurple
 accentColor1 = freezePurple
+textHighlight = iceCold
 '''
 '''
 # 6 - Deep blue and tan
@@ -136,4 +140,5 @@ nightBlueShadow = "#12343b"
 
 backgroundColor = nightBlue
 accentColor1 = sandTan
+textHighlight = sandTanShadow
 '''
