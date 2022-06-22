@@ -160,6 +160,8 @@ class MainWindow(QFrame):
         self.shortcut_snapTop.activated.connect(lambda: self.snapWin("top"))
         self.shortcut_snapBottom = QShortcut(QKeySequence('Ctrl+Alt+Down'), self)
         self.shortcut_snapBottom.activated.connect(lambda: self.snapWin("bottom"))
+        # set focus to the textbox
+        self.textDisplay.setFocus()
     
     def snapWin(self, direction):
         global rightDown

@@ -29,6 +29,30 @@ application = None
 mainWin = None
 titleBar = None
 
+# store the text that needs to be displayed 
+curText = ""
+typedText = ""
+
+# track the time for wpm counter
+timeStart = 0
+timeEnd = 0
+
+# what type of passage
+aiPassage = False
+words1000 = True
+numWords = 10
+
+# variable that calibrates the wpm
+avgWordLen = 5
+
+# store the number of correct and incorrect key presses
+right = 0
+wrong = 0
+
+# variables for what can show up in the passage
+symbols = False
+punctuation = "!'(), -.:;?@"
+
 # variable to be able to snap to sides and corners
 leftDown = False
 upDown = False
@@ -68,6 +92,7 @@ clay = "#9d6556"
 
 backgroundColor = almostBlack
 accentColor1 = lightBeige
+textHighlight = darkRed
 
 '''
 # 3 - Blue
