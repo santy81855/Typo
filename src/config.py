@@ -1,5 +1,5 @@
 # The name that appears at the top of the title bar
-appName = "AppName"
+appName = "FlyType"
 # The logo for the taskbar
 logoName = "logo.ico"
 # Toggle the bar at the bottom with the snap features
@@ -28,6 +28,7 @@ isMaximized = False
 application = None
 mainWin = None
 titleBar = None
+textbox = None
 
 # store the text that needs to be displayed 
 curText = ""
@@ -40,7 +41,7 @@ timeEnd = 0
 # what type of passage
 aiPassage = False
 words1000 = True
-numWords = 30
+numWords = 100
 
 # variable that calibrates the wpm
 avgWordLen = 5
@@ -60,6 +61,8 @@ downDown = False
 rightDown = False
 # variablee to track if the snap widget is up
 isSnapWidget = False
+# variable to track which main option is selected
+selectedOption = None
 # make the close button red when you hover over it
 darkRed = "#990000"
 closeButtonHover = darkRed
@@ -81,7 +84,7 @@ darkestGrey = "#3B4252"
 
 backgroundColor = darkestGrey
 accentColor1 = seaFoamGreen
-textHighlight = oliveGreen
+textHighlight = salmon
 
 '''
 # 2 - Forest

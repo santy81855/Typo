@@ -17,7 +17,6 @@ he
 with
 on
 this
-n’t
 we
 that
 not
@@ -411,7 +410,7 @@ low
 human
 please
 hope
-TRUE
+true
 process
 teacher
 data

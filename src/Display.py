@@ -12,14 +12,18 @@ class Passage(QTextEdit):
     def __init__(self, parent):
         super(Passage, self).__init__()
         self.parent = parent
+        config.textbox = self
         self.setStyleSheet("""
         QTextEdit
         {
             background-color: """+config.backgroundColor+""";
             color: """+config.accentColor1+""";
             border: none;
+            selection-background-color: """+config.backgroundColor+""";
+            selection-color: """+config.accentColor1+""";
         }
         """)
+        
         # create the font
         font = QFont()
         font.setFamily("Serif")
@@ -28,7 +32,6 @@ class Passage(QTextEdit):
         self.setFont(font)
         self.setMouseTracking(True)
         self.generatePassage()
-
     
     def keyReleaseEvent(self, event):
         # get past all the modifiers
@@ -70,10 +73,19 @@ class Passage(QTextEdit):
                 config.right += 1
                 config.curText = config.curText[1:]
                 config.typedText = config.typedText + event.text()
+                # we want to underline the next character, but only if there is text left to write
                 if len(config.curText) >= 1:
-                    self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + '<u>' + config.curText[0] + '</u>'+ config.curText[1:])
+                    # if the next character is just a space don't underline it
+                    if config.curText[0] == " ":
+                        self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + config.curText[0] + config.curText[1:])
+                    # if it is not a space then underline it
+                    else:
+                        self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + '<u>' + config.curText[0] + '</u>'+ config.curText[1:])
+                # if there is no more text to write then just end it
+                
                 else:
                     self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>')
+                    self.setReadOnly(True)
 
                 # move the cursor to the right spot
                 for i in range(0, len(config.typedText)):                    
@@ -104,9 +116,15 @@ class Passage(QTextEdit):
 
     def mousePressEvent(self, event):
         self.setFocus()
+    
+    def mouseReleaseEvent(self, event):
+        return
+
+    def mouseDoubleClickEvent(self, event):
+        return
 
     def generatePassage(self):
-        if config.aiPassage == True:
+        if "AI" in config.selectedOption.text:
             r = requests.post(
                 "https://api.deepai.org/api/text-generator",
                 data={
@@ -136,7 +154,7 @@ class Passage(QTextEdit):
                         index += 1
                     break
 
-        elif config.words1000 == True:
+        elif "words" in config.selectedOption.text:
             my_file = open("1000words.txt", "r")
             content = my_file.read()
             content_list = content.split("\n")
@@ -144,6 +162,19 @@ class Passage(QTextEdit):
             text = ""
             # generate a list of words of length config.numWords
             for i in range(0, config.numWords):
+                if i == 0:
+                    text = text + str(random.choice(content_list))
+                else:
+                    text = text + ' ' + str(random.choice(content_list))
+        
+        elif "time" in config.selectedOption.text:
+            my_file = open("1000words.txt", "r")
+            content = my_file.read()
+            content_list = content.split("\n")
+            my_file.close()
+            text = ""
+            # generate a crazy long list of words
+            for i in range(0, 1000):
                 if i == 0:
                     text = text + str(random.choice(content_list))
                 else:

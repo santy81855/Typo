@@ -3,7 +3,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QColor, QCursor, QKeySequence
-import config, TitleBar, Snap, SnapButton, Display
+import config, TitleBar, Snap, SnapButton, Display, OptionButton
 from platform import system
 operatingSystem = system()
 
@@ -52,7 +52,7 @@ class MainWindow(QFrame):
         self.setGeometry(workingWidth/7, 0, workingWidth - (2 * workingWidth / 7), workingHeight)
         # vertical layout
         self.layout = QVBoxLayout()
-        self.layout.setSpacing(0)
+        self.layout.setSpacing(10)
         # add the title bar
         self.titlebarWidget = TitleBar.MyBar(self)
         self.layout.addWidget(self.titlebarWidget)
@@ -75,6 +75,27 @@ class MainWindow(QFrame):
         #self.layout.addStretch(-1)
 
         #-----------------------------------------ADD YOUR WIDGETS HERE-------------------------------------------------------#
+        # add horizontal layout to display the options
+        self.optionsLayout = QHBoxLayout()
+        self.optionsLayout.setSpacing(10)
+        # stretch on the left
+        self.optionsLayout.addStretch(-1)
+        # create button for words
+        self.words = OptionButton.OButton(self, "words", 80)
+        config.selectedOption = self.words
+        # create button for time
+        self.time = OptionButton.OButton(self, "time", 65)
+        # craete button for AI generated passage
+        self.generated = OptionButton.OButton(self, "AI", 35)
+        # add the buttons to the horizontal layout
+        self.optionsLayout.addWidget(self.words)
+        self.optionsLayout.addWidget(self.time)
+        self.optionsLayout.addWidget(self.generated)
+        # stretch on the right
+        self.optionsLayout.addStretch(-1)
+        # add the hor layout to main layout
+        self.layout.addLayout(self.optionsLayout)        
+
         # add text display widget
         self.textDisplay = Display.Passage(self)
         self.layout.addWidget(self.textDisplay)
