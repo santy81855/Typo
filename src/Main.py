@@ -108,6 +108,8 @@ class MainWindow(QFrame):
         self.stack.addWidget(self.textDisplay)
         # add the results page to the stack widget
         self.results = Results.ResultsPage(self)
+
+        
         # add the stack widget to the main layout
         self.layout.addWidget(self.stack)
 
@@ -557,18 +559,6 @@ class MainWindow(QFrame):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     config.application = app
-    # get the sound but get it 10 times so we can overlap sound
-    global urlDown
-    global urlUp
-    config.urlDown = QtCore.QUrl.fromLocalFile("keydown.wav")
-    config.urlUp = QtCore.QUrl.fromLocalFile("keyup.wav")
-    # for loop that runs 10 times
-    for i in range(0, 10):
-        config.keySound.append(QtMultimedia.QMediaContent(config.urlDown))
-        config.player.append(QtMultimedia.QMediaPlayer())
-    for i in range(0, 10):
-        config.keySoundUp.append(QtMultimedia.QMediaContent(config.urlUp))
-        config.playerUp.append(QtMultimedia.QMediaPlayer())
     # set the logo
     app.setWindowIcon(QtGui.QIcon(config.logoName))   
     # find the resolution of the monitor the user is on

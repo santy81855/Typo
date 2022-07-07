@@ -3,8 +3,8 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QTextEdit
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5 import QtMultimedia
-from PyQt5.QtGui import QCursor, QFont, QTextCursor
-import config
+from PyQt5.QtGui import QCursor, QFont, QTextCursor, QFontMetrics
+import config, ScrollBar
 import requests
 import time
 import random
@@ -14,6 +14,9 @@ class Passage(QTextEdit):
         super(Passage, self).__init__()
         self.parent = parent
         config.textbox = self
+        # calculate margins
+        margin = self.parent.width() * 0.08
+        marginStr = str(margin) + "px"
         self.setStyleSheet("""
         QTextEdit
         {
@@ -22,6 +25,10 @@ class Passage(QTextEdit):
             border: none;
             selection-background-color: """+config.backgroundColor+""";
             selection-color: """+config.accentColor1+""";
+            margin-left: """+marginStr+""";
+            margin-right: """+marginStr+""";
+            margin-top: """+marginStr+""";
+            margin-bottom: """+marginStr+""";
         }
         """)
         
@@ -29,38 +36,16 @@ class Passage(QTextEdit):
         font = QFont()
         font.setFamily("Serif")
         font.setFixedPitch( True )
-        font.setPointSize( 30 )
+        font.setPointSize( config.fontSize )
+        self.font = font
         self.setFont(font)
         self.setMouseTracking(True)
         self.generatePassage()
-    
-    def keyReleaseEvent(self, event):
-        global soundIndexUp
-        # use the sound on the current config.soundIndex
-        config.playerUp[config.soundIndexUp].setMedia(config.keySoundUp[config.soundIndexUp])
-        config.playerUp[config.soundIndexUp].setVolume(80.0)
-        config.playerUp[config.soundIndexUp].play()
-        config.soundIndexUp += 1
+        # create a new scrollbar that looks nicer
+        self.scrollbar = ScrollBar.ScrollBar(self)
+        self.setVerticalScrollBar(self.scrollbar)
 
-        if config.soundIndexUp > 9:
-            config.soundIndexUp = 0
-
-    def keyPressEvent(self, event):   
-        # play key sound every time we press a key
-        #keySound = QtMultimedia.QSound("recordings/keySound.wav")
-        #keySound.play()
-        # play using QMediaContent
-        global soundIndex
-        # use the sound on the current config.soundIndex
-        config.player[config.soundIndex].setMedia(config.keySound[config.soundIndex])
-        config.player[config.soundIndex].setVolume(80.0)
-        config.player[config.soundIndex].play()
-        config.soundIndex += 1
-        
-        # reset the sound Index if we get past 9
-        if config.soundIndex > 9:
-            config.soundIndex = 0
-        
+    def keyPressEvent(self, event):           
         global typedText
         global right
         global wrong
@@ -212,8 +197,36 @@ class Passage(QTextEdit):
 
         global curText
         config.curText = text
-        # add the text to the textbox
-        self.setText(text)
+        # Only display "numChars" characters of the text
+        global shortText
+        config.shortText = ""
+        # if the text is long enough to warrant multiple lines then we want to display "numChars" characters 
+        if len(config.curText) > config.numChars:
+            for i in range(0, config.numChars):
+                config.shortText = config.shortText + config.curText[i]
+            # if we end on an incomplete word then we remove that incomplete word
+            lastWord = ""
+            startIndex = len(config.shortText) - 1
+            # get the start index of the last word
+            while config.shortText[startIndex] != " ":
+                startIndex -= 1
+            startIndex += 1
+            # store the last word in the shortText variable
+            while startIndex < len(config.shortText):
+                lastWord = lastWord + config.shortText[startIndex]
+                startIndex += 1
+            # if the last word is incomplete then we remove it
+            if lastWord not in content_list:
+                config.shortText = config.shortText[0:len(config.shortText) - len(lastWord)]
+            # if the last character is a space remove it
+            if config.shortText[len(config.shortText) - 1] == " ":
+                config.shortText = config.shortText[:-1]
+        # otherwise the short text can just be the normal text
+        else:
+            config.shortText = config.curText
+
+        print(config.shortText)
+        self.setText(config.shortText)
         
 
     

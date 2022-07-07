@@ -21,8 +21,14 @@ opacity = 0.98
 minSize = 500
 # variable to track the margins used on the main layout
 MARGIN = 5
+# variable to store the scroll bar width
+scrollBarWidth = 12
 # variable to allow going back to previous size after maximizing
 isMaximized = False
+# font size for the text
+fontSize = 30
+# number of characters to display
+numChars = 88
 
 # variables to store the mainwindow and title bar
 application = None
@@ -30,8 +36,11 @@ mainWin = None
 titleBar = None
 textbox = None
 
-# store the text that needs to be displayed 
+# store the full passage
 curText = ""
+# store the text that is displayed
+shortText = ""
+# store the text that is currently being typed
 typedText = ""
 
 # track the time for wpm counter
@@ -40,21 +49,10 @@ timeStart = 0
 # track time for the typing counter
 typingTimeStart = 0
 
-# get the sound
-urlDown = None
-player = []
-keySound = []
-soundIndex = 0
-
-urlUp = None
-playerUp = []
-keySoundUp = []
-soundIndexUp = 0
-
 # what type of passage
 aiPassage = False
 words1000 = True
-numWords = 100
+numWords = 20
 
 # variable that calibrates the wpm
 avgWordLen = 5
