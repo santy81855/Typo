@@ -3,7 +3,7 @@ appName = "FlyType"
 # The logo for the taskbar
 logoName = "logo.ico"
 # Toggle the bar at the bottom with the snap features
-infoBar = True
+infoBar = False
 # make the resolution global variables
 screen_resolution = 0
 width = 0
