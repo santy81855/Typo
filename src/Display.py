@@ -73,25 +73,72 @@ class Passage(QTextEdit):
         elif event.key() == 16777234 or event.key() == 16777235 or event.key() == 16777236 or event.key() == 16777237: # arrows
             return 
         else: # normal keys
-            if len(config.curText) == 0:
+            # if we reach the end of the text, return
+            if len(config.typedText) == len(config.curText):
+                print("idke")
                 return
             # if it's the correct character then pop it from the text, and replace it with the one we type
-            elif event.text() == config.curText[0]:
+            elif event.text() == config.shortText[0]:
                 # if this is the first character that is typed then we start the timer so we can count down from the time limit
                 if len(config.typedText) == 0:
                     config.typingTimeStart = time.time()
                 config.right += 1
-                config.curText = config.curText[1:]
+                # remove the first character of shortText
+                config.shortText = config.shortText[1:]
+                # add the newly typed character to the typedText
                 config.typedText = config.typedText + event.text()
                 # we want to underline the next character, but only if there is text left to write
-                if len(config.curText) >= 1:
+                if len(config.shortText) >= 1:
                     # if the next character is just a space don't underline it
-                    if config.curText[0] == " ":
-                        self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + config.curText[0] + config.curText[1:])
+                    if config.shortText[0] == " ":
+                        self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + config.shortText[0] + config.shortText[1:])
                     # if it is not a space then underline it
                     else:
-                        self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + '<u>' + config.curText[0] + '</u>'+ config.curText[1:])
-                
+                        self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + '<u>' + config.shortText[0] + '</u>'+ config.shortText[1:])
+                    # move the cursor to the right spot
+                    for i in range(0, len(config.typedText)):                    
+                        self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
+                # if this was the last character in shortText then we want to update the text shown to include the next bit of text
+                elif len(config.shortText) == 0 and config.curIndex < len(config.curText) - 1:
+                    print("last character was just typed")
+                    # Only display "numChars" characters of the text
+                    global shortText
+                    global curIndex
+                    config.shortText = ""
+                    # if the text is long enough to warrant multiple lines then we want to display "numChars" characters 
+                    if len(config.curText) - config.curIndex > config.numChars:
+                        for i in range(0, config.numChars):
+                            config.shortText = config.shortText + config.curText[config.curIndex + 1 + i]
+                        # if we end on an incomplete word then we remove that incomplete word
+                        lastWord = ""
+                        startIndex = len(config.shortText) - 1
+                        # get the start index of the last word
+                        while config.shortText[startIndex] != " ":
+                            startIndex -= 1
+                        startIndex += 1
+                        # store the last word in the shortText variable
+                        while startIndex < len(config.shortText):
+                            lastWord = lastWord + config.shortText[startIndex]
+                            startIndex += 1
+                        # if the last word is incomplete then we remove it
+                        # *************************************************big potential bug that i need to fix
+                        # **** basically just checking that the word is incomplete by seeing if the next character in curText was not a space
+                        if config.curText[config.curIndex + 1 + config.numChars] != " " or  lastWord not in config.content_list:
+                            config.shortText = config.shortText[0:len(config.shortText) - len(lastWord)]
+                        # if the last character is a space remove it
+                        if config.shortText[len(config.shortText) - 1] == " ":
+                            config.shortText = config.shortText[:-1]
+                        # update the curindex
+                        config.curIndex = config.curIndex + len(config.shortText) - 1
+                    # otherwise the short text can just be the normal text
+                    else:
+                        config.shortText = config.curText[config.curIndex+1:len(config.curText)]
+                        config.curIndex = config.curIndex + len(config.shortText) - 1
+                    # update the text shown
+                    self.clear()
+                    self.setText('<a style="color:{};">'.format(config.accentColor1) + config.shortText + '</a>')
+                    self.moveCursor(QTextCursor.Start, QTextCursor.MoveAnchor)
+                    return
                 # if there is no more text to write then just end it #
                 else:
                     self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>')
@@ -100,16 +147,6 @@ class Passage(QTextEdit):
                     config.timeStart = 0
                     # set the typedText back to nothing so that we can start over
                     config.typedText = ""
-
-                # move the cursor to the right spot
-                for i in range(0, len(config.typedText)):                    
-                    self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
-                # if this is the first character then we want to start tracking the time
-                if len(config.typedText) == 1:
-                    config.timeStart = time.time()
-                # otherwise we just calculate the wpm
-                else:
-                    self.getWPM()
             else:
                 config.wrong += 1
                 self.getWPM()
@@ -137,6 +174,8 @@ class Passage(QTextEdit):
         return
 
     def generatePassage(self):
+        global typedText
+        config.typedText = ""
         if "AI" in config.selectedOption.text:
             r = requests.post(
                 "https://api.deepai.org/api/text-generator",
@@ -166,39 +205,43 @@ class Passage(QTextEdit):
                         text = text + r.text[index]
                         index += 1
                     break
-
+        
         elif "words" in config.selectedOption.text:
+            global content_list
             my_file = open("1000words.txt", "r")
             content = my_file.read()
-            content_list = content.split("\n")
+            config.content_list = content.split("\n")
             my_file.close()
             text = ""
             # generate a list of words of length config.numWords
             for i in range(0, config.numWords):
                 if i == 0:
-                    text = text + str(random.choice(content_list))
+                    text = text + str(random.choice(config.content_list))
                 else:
-                    text = text + ' ' + str(random.choice(content_list))
+                    text = text + ' ' + str(random.choice(config.content_list))
         
         elif "time" in config.selectedOption.text:
+            global content_list
             # need to set the timer to 60 on whatever will display the time
 
             my_file = open("1000words.txt", "r")
             content = my_file.read()
-            content_list = content.split("\n")
+            config.content_list = content.split("\n")
             my_file.close()
             text = ""
             # generate a crazy long list of words
             for i in range(0, 1000):
                 if i == 0:
-                    text = text + str(random.choice(content_list))
+                    text = text + str(random.choice(config.content_list))
                 else:
-                    text = text + ' ' + str(random.choice(content_list))
+                    text = text + ' ' + str(random.choice(config.content_list))
 
         global curText
         config.curText = text
         # Only display "numChars" characters of the text
         global shortText
+        global curIndex
+        config.curIndex = 0
         config.shortText = ""
         # if the text is long enough to warrant multiple lines then we want to display "numChars" characters 
         if len(config.curText) > config.numChars:
@@ -216,17 +259,20 @@ class Passage(QTextEdit):
                 lastWord = lastWord + config.shortText[startIndex]
                 startIndex += 1
             # if the last word is incomplete then we remove it
-            if lastWord not in content_list:
+            if lastWord not in config.content_list:
                 config.shortText = config.shortText[0:len(config.shortText) - len(lastWord)]
             # if the last character is a space remove it
             if config.shortText[len(config.shortText) - 1] == " ":
                 config.shortText = config.shortText[:-1]
+            config.curIndex = len(config.shortText) - 1
         # otherwise the short text can just be the normal text
         else:
-            config.shortText = config.curText
+            config.shortText = config.curText[0:len(config.curText)]
+            config.curIndex = len(config.shortText) - 1
 
         print(config.shortText)
-        self.setText(config.shortText)
+        self.setText('<a style="color:{};">'.format(config.accentColor1) + config.shortText + '</a>')
+        self.setReadOnly(False)
         
 
     

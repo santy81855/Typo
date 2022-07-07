@@ -42,6 +42,8 @@ curText = ""
 shortText = ""
 # store the text that is currently being typed
 typedText = ""
+# store the index of the last character in the shorttext
+curIndex = 0
 
 # track the time for wpm counter
 timeStart = 0
@@ -52,7 +54,10 @@ typingTimeStart = 0
 # what type of passage
 aiPassage = False
 words1000 = True
-numWords = 20
+numWords = 3
+
+# list of words
+content_list = []
 
 # variable that calibrates the wpm
 avgWordLen = 5
