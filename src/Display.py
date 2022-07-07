@@ -2,6 +2,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QTextEdit
 from PyQt5.QtCore import Qt, QPoint
+from PyQt5 import QtMultimedia
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
 import config
 import requests
@@ -34,11 +35,32 @@ class Passage(QTextEdit):
         self.generatePassage()
     
     def keyReleaseEvent(self, event):
-        # get past all the modifiers
-        if event.key() == 16777248: # shift
-            config.shift = False
+        global soundIndexUp
+        # use the sound on the current config.soundIndex
+        config.playerUp[config.soundIndexUp].setMedia(config.keySoundUp[config.soundIndexUp])
+        config.playerUp[config.soundIndexUp].setVolume(80.0)
+        config.playerUp[config.soundIndexUp].play()
+        config.soundIndexUp += 1
+
+        if config.soundIndexUp > 9:
+            config.soundIndexUp = 0
 
     def keyPressEvent(self, event):   
+        # play key sound every time we press a key
+        #keySound = QtMultimedia.QSound("recordings/keySound.wav")
+        #keySound.play()
+        # play using QMediaContent
+        global soundIndex
+        # use the sound on the current config.soundIndex
+        config.player[config.soundIndex].setMedia(config.keySound[config.soundIndex])
+        config.player[config.soundIndex].setVolume(80.0)
+        config.player[config.soundIndex].play()
+        config.soundIndex += 1
+        
+        # reset the sound Index if we get past 9
+        if config.soundIndex > 9:
+            config.soundIndex = 0
+        
         global typedText
         global right
         global wrong
@@ -70,6 +92,9 @@ class Passage(QTextEdit):
                 return
             # if it's the correct character then pop it from the text, and replace it with the one we type
             elif event.text() == config.curText[0]:
+                # if this is the first character that is typed then we start the timer so we can count down from the time limit
+                if len(config.typedText) == 0:
+                    config.typingTimeStart = time.time()
                 config.right += 1
                 config.curText = config.curText[1:]
                 config.typedText = config.typedText + event.text()
@@ -81,11 +106,15 @@ class Passage(QTextEdit):
                     # if it is not a space then underline it
                     else:
                         self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>' + '<u>' + config.curText[0] + '</u>'+ config.curText[1:])
-                # if there is no more text to write then just end it
                 
+                # if there is no more text to write then just end it #
                 else:
                     self.setText('<b style="color:{};">'.format(config.textHighlight) + config.typedText + '</b>')
                     self.setReadOnly(True)
+                    # reset the word per minute counter so that we are ready for the new one
+                    config.timeStart = 0
+                    # set the typedText back to nothing so that we can start over
+                    config.typedText = ""
 
                 # move the cursor to the right spot
                 for i in range(0, len(config.typedText)):                    
@@ -104,9 +133,8 @@ class Passage(QTextEdit):
         #print(config.right / (config.wrong + config.right))
 
     def getWPM(self):
-        config.timeEnd = time.time()
         chars = len(config.typedText)
-        timePassed = config.timeEnd - config.timeStart
+        timePassed = time.time() - config.timeStart
         minutes = timePassed / 60
         wpm = chars / config.avgWordLen / minutes
         print(wpm)
@@ -168,6 +196,8 @@ class Passage(QTextEdit):
                     text = text + ' ' + str(random.choice(content_list))
         
         elif "time" in config.selectedOption.text:
+            # need to set the timer to 60 on whatever will display the time
+
             my_file = open("1000words.txt", "r")
             content = my_file.read()
             content_list = content.split("\n")

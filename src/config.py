@@ -36,7 +36,20 @@ typedText = ""
 
 # track the time for wpm counter
 timeStart = 0
-timeEnd = 0
+
+# track time for the typing counter
+typingTimeStart = 0
+
+# get the sound
+urlDown = None
+player = []
+keySound = []
+soundIndex = 0
+
+urlUp = None
+playerUp = []
+keySoundUp = []
+soundIndexUp = 0
 
 # what type of passage
 aiPassage = False
