@@ -1,9 +1,9 @@
 import sys
-from PyQt5 import QtGui
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame
+from PyQt5 import QtGui, QtCore, QtMultimedia
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QColor, QCursor, QKeySequence
-import config, TitleBar, Snap, SnapButton, Display, OptionButton
+import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results
 from platform import system
 operatingSystem = system()
 
@@ -96,10 +96,20 @@ class MainWindow(QFrame):
         # add the hor layout to main layout
         self.layout.addLayout(self.optionsLayout)        
 
-        # add text display widget
+        # create a stack widget to hold the text box and results 
+        self.stack = QStackedWidget()
+        # remove the border around the stack widget
+        self.stack.setStyleSheet("""
+            border: none;
+        """)
+        # create the main text area
         self.textDisplay = Display.Passage(self)
-        self.layout.addWidget(self.textDisplay)
-
+        # add the text area to the stack widget
+        self.stack.addWidget(self.textDisplay)
+        # add the results page to the stack widget
+        self.results = Results.ResultsPage(self)
+        # add the stack widget to the main layout
+        self.layout.addWidget(self.stack)
 
 
 
@@ -547,6 +557,18 @@ class MainWindow(QFrame):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     config.application = app
+    # get the sound but get it 10 times so we can overlap sound
+    global urlDown
+    global urlUp
+    config.urlDown = QtCore.QUrl.fromLocalFile("keydown.wav")
+    config.urlUp = QtCore.QUrl.fromLocalFile("keyup.wav")
+    # for loop that runs 10 times
+    for i in range(0, 10):
+        config.keySound.append(QtMultimedia.QMediaContent(config.urlDown))
+        config.player.append(QtMultimedia.QMediaPlayer())
+    for i in range(0, 10):
+        config.keySoundUp.append(QtMultimedia.QMediaContent(config.urlUp))
+        config.playerUp.append(QtMultimedia.QMediaPlayer())
     # set the logo
     app.setWindowIcon(QtGui.QIcon(config.logoName))   
     # find the resolution of the monitor the user is on
