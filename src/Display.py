@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QTextEdit
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtCore import Qt, QPoint, QTimer
 from PyQt5 import QtMultimedia
 from PyQt5.QtGui import QCursor, QFont, QTextCursor, QFontMetrics
 import config, ScrollBar
@@ -51,6 +51,15 @@ class Passage(QTextEdit):
         global wrong
         global timeStart
         global timeEnd
+        global typingTimeStart
+
+        # check the time 
+        if "time" in config.selectedOption.text and config.typingTimeStart != 0:
+            timeEnd = time.time()
+            timePassed = timeEnd - config.typingTimeStart
+            if timePassed > 5:
+                print("times up buster")
+
         # get past all the modifiers
         if event.key() == 16777248 or event.key() == 16777249: # shift
             return
@@ -75,11 +84,14 @@ class Passage(QTextEdit):
         else: # normal keys
             global allText
             global initialLine
-            # if it's the correct character then pop it from the text, and replace it with the one we type
+            global timer
+            # if it's the correct characted then pop it from the text, and replace it with the one we type
             if len(config.shortText) > 0 and event.text() == config.shortText[0]:
                 # if this is the first character that is typed then we start the timer so we can count down from the time limit
-                if len(config.typedText) == 0:
-                    config.typingTimeStart = time.time()
+                if "time" in config.selectedOption.text and len(config.typedText) == 0:
+                    config.timer = QTimer(self)
+                    
+
                 # update the correct character count
                 config.right += 1
                 # remove the first character of shortText
@@ -109,9 +121,52 @@ class Passage(QTextEdit):
                     # only add rest of the text if there is any text after the second line
                     if secondStart + secondLineLength < len(config.allText):
                         restText = config.allText[secondStart+secondLineLength:len(config.allText)]
-
+                    # add the same number of characters to the end of the restText as you took from the first line
+                    # Only display "numChars" characters of the text
+                    global shortText
+                    global curIndex
+                    global typedText
+                    config.typedText = ""
+                    config.shortText = ""
+                    tempString = ""
+                    # if the remaining text is longer than numChars then we want to display "numChars" characters 
+                    remainingText = len(config.curText) - config.curIndex
+                    if remainingText > firstLineLength:
+                        for i in range(config.curIndex, config.curIndex + firstLineLength):
+                            tempString = tempString + config.curText[i]
+                        # update the curIndex
+                        config.curIndex += (firstLineLength - 1)
+                        # if the last character is a space then the word is complete
+                        if tempString[len(tempString) - 1] == " ":
+                            # increase the curIndex by 1 to land on the first character of the next word
+                            config.curIndex += 1
+                        # otherwise we need to check if the character that comes directly after is a space
+                        elif config.curText[config.curIndex + 1] == " ":
+                            # add a space to the end of the shortText
+                            tempString = tempString + " "
+                            # increase the curIndex by 2 to land on the first letter of the next word
+                            config.curIndex += 2
+                        # otherwise it is just incomplete so we want to remove that incomplete word
+                        else:
+                            # update the curIndex
+                            while config.curText[config.curIndex] != " ":
+                                config.curIndex -= 1
+                            # add one to the curIndex to land on the first letter of the next word
+                            config.curIndex += 1
+                            # remove incomplete word
+                            tempString = tempString[0:len(tempString) - len(tempString.split(" ")[len(tempString.split(" ")) - 1]) - 1]
+                            # add a space to the shortText
+                            tempString = tempString + " "
+                        
+                    # if the remaining text is less than the numChars then we want to display all of the text
+                    else:
+                        tempString = config.curText[config.curIndex:config.curIndex + len(config.curText)]
+                        # make the curIndex out of bounds so that we can check for completion
+                        config.curIndex = len(config.curText)
                     print("."+firstLine+".")
                     print("."+restText+".")
+                    print("."+tempString+".")
+                    restText += tempString
                     # make the firstLine the typedtext
                     config.typedText = firstLine
                     # make the restText the shortText
@@ -234,6 +289,7 @@ class Passage(QTextEdit):
         global right
         global wrong
         global initialLine
+        global typingTimeStart
         config.typedText = ""
         config.right = 0
         config.wrong = 0

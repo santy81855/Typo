@@ -54,7 +54,8 @@ timeStart = 0
 
 # track time for the typing counter
 typingTimeStart = 0
-
+# store the timer
+timer = None
 # what type of passage
 aiPassage = False
 words1000 = True
