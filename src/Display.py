@@ -74,10 +74,9 @@ class Passage(QTextEdit):
             return 
         else: # normal keys
             # if it's the correct character then pop it from the text, and replace it with the one we type
-            if event.text() == config.shortText[0]:
+            if len(config.shortText) > 0 and event.text() == config.shortText[0]:
                 # if this is the first character that is typed then we start the timer so we can count down from the time limit
                 if len(config.typedText) == 0:
-                    print("here")
                     config.typingTimeStart = time.time()
                 # update the correct character count
                 config.right += 1
@@ -97,7 +96,7 @@ class Passage(QTextEdit):
                     for i in range(0, len(config.typedText)):                    
                         self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
                 # if this was the last character in shortText then we want to update the text shown to include the next bit of text
-                elif len(config.shortText) == 0 and config.curIndex < len(config.curText) - 1:
+                elif len(config.shortText) == 0 and config.curIndex < len(config.curText):
                     print("last character was just typed")
                     # Only display "numChars" characters of the text
                     global shortText
@@ -152,6 +151,9 @@ class Passage(QTextEdit):
                     config.timeStart = 0
                     # set the typedText back to nothing so that we can start over
                     config.typedText = ""
+            # if there is no more text to write then just ignore
+            elif len(config.shortText) == 0 and config.curIndex == len(config.curText):
+                return
             else:
                 config.wrong += 1
                 self.getWPM()
