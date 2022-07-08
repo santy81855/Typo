@@ -28,7 +28,7 @@ isMaximized = False
 # font size for the text
 fontSize = 30
 # number of characters to display
-numChars = 88
+numChars = 100
 
 # variables to store the mainwindow and title bar
 application = None

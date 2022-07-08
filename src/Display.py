@@ -84,6 +84,24 @@ class Passage(QTextEdit):
                 config.shortText = config.shortText[1:]
                 # add the newly typed character to the typedText
                 config.typedText = config.typedText + event.text()
+                
+                # check if we need to "scroll up"
+                # get the cursor of the textEdit
+                cursor = QTextCursor(self.document())
+                # if there is a second line then we need to check if we are on the last character of this line
+                validLine = cursor.block().layout().lineAt(1).isValid()
+                if validLine:
+                    # get the length of both the first and second line
+                    firstLineLength = cursor.block().layout().lineAt(0).textLength()
+                    secondLineLength = cursor.block().layout().lineAt(1).textLength()
+                    lastchar = firstLineLength + secondLineLength
+                    # if we are on the last character of the second line then we need to update the text
+                    if len(config.typedText) == lastchar - 1:
+                        # get the start of the first and second line
+                        firstStart = 0
+                        secondStart = cursor.block().layout().lineAt(1).textStart()
+                        # the second line will now become the first line
+
                 # we want to underline the next character, but only if there is text left to write
                 if len(config.shortText) >= 1:
                     # if the next character is just a space don't underline it
@@ -95,6 +113,8 @@ class Passage(QTextEdit):
                     # move the cursor to the right spot
                     for i in range(0, len(config.typedText)):                    
                         self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
+
+                # *** this is where I need to add the "scrolling" to keep the person in the middle line *** #
                 # if this was the last character in shortText then we want to update the text shown to include the next bit of text
                 elif len(config.shortText) == 0 and config.curIndex < len(config.curText):
                     print("last character was just typed")
