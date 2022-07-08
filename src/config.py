@@ -28,7 +28,7 @@ isMaximized = False
 # font size for the text
 fontSize = 30
 # number of characters to display
-numChars = 100
+numChars = 200
 
 # variables to store the mainwindow and title bar
 application = None
@@ -42,8 +42,12 @@ curText = ""
 shortText = ""
 # store the text that is currently being typed
 typedText = ""
+# all the text currently being displayed
+allText = ""
 # store the index of the last character in the shorttext
 curIndex = 0
+# variable to track if they are typing the first line of text
+initialLine = True
 
 # track the time for wpm counter
 timeStart = 0
