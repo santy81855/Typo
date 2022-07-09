@@ -494,7 +494,6 @@ class Passage(QTextEdit):
         config.allText = config.shortText
 
         # set the shorttext
-        print("here")
         self.setText('<a style="color:{};">'.format(config.accentColor1) + config.shortText + '</a>')
         if "center" in config.textAlign:
             self.setAlignment(Qt.AlignCenter)

@@ -18,7 +18,7 @@ focused = False # variable to track if the gui is focused so it knows to track t
 opacity = 0.98
 
 # variable for the minimum resolution (minSize x minSize)
-minSize = 785
+minSize = 800
 # variable to track the margins used on the main layout
 MARGIN = 5
 # variable to store the scroll bar width
