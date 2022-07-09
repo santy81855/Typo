@@ -1,9 +1,9 @@
 import sys
 from PyQt5 import QtGui, QtCore, QtMultimedia
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton
 from PyQt5.QtCore import Qt, QPoint
-from PyQt5.QtGui import QColor, QCursor, QKeySequence
-import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results
+from PyQt5.QtGui import QColor, QCursor, QKeySequence, QFont
+import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton
 from platform import system
 operatingSystem = system()
 
@@ -87,7 +87,7 @@ class MainWindow(QFrame):
         # create button for time
         self.time = OptionButton.OButton(self, "15", 65, True, "time")
         # craete button for AI generated passage
-        self.generated = OptionButton.OButton(self, "AI", 35, True, "")
+        self.generated = OptionButton.OButton(self, "AI", 35, True, "ai")
         # add the buttons to the options arr
         config.options = [self.words, self.time, self.generated]
         # add the buttons to the horizontal layout
@@ -102,8 +102,6 @@ class MainWindow(QFrame):
         # add 3 horizontal layouts to display the suboptions for each of the 3 options
         self.subOptionsWordsLayout = QHBoxLayout()
         self.subOptionsWordsLayout.setSpacing(10)
-        self.subOptionsTimeLayout = QHBoxLayout()
-        self.subOptionsTimeLayout.setSpacing(10)
         self.subOptionsAILayout = QHBoxLayout()
         self.subOptionsAILayout.setSpacing(10)
 
@@ -134,8 +132,6 @@ class MainWindow(QFrame):
         # add the horizontal layout to the main layout
         self.layout.addLayout(self.subOptionsWordsLayout)
 
-        #*** need to create the textbox to input the AI generated passage phrase ***#
-
         # add the suboptions to the suboptions arr
         config.subOptions = [self.words1, self.words2, self.words3, self.words4, self.time1, self.time2, self.time3, self.time4]
 
@@ -159,6 +155,18 @@ class MainWindow(QFrame):
         
         # add the stack widget to the main layout
         self.layout.addWidget(self.stack)
+
+        # create a restart button
+        self.restart = RestartButton.RestartButton(self, "Restart")
+        # add the restart button to the main layout
+        self.restartLayout = QHBoxLayout()
+        self.restartLayout.setSpacing(0)
+        self.restartLayout.addStretch(-1)
+        self.restartLayout.addWidget(self.restart)
+        self.restartLayout.addStretch(-1)
+        self.layout.addLayout(self.restartLayout)
+        self.layout.addStretch(-1)
+
 
 
 

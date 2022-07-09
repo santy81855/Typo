@@ -18,7 +18,7 @@ focused = False # variable to track if the gui is focused so it knows to track t
 opacity = 0.98
 
 # variable for the minimum resolution (minSize x minSize)
-minSize = 500
+minSize = 785
 # variable to track the margins used on the main layout
 MARGIN = 5
 # variable to store the scroll bar width
@@ -33,6 +33,12 @@ numChars = 200
 optionButtonSize = 20
 # font size for suboption buttons
 subOptionButtonSize = 15
+# variable to track if we are currently getting input for teh AI passage
+gettingInput = False
+# store the input text
+inputText = ""
+# variable that can easily change the placeholder text for the ai input box
+aiPlaceholderText = "Type any text here, and a passage will be generated!"
 
 # options arr
 options = []
@@ -49,6 +55,8 @@ textbox = None
 curText = ""
 # store the text that is displayed
 shortText = ""
+# store all the text that has been typed for a given passage
+totalTypedText = ""
 # store the text that is currently being typed
 typedText = ""
 # all the text currently being displayed
@@ -72,6 +80,11 @@ numWords = 10
 numTime = 15
 # variable to track the time
 timeCount = 0
+# variable to track the wpm
+wpm = 0
+
+# variable to change text alignment
+textAlign = "center"
 
 # list of words
 content_list = []
@@ -101,7 +114,7 @@ darkRed = "#990000"
 closeButtonHover = darkRed
 
 # color schemes - uncomment one at a time to try them out
-
+'''
 # 1 - Nord
 salmon = "#D08770"
 lightBlue = "#81A1C1"
@@ -118,8 +131,8 @@ darkestGrey = "#3B4252"
 backgroundColor = darkestGrey
 accentColor1 = seaFoamGreen
 textHighlight = salmon
-
 '''
+
 # 2 - Forest
 almostBlack = "#121e26"
 deepForestGreen = "#283635"
@@ -130,7 +143,7 @@ clay = "#9d6556"
 backgroundColor = almostBlack
 accentColor1 = lightBeige
 textHighlight = "#8FBCBB"
-'''
+
 '''
 # 3 - Blue
 purple = "#9674d4"

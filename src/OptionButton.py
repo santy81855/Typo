@@ -93,23 +93,27 @@ class OButton(QLabel):
             text-align: center;
             border: none;
         """)
-
-        suboptionSelection.setStyleSheet("""
-            background-color: """ + config.backgroundColor + """;
-            color: """ + config.textHighlight + """;
-            text-align: center;
-            border: none;
-        """)
+        if suboptionSelection != None:
+            suboptionSelection.setStyleSheet("""
+                background-color: """ + config.backgroundColor + """;
+                color: """ + config.textHighlight + """;
+                text-align: center;
+                border: none;
+            """)
     
     def mousePressEvent(self, event):
         global selectedOption
         global numWords
         global numTime
         # if we click the currently selected one then nothing should happen
-        if self == config.selectedOption:
+        if self == config.selectedOption and "ai" not in self.type:
             return
         # if we clicked an option button
         elif self.isOption == True:
+            # set the restart button to say "restart"
+            config.mainWin.restart.setText("Restart")
+            # set the getting input to false
+            config.gettingInput = False
             # choose the first suboption by default
             suboptionSelection = None
             # if we clicked the words option
@@ -129,6 +133,10 @@ class OButton(QLabel):
                 config.textbox.generatePassage()
             # if we clicked the time option
             elif self.type == "time":
+                # set the restart button to say "restart"
+                config.mainWin.restart.setText("Restart")
+                # set the getting input to false
+                config.gettingInput = False
                 # make the time options visible
                 for i in range(4, len(config.subOptions)):
                     config.subOptions[i].setVisible(True)
@@ -142,9 +150,28 @@ class OButton(QLabel):
                 config.selectedOption.selected = False
                 config.selectedOption = config.subOptions[4]
                 config.textbox.generatePassage()
-            # ** AI Stuff ** #
+            # if we click the AI button
             else:
-                print("AI main option")
+                # clear the inputText
+                config.inputText = ""
+                # hide all suboptions
+                for i in range(0, len(config.subOptions)):
+                    config.subOptions[i].setVisible(False)
+                # make the new selection stand out
+                self.changeSelection(self, None)
+                config.selectedOption.selected = False
+                self.selected = True
+                config.selectedOption = self
+                # set the getting input button to true
+                config.gettingInput = True
+                # set the restart button to say "generate"
+                config.mainWin.restart.setText("Generate")
+                # prompt the user to enter text on the textbox
+                config.mainWin.textDisplay.clear()
+                config.mainWin.textDisplay.setReadOnly(False)
+                config.mainWin.textDisplay.setPlaceholderText(config.aiPlaceholderText)
+                # set focus to the textbox
+                config.mainWin.textDisplay.setFocus(True)
             
         # if we clicked a suboption
         elif self.isOption == False:

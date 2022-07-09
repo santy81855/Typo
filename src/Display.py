@@ -47,11 +47,16 @@ class Passage(QTextEdit):
     
     def timerEnd(self):
         global timeCount
+        global wpm
         config.timeCount += 1
-        if config.timeCount == config.numTime: 
-            print("complete")
-        config.timeCount = 0
-        config.timer = None
+        # calculate the wpm
+        chars = len(config.totalTypedText)
+        minutes = config.timeCount / 60
+        config.wpm = chars / config.avgWordLen / minutes
+        if config.timeCount == config.numTime and config.selectedOption.type == "time": 
+            print("time ended")
+            config.timeCount = 0
+            config.timer = None
 
     def keyPressEvent(self, event):           
         global typedText
@@ -60,19 +65,29 @@ class Passage(QTextEdit):
         global timeStart
         global timeEnd
         global typingTimeStart
-
-        # check the time 
-        if "time" in config.selectedOption.text and config.typingTimeStart != 0:
-            timeEnd = time.time()
-            timePassed = timeEnd - config.typingTimeStart
-            if timePassed > 5:
-                print("times up buster")
+        global inputText
+        global gettingInput
 
         # get past all the modifiers
-        if event.key() == 16777248 or event.key() == 16777249: # shift
+        if event.key() == 16777220 and config.gettingInput == False: # enter
             return
-        elif event.key() == 16777220: # enter
+        elif event.key() == 16777220 and config.gettingInput == True: # enter
+            # set the getting input to false
+            config.gettingInput = False
+            # get the text from the textbox
+            config.inputText = self.toPlainText()
+            # change the button back from "generate" to "restart"
+            config.mainWin.restart.setText("Restart")
+            # clear the textbox
+            self.clear()
+            # generate a new passage
+            self.generatePassage()
+            # set focus to the textbox
+            self.setFocus(True)
             return
+        elif event.key() == 16777219 and config.gettingInput == True: # backspace
+            config.inputText = config.inputText[:-1]
+            return QTextEdit.keyPressEvent(self, event)
         elif event.key() == 16777216: # control
             return
         elif event.key() == 16777251: # alt
@@ -89,14 +104,22 @@ class Passage(QTextEdit):
             return
         elif event.key() == 16777234 or event.key() == 16777235 or event.key() == 16777236 or event.key() == 16777237: # arrows
             return 
+        elif config.gettingInput == True:
+            print("here")
+            config.inputText += event.text()
+            self.setText('<a style="color:{};">'.format(config.accentColor1) + config.inputText + '</a>')
+            for i in range(0, len(config.inputText)):
+                self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
         else: # normal keys
             global allText
             global initialLine
             global timer
+            global totalTypedText
             # if it's the correct characted then pop it from the text, and replace it with the one we type
             if len(config.shortText) > 0 and event.text() == config.shortText[0]:
-                # if this is the first character that is typed then we start the timer so we can count down from the time limit
-                if "time" in config.selectedOption.type and len(config.typedText) == 0:
+                config.totalTypedText += event.text()
+                # if this is the first character that is typed then we start the timer so we can count down from the time limit and keep track of the wpm
+                if len(config.typedText) == 0:
                     config.timer = QTimer(self)
                     milliseconds = 1000
                     # the timer will call the timerEnd function when it reaches its end
@@ -176,9 +199,6 @@ class Passage(QTextEdit):
                         tempString = config.curText[config.curIndex:config.curIndex + len(config.curText)]
                         # make the curIndex out of bounds so that we can check for completion
                         config.curIndex = len(config.curText)
-                    print("."+firstLine+".")
-                    print("."+restText+".")
-                    print("."+tempString+".")
                     restText += tempString
                     # make the firstLine the typedtext
                     config.typedText = firstLine
@@ -189,24 +209,49 @@ class Passage(QTextEdit):
                     if len(config.shortText) >= 1:
                         if config.shortText[0] == " ":
                             self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + config.shortText[0] + config.shortText[1:])
+                            if "center" in config.textAlign:
+                                self.setAlignment(Qt.AlignCenter)
+                            elif "left" in config.textAlign:
+                                self.setAlignment(Qt.AlignLeft)
+                            elif "right" in config.textAlign:
+                                self.setAlignment(Qt.AlignRight)
                         # if it is not a space then underline it
                         else:
                             self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + '<u>' + config.shortText[0] + '</u>'+ config.shortText[1:])
+                            if "center" in config.textAlign:
+                                self.setAlignment(Qt.AlignCenter)
+                            elif "left" in config.textAlign:
+                                self.setAlignment(Qt.AlignLeft)
+                            elif "right" in config.textAlign:
+                                self.setAlignment(Qt.AlignRight)
                         # move the cursor to the right spot
                         for i in range(0, len(config.typedText)):                    
                             self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
                     # if there is no more text
                     else:
-                        print('complete')
+                        print('complete: your wpm is: ')
+                        print(config.wpm)
                         return
                 # we want to underline the next character, but only if there is text left to write
                 elif len(config.shortText) >= 1:
                     # if the next character is just a space don't underline it
                     if config.shortText[0] == " ":
                         self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + config.shortText[0] + config.shortText[1:])
+                        if "center" in config.textAlign:
+                            self.setAlignment(Qt.AlignCenter)
+                        elif "left" in config.textAlign:
+                            self.setAlignment(Qt.AlignLeft)
+                        elif "right" in config.textAlign:
+                            self.setAlignment(Qt.AlignRight)
                     # if it is not a space then underline it
                     else:
                         self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + '<u>' + config.shortText[0] + '</u>'+ config.shortText[1:])
+                        if "center" in config.textAlign:
+                            self.setAlignment(Qt.AlignCenter)
+                        elif "left" in config.textAlign:
+                            self.setAlignment(Qt.AlignLeft)
+                        elif "right" in config.textAlign:
+                            self.setAlignment(Qt.AlignRight)
                     # move the cursor to the right spot
                     for i in range(0, len(config.typedText)):                    
                         self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
@@ -257,11 +302,24 @@ class Passage(QTextEdit):
                     # update the text shown
                     self.clear()
                     self.setText('<a style="color:{};">'.format(config.accentColor1) + config.shortText + '</a>')
+                    if "center" in config.textAlign:
+                        self.setAlignment(Qt.AlignCenter)
+                    elif "left" in config.textAlign:
+                        self.setAlignment(Qt.AlignLeft)
+                    elif "right" in config.textAlign:
+                        self.setAlignment(Qt.AlignRight)
                     self.moveCursor(QTextCursor.Start, QTextCursor.MoveAnchor)
                     return
                 # if there is no more text to write then just end it #
                 else:
+                    print('complete: your wpm is: ' + str(config.wpm))
                     self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>')
+                    if "center" in config.textAlign:
+                        self.setAlignment(Qt.AlignCenter)
+                    elif "left" in config.textAlign:
+                        self.setAlignment(Qt.AlignLeft)
+                    elif "right" in config.textAlign:
+                        self.setAlignment(Qt.AlignRight)
                     self.setReadOnly(True)
                     # reset the word per minute counter so that we are ready for the new one
                     config.timeStart = 0
@@ -269,20 +327,13 @@ class Passage(QTextEdit):
                     config.typedText = ""
             # if there is no more text to write then just ignore
             elif len(config.shortText) == 0 and config.curIndex == len(config.curText):
+                print("stop typing bitch")
                 return
             else:
                 config.wrong += 1
-                self.getWPM()
                 
         # accuracy
         #print(config.right / (config.wrong + config.right))
-
-    def getWPM(self):
-        chars = len(config.typedText)
-        timePassed = time.time() - config.timeStart
-        minutes = timePassed / 60
-        wpm = chars / config.avgWordLen / minutes
-        print(wpm)
 
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.IBeamCursor)
@@ -304,6 +355,10 @@ class Passage(QTextEdit):
         global typingTimeStart
         global timer
         global timeCount
+        global wpm
+        global inputText
+        # reset the wpm
+        config.wpm = 0
         # reset the timer
         config.timer = None
         # reset the counter for the timer
@@ -312,14 +367,16 @@ class Passage(QTextEdit):
         config.right = 0
         config.wrong = 0
         config.initialLine = True
-        if "AI" in config.selectedOption.text:
+        if "ai" in config.selectedOption.type:
             r = requests.post(
                 "https://api.deepai.org/api/text-generator",
                 data={
-                    'text': 'And half of my heart has always been yours',
+                    'text': config.inputText,
                 },
                 headers={'api-key': 'f6550bae-e6ba-4f9e-8b71-14fa364eb51f'}
             )
+            # clear input text
+            config.inputText = ""
             text = ""
             check = False
             for i in range(0, len(r.text)):
@@ -357,7 +414,6 @@ class Passage(QTextEdit):
                     text = text + ' ' + str(random.choice(config.content_list))
         
         elif "time" in config.selectedOption.type:
-            print("hello")
             global content_list
             # need to set the timer to 60 on whatever will display the time
 
@@ -390,9 +446,7 @@ class Passage(QTextEdit):
 
         if numLines > 0:
             lineLen = cursor.block().layout().lineAt(0).textLength()
-            print(lineLen)
             config.numChars = lineLen * 3
-        print(config.numChars)
         
     def adjustTextLength(self, text):        
         global curText
@@ -440,6 +494,13 @@ class Passage(QTextEdit):
         config.allText = config.shortText
 
         # set the shorttext
+        print("here")
         self.setText('<a style="color:{};">'.format(config.accentColor1) + config.shortText + '</a>')
+        if "center" in config.textAlign:
+            self.setAlignment(Qt.AlignCenter)
+        elif "left" in config.textAlign:
+            self.setAlignment(Qt.AlignLeft)
+        elif "right" in config.textAlign:
+            self.setAlignment(Qt.AlignRight)
         self.setReadOnly(False)
     

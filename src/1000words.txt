@@ -5,7 +5,7 @@ a
 of
 to
 in
-i
+I
 you
 it
 have
@@ -899,7 +899,6 @@ legal
 september
 set
 outside
-et
 strategy
 clearly
 property
