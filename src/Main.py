@@ -439,6 +439,9 @@ class MainWindow(QFrame):
         mainPosition = config.mainWin.mapToGlobal(QPoint(0,config.mainWin.height()))
         self.snapWidget.hide()
         config.isSnapWidget = False
+
+        # if snapping we need to change the textDisplay
+        self.textDisplay.generatePassage()
     
     def on_focusChanged(self, old, new):
         # set the opacity to 1 if not focused
@@ -527,6 +530,24 @@ class MainWindow(QFrame):
         # but also need to account for if they are resizing horizontally from the left or
         # vertically from the top because we need to shift the window to the right/down the same amount
         if self.pressing and self.resizingWindow:
+            # if resizing then change margins of the textDisplay
+            # calculate margins
+            margin = self.width() * 0.08
+            marginStr = str(margin) + "px"
+            self.textDisplay.setStyleSheet("""
+            QTextEdit
+            {
+                background-color: """+config.backgroundColor+""";
+                color: """+config.accentColor1+""";
+                border: none;
+                selection-background-color: """+config.backgroundColor+""";
+                selection-color: """+config.accentColor1+""";
+                margin-left: """+marginStr+""";
+                margin-right: """+marginStr+""";
+                margin-top: """+marginStr+""";
+                margin-bottom: """+marginStr+""";
+            }
+            """)
             # resize from the top
             if self.top == True:
                 # resize from the top
@@ -593,6 +614,8 @@ class MainWindow(QFrame):
             return
         self.pressing = False
         self.movingPosition = False
+        if self.resizingWindow == True:
+            self.textDisplay.generatePassage()
         self.resizingWindow = False
         self.left = False
         self.right = False

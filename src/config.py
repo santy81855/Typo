@@ -70,6 +70,8 @@ aiPassage = False
 words1000 = True
 numWords = 10
 numTime = 15
+# variable to track the time
+timeCount = 0
 
 # list of words
 content_list = []

@@ -44,6 +44,14 @@ class Passage(QTextEdit):
         # create a new scrollbar that looks nicer
         self.scrollbar = ScrollBar.ScrollBar(self)
         self.setVerticalScrollBar(self.scrollbar)
+    
+    def timerEnd(self):
+        global timeCount
+        config.timeCount += 1
+        if config.timeCount == config.numTime: 
+            print("complete")
+        config.timeCount = 0
+        config.timer = None
 
     def keyPressEvent(self, event):           
         global typedText
@@ -88,8 +96,13 @@ class Passage(QTextEdit):
             # if it's the correct characted then pop it from the text, and replace it with the one we type
             if len(config.shortText) > 0 and event.text() == config.shortText[0]:
                 # if this is the first character that is typed then we start the timer so we can count down from the time limit
-                if "time" in config.selectedOption.text and len(config.typedText) == 0:
+                if "time" in config.selectedOption.type and len(config.typedText) == 0:
                     config.timer = QTimer(self)
+                    milliseconds = 1000
+                    # the timer will call the timerEnd function when it reaches its end
+                    config.timer.timeout.connect(self.timerEnd)
+                    # start the timer and have it count every second so we have a function that can update a potential timer
+                    config.timer.start(milliseconds)
                     
 
                 # update the correct character count
@@ -289,6 +302,12 @@ class Passage(QTextEdit):
         global wrong
         global initialLine
         global typingTimeStart
+        global timer
+        global timeCount
+        # reset the timer
+        config.timer = None
+        # reset the counter for the timer
+        config.timeCount = 0
         config.typedText = ""
         config.right = 0
         config.wrong = 0
