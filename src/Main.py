@@ -75,18 +75,21 @@ class MainWindow(QFrame):
         #self.layout.addStretch(-1)
 
         #-----------------------------------------ADD YOUR WIDGETS HERE-------------------------------------------------------#
+        global options
+        global subOptions
         # add horizontal layout to display the options
         self.optionsLayout = QHBoxLayout()
         self.optionsLayout.setSpacing(10)
         # stretch on the left
         self.optionsLayout.addStretch(-1)
         # create button for words
-        self.words = OptionButton.OButton(self, "words", 80)
-        config.selectedOption = self.words
+        self.words = OptionButton.OButton(self, "10", 80, True, "words")
         # create button for time
-        self.time = OptionButton.OButton(self, "time", 65)
+        self.time = OptionButton.OButton(self, "15", 65, True, "time")
         # craete button for AI generated passage
-        self.generated = OptionButton.OButton(self, "AI", 35)
+        self.generated = OptionButton.OButton(self, "AI", 35, True, "")
+        # add the buttons to the options arr
+        config.options = [self.words, self.time, self.generated]
         # add the buttons to the horizontal layout
         self.optionsLayout.addWidget(self.words)
         self.optionsLayout.addWidget(self.time)
@@ -95,6 +98,50 @@ class MainWindow(QFrame):
         self.optionsLayout.addStretch(-1)
         # add the hor layout to main layout
         self.layout.addLayout(self.optionsLayout)        
+
+        # add 3 horizontal layouts to display the suboptions for each of the 3 options
+        self.subOptionsWordsLayout = QHBoxLayout()
+        self.subOptionsWordsLayout.setSpacing(10)
+        self.subOptionsTimeLayout = QHBoxLayout()
+        self.subOptionsTimeLayout.setSpacing(10)
+        self.subOptionsAILayout = QHBoxLayout()
+        self.subOptionsAILayout.setSpacing(10)
+
+        # create all the suboptions buttons
+        self.words1 = OptionButton.OButton(self, "10", 35, False, "words")
+        self.words2 = OptionButton.OButton(self, "25", 35, False, "words")
+        self.words3 = OptionButton.OButton(self, "50", 35, False, "words")
+        self.words4 = OptionButton.OButton(self, "100", 35, False, "words")
+        # add the word suboptions to the horizontal layout
+        self.subOptionsWordsLayout.addStretch(-1)
+        self.subOptionsWordsLayout.addWidget(self.words1)
+        self.subOptionsWordsLayout.addWidget(self.words2)
+        self.subOptionsWordsLayout.addWidget(self.words3)
+        self.subOptionsWordsLayout.addWidget(self.words4)
+
+        self.time1 = OptionButton.OButton(self, "15", 35, False, "time")
+        self.time2 = OptionButton.OButton(self, "30", 35, False, "time")
+        self.time3 = OptionButton.OButton(self, "60", 35, False, "time")
+        self.time4 = OptionButton.OButton(self, "120", 35, False, "time")
+        # add time to the horizontal layout
+        self.subOptionsWordsLayout.addWidget(self.time1)
+        self.subOptionsWordsLayout.addWidget(self.time2)
+        self.subOptionsWordsLayout.addWidget(self.time3)
+        self.subOptionsWordsLayout.addWidget(self.time4)
+
+        self.subOptionsWordsLayout.addStretch(-1)
+
+        # add the horizontal layout to the main layout
+        self.layout.addLayout(self.subOptionsWordsLayout)
+
+        #*** need to create the textbox to input the AI generated passage phrase ***#
+
+        # add the suboptions to the suboptions arr
+        config.subOptions = [self.words1, self.words2, self.words3, self.words4, self.time1, self.time2, self.time3, self.time4]
+
+        # make the time suboptions invisible since we start with words by default
+        for i in range(4, len(config.subOptions)):
+            config.subOptions[i].setVisible(False)
 
         # create a stack widget to hold the text box and results 
         self.stack = QStackedWidget()

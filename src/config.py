@@ -29,6 +29,15 @@ isMaximized = False
 fontSize = 30
 # number of characters to display
 numChars = 200
+# font size for option buttons
+optionButtonSize = 20
+# font size for suboption buttons
+subOptionButtonSize = 15
+
+# options arr
+options = []
+# suboptions arr
+subOptions = []
 
 # variables to store the mainwindow and title bar
 application = None
@@ -59,7 +68,8 @@ timer = None
 # what type of passage
 aiPassage = False
 words1000 = True
-numWords = 3
+numWords = 10
+numTime = 15
 
 # list of words
 content_list = []

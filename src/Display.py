@@ -111,7 +111,7 @@ class Passage(QTextEdit):
                     lastchar = firstLineLength + secondLineLength
                 
                 # if we are on the last char of the second line
-                if validLine == True and len(config.typedText) == lastchar:
+                if validLine == True and len(config.typedText) == lastchar:                    
                     # get the start of the first and second line
                     firstStart = 0
                     secondStart = cursor.block().layout().lineAt(1).textStart()
@@ -129,7 +129,7 @@ class Passage(QTextEdit):
                     config.typedText = ""
                     config.shortText = ""
                     tempString = ""
-                    # if the remaining text is longer than numChars then we want to display "numChars" characters 
+                    # if the remaining text is longer than a line length then we want to display a line length of characters 
                     remainingText = len(config.curText) - config.curIndex
                     if remainingText > firstLineLength:
                         for i in range(config.curIndex, config.curIndex + firstLineLength):
@@ -198,7 +198,6 @@ class Passage(QTextEdit):
                     for i in range(0, len(config.typedText)):                    
                         self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
 
-                # *** this is where I need to add the "scrolling" to keep the person in the middle line *** #
                 # if this was the last character in shortText then we want to update the text shown to include the next bit of text
                 elif len(config.shortText) == 0 and config.curIndex < len(config.curText):
                     print("last character was just typed")
@@ -324,7 +323,7 @@ class Passage(QTextEdit):
                         index += 1
                     break
         
-        elif "words" in config.selectedOption.text:
+        elif "words" in config.selectedOption.type:
             global content_list
             my_file = open("1000words.txt", "r")
             content = my_file.read()
@@ -338,7 +337,8 @@ class Passage(QTextEdit):
                 else:
                     text = text + ' ' + str(random.choice(config.content_list))
         
-        elif "time" in config.selectedOption.text:
+        elif "time" in config.selectedOption.type:
+            print("hello")
             global content_list
             # need to set the timer to 60 on whatever will display the time
 
@@ -354,15 +354,37 @@ class Passage(QTextEdit):
                 else:
                     text = text + ' ' + str(random.choice(config.content_list))
 
+        # get the length of one line and multiply it by 3 to get numChars
+        self.getNumChars(text)
+
+        # adjust the length of the text to be numChars long and set it
+        self.adjustTextLength(text)
+
+    def getNumChars(self, text):
+        global numChars
+
+        self.setText('<a style="color:{};">'.format(config.backgroundColor) + text + '</a>')
+        # get the cursor of the textEdit
+        cursor = QTextCursor(self.document())
+        # now get how many lines there are
+        numLines = cursor.block().layout().lineCount()
+
+        if numLines > 0:
+            lineLen = cursor.block().layout().lineAt(0).textLength()
+            print(lineLen)
+            config.numChars = lineLen * 3
+        print(config.numChars)
+        
+    def adjustTextLength(self, text):        
         global curText
         global allText
+        global curText
         config.curText = text
         # Only display "numChars" characters of the text
         global shortText
         global curIndex
         config.curIndex = 0
         config.shortText = ""
-
         # if the text is long enough to warrant multiple lines then we want to display "numChars" characters 
         if len(config.curText) > config.numChars:
             for i in range(config.curIndex, config.curIndex + config.numChars):
@@ -398,9 +420,7 @@ class Passage(QTextEdit):
             config.curIndex = len(config.curText)
         config.allText = config.shortText
 
+        # set the shorttext
         self.setText('<a style="color:{};">'.format(config.accentColor1) + config.shortText + '</a>')
         self.setReadOnly(False)
-        
-
-    
     
