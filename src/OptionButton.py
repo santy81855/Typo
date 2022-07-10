@@ -3,6 +3,11 @@ from PyQt5.QtWidgets import QApplication, QLabel
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QFont
 import config, Display
+import json
+# open the settings file
+settingsFile = open("settings/settings.json", "r")
+# convert the json file into a dictionary
+settings = json.load(settingsFile)
 
 class OButton(QLabel):
     def __init__(self, parent, text, width, isOption, textType):
@@ -15,8 +20,8 @@ class OButton(QLabel):
         # we default to the word option so we preselect it when we create it
         if self.type == "words" and self.isOption == True: 
             self.setStyleSheet("""
-                background-color: """ + config.backgroundColor + """;
-                color: """ + config.textHighlight + """;
+                background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                color: """ + settings["themes"][settings["selectedTheme"]]["textHighlight"] + """;
                 text-align: center;
                 border: none;
             """)  
@@ -25,7 +30,7 @@ class OButton(QLabel):
         elif self.type == "time" and self.isOption == True:
             self.setStyleSheet("""
                 background-color: rgba(0,0,0,0);
-                color: """ + config.accentColor1 + """;
+                color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
                 text-align: center;
                 border: none;
             """)
@@ -34,8 +39,8 @@ class OButton(QLabel):
         # we default to 10 words so we select it when we create the 10 words suboption
         elif isOption == False and "words" in self.type and self.text == "10":
             self.setStyleSheet("""
-                background-color: """ + config.backgroundColor + """;
-                color: """ + config.textHighlight + """;
+                background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                color: """ + settings["themes"][settings["selectedTheme"]]["textHighlight"] + """;
                 text-align: center;
                 border: none;
             """)  
@@ -45,7 +50,7 @@ class OButton(QLabel):
         else:
             self.setStyleSheet("""
                 background-color: rgba(0,0,0,0);
-                color: """ + config.accentColor1 + """;
+                color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
                 text-align: center;
                 border: none;
             """)
@@ -72,31 +77,31 @@ class OButton(QLabel):
         # make all the buttons normal
         for i in range(0, len(config.options)):
             config.options[i].setStyleSheet("""
-                background-color: """ + config.backgroundColor + """;
-                color: """ + config.accentColor1 + """;
+                background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
                 text-align: center;
                 border: none;
             """)
         # do the same for the suboptions
         for i in range(0, len(config.subOptions)):
             config.subOptions[i].setStyleSheet("""
-                background-color: """ + config.backgroundColor + """;
-                color: """ + config.accentColor1 + """;
+                background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
                 text-align: center;
                 border: none;
             """)
 
         # make the selected option stand out
         selection.setStyleSheet("""
-            background-color: """ + config.backgroundColor + """;
-            color: """ + config.textHighlight + """;
+            background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+            color: """ + settings["themes"][settings["selectedTheme"]]["textHighlight"] + """;
             text-align: center;
             border: none;
         """)
         if suboptionSelection != None:
             suboptionSelection.setStyleSheet("""
-                background-color: """ + config.backgroundColor + """;
-                color: """ + config.textHighlight + """;
+                background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                color: """ + settings["themes"][settings["selectedTheme"]]["textHighlight"] + """;
                 text-align: center;
                 border: none;
             """)
@@ -169,7 +174,7 @@ class OButton(QLabel):
                 # prompt the user to enter text on the textbox
                 config.mainWin.textDisplay.clear()
                 config.mainWin.textDisplay.setReadOnly(False)
-                config.mainWin.textDisplay.setPlaceholderText(config.aiPlaceholderText)
+                config.mainWin.textDisplay.setPlaceholderText(settings["aiPlaceholderText"])
                 # set focus to the textbox
                 config.mainWin.textDisplay.setFocus(True)
             
@@ -182,15 +187,15 @@ class OButton(QLabel):
                 # make all the other word suboptions normal and make this one stand out
                 for i in range(0, 4):
                     config.subOptions[i].setStyleSheet("""
-                        background-color: """ + config.backgroundColor + """;
-                        color: """ + config.accentColor1 + """;
+                        background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                        color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
                         text-align: center;
                         border: none;
                     """)
                 # make the new selection stand out
                 self.setStyleSheet("""
-                    background-color: """ + config.backgroundColor + """;
-                    color: """ + config.textHighlight + """;
+                    background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                    color: """ + settings["themes"][settings["selectedTheme"]]["textHighlight"] + """;
                     text-align: center;
                     border: none;
                 """)      
@@ -206,15 +211,15 @@ class OButton(QLabel):
                 # make all the other word suboptions normal and make this one stand out
                 for i in range(4, len(config.subOptions)):
                     config.subOptions[i].setStyleSheet("""
-                        background-color: """ + config.backgroundColor + """;
-                        color: """ + config.accentColor1 + """;
+                        background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                        color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
                         text-align: center;
                         border: none;
                     """)
                 # make the new selection stand out
                 self.setStyleSheet("""
-                    background-color: """ + config.backgroundColor + """;
-                    color: """ + config.textHighlight + """;
+                    background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
+                    color: """ + settings["themes"][settings["selectedTheme"]]["textHighlight"] + """;
                     text-align: center;
                     border: none;
                 """)      

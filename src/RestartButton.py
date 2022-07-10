@@ -3,6 +3,11 @@ from PyQt5.QtWidgets import QApplication, QPushButton
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QFont
 import config, Display
+import json
+# open the settings file
+settingsFile = open("settings/settings.json", "r")
+# convert the json file into a dictionary
+settings = json.load(settingsFile)
 
 class RestartButton(QPushButton):
     def __init__(self, parent, text):
@@ -11,8 +16,8 @@ class RestartButton(QPushButton):
         self.text = text
         self.setText(self.text)
         self.setStyleSheet("""
-            background-color: """+config.accentColor1+""";
-            color: """+config.backgroundColor+""";
+            background-color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             border-radius: 10px;
             text-align: center;
         """)

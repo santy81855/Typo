@@ -6,6 +6,11 @@ from PyQt5.QtGui import QColor, QCursor, QKeySequence, QFont
 import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton
 from platform import system
 operatingSystem = system()
+import json
+# open the settings file
+settingsFile = open("settings/settings.json", "r")
+# convert the json file into a dictionary
+settings = json.load(settingsFile)
 
 # Windows
 if operatingSystem == 'Windows':
@@ -65,7 +70,7 @@ class MainWindow(QFrame):
         # add a drop shadow before the next thing
         self.dropShadow = QLabel("")
         self.dropShadow.setStyleSheet("""
-            background-color: """+config.backgroundColor+""";
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             border: none;
                                         """)
         self.dropShadow.setFixedHeight(1)
@@ -196,7 +201,7 @@ class MainWindow(QFrame):
         # add a drop shadow2 before the next thing
         self.dropshadow2 = QLabel("")
         self.dropshadow2.setStyleSheet("""
-            background-color: """+config.backgroundColor+""";
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             border: none;
         
                                         """)
@@ -219,10 +224,10 @@ class MainWindow(QFrame):
         self.resizingWindow = False
         self.start = QPoint(0, 0)
         self.setStyleSheet("""
-            background-color:"""+config.backgroundColor+""";
+            background-color:"""+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             border-style: solid;
             border-width: 1px;
-            border-color:"""+config.accentColor1+""";
+            border-color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
                           """)
         # set the margins for the main window
         self.layout.setContentsMargins(config.MARGIN,config.MARGIN,config.MARGIN,config.MARGIN)
@@ -454,7 +459,7 @@ class MainWindow(QFrame):
     def on_focusChanged(self, old, new):
         # set the opacity to 1 if not focused
         if self.isActiveWindow():
-            self.setWindowOpacity(config.opacity)
+            self.setWindowOpacity(settings["opacity"])
         else:
             self.setWindowOpacity(1.0)
 
@@ -545,11 +550,11 @@ class MainWindow(QFrame):
             self.textDisplay.setStyleSheet("""
             QTextEdit
             {
-                background-color: """+config.backgroundColor+""";
-                color: """+config.accentColor1+""";
+                background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+                color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
                 border: none;
-                selection-background-color: """+config.backgroundColor+""";
-                selection-color: """+config.accentColor1+""";
+                selection-background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+                selection-color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
                 margin-left: """+marginStr+""";
                 margin-right: """+marginStr+""";
                 margin-top: """+marginStr+""";

@@ -4,6 +4,11 @@ from PyQt5.QtGui import QCursor
 import config
 from platform import system
 operatingSystem = system()
+import json
+# open the settings file
+settingsFile = open("settings/settings.json", "r")
+# convert the json file into a dictionary
+settings = json.load(settingsFile)
 
 # Windows
 if operatingSystem == 'Windows':
@@ -36,15 +41,15 @@ class MyBar(QWidget):
         self.btn_close.setStyleSheet("""
             QPushButton
             {
-            background-color: """+config.backgroundColor+"""; 
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+"""; 
             border:none;
-            color:"""+config.accentColor1+""";
+            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             font: 14pt "Consolas";
             }
             QPushButton::hover
             {
-                background-color :"""+config.closeButtonHover+""";
-                color: """+config.accentColor1+""";
+                background-color :"""+settings["closeButtonHoverColor"]+""";
+                color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             }
                                 """)
         self.btn_close.setMouseTracking(True)
@@ -55,15 +60,15 @@ class MyBar(QWidget):
         self.btn_min.setStyleSheet("""
             QPushButton
             {
-            background-color: """+config.backgroundColor+"""; 
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+"""; 
             border:none;
-            color:"""+config.accentColor1+""";
+            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             font: 14pt "Consolas";
             }
             QPushButton::hover
             {
-                background-color : """+config.accentColor1+""";
-                color: """+config.backgroundColor+""";
+                background-color : """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+                color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             }
                                 """)
         self.btn_min.setMouseTracking(True)
@@ -73,15 +78,15 @@ class MyBar(QWidget):
         self.btn_max.setStyleSheet("""
             QPushButton
             {
-            background-color: """+config.backgroundColor+"""; 
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+"""; 
             border:none;
-            color:"""+config.accentColor1+""";
+            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             font: 14pt "Consolas";
             }
             QPushButton::hover
             {
-                background-color : """+config.accentColor1+""";
-                color: """+config.backgroundColor+""";
+                background-color : """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+                color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             }
                                 """)
         self.btn_max.setMouseTracking(True)
@@ -94,9 +99,9 @@ class MyBar(QWidget):
         self.layout.addWidget(self.btn_close)
 
         self.title.setStyleSheet("""
-            background-color: """+config.backgroundColor+""";
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             border:none;
-            color : """+config.accentColor1+""";
+            color : """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             font: 14pt "Consolas";
             """)
         self.setLayout(self.layout)

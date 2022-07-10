@@ -1,0 +1,53 @@
+{
+    "wordList" : "words/1000words.txt",
+    "opacity" : 0.98,
+    "aiPlaceholderText" : "Type any text here, and a passage will be generated!",
+    "textAlign" : "center",
+    "symbols" : false,
+    "selectedTheme" : "Forest",
+    "themes" : {
+        "Nord" :
+        {
+            "name" : "Nord",
+            "backgroundColor" : "#3B4252",
+            "accentColor" : "#8FBCBB",
+            "textHighlight" : "#D08770"
+        },
+        "Forest" :
+        {
+            "name" : "Forest",
+            "backgroundColor" : "#121e26",
+            "accentColor" : "#f4efeb",
+            "textHighlight" : "#8FBCBB"
+        },
+        "Baby" :
+        {
+            "name" : "Baby",
+            "backgroundColor" : "#9df9ef",
+            "accentColor" : "#a28089",
+            "textHighlight" : "#ffa8B6"
+        },
+        "Desert" :
+        {
+            "name" : "Desert",
+            "backgroundColor" : "#2d545e",
+            "accentColor" : "#e1b382",
+            "textHighlight" : "#c89666"
+        },
+        "Custom1" :
+        {
+            "name" : "Custom1",
+            "backgroundColor" : "#121e26",
+            "accentColor" : "#f4efeb",
+            "textHighlight" : "#8FBCBB"
+        },
+        "Custom2" :
+        {
+            "name" : "Custom2",
+            "backgroundColor" : "#121e26",
+            "accentColor" : "#f4efeb",
+            "textHighlight" : "#8FBCBB"
+        }
+    },
+    "closeButtonHoverColor" : "#990000"
+}

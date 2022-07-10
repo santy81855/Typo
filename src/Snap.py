@@ -4,6 +4,11 @@ from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDes
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont
 import config
+import json
+# open the settings file
+settingsFile = open("settings/settings.json", "r")
+# convert the json file into a dictionary
+settings = json.load(settingsFile)
 
 class ButtonFormat(QPushButton):
     def __init__(self, parent):
@@ -18,16 +23,16 @@ class ButtonFormat(QPushButton):
         self.setStyleSheet("""
         QPushButton
         {
-            background-color: """+config.backgroundColor+""";
-            color: """+config.backgroundColor+""";
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
             border-style: solid;
             border-width: 2px;
             border-radius: 10px;
-            border-color:"""+config.accentColor1+""";
+            border-color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
         }
         QPushButton::hover
         {
-            background-color:"""+config.accentColor1+""";
+            background-color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
         }
         """)
         self.setMouseTracking(True)
@@ -51,8 +56,8 @@ class SnapBox(QFrame):
         border-style:solid;
         border-width:3px;
         border-radius: 20px;
-        border-color:"""+config.accentColor1+""";
-        background-color:"""+config.backgroundColor+""";
+        border-color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+        background-color:"""+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
         """)
         # create the main horizoontal layout
         self.layout = QHBoxLayout()
@@ -74,15 +79,15 @@ class SnapBox(QFrame):
         self.max.setStyleSheet("""
         QPushButton
         {
-            background-color: """+config.backgroundColor+""";
-            color:"""+config.accentColor1+""";
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             border:none;
             border-radius:10px;
         }
         QPushButton::hover
         {
-            background-color:"""+config.accentColor1+""";
-            color:"""+config.backgroundColor+""";
+            background-color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color:"""+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
         }
         """)
         self.max.clicked.connect(self.maxClicked)
@@ -93,15 +98,15 @@ class SnapBox(QFrame):
         self.min.setStyleSheet("""
         QPushButton
         {
-            background-color: """+config.backgroundColor+""";
-            color:"""+config.accentColor1+""";
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             border:none;
             border-radius:10px;
         }
         QPushButton::hover
         {
-            background-color:"""+config.accentColor1+""";
-            color:"""+config.backgroundColor+""";
+            background-color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color:"""+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
         }
         """)
         self.min.clicked.connect(self.minClicked)
