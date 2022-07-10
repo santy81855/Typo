@@ -111,10 +111,12 @@ class OButton(QLabel):
         global numWords
         global numTime
         # if we are not on index 0 of the stack then we want to switch to index 0
+        justSwitched = False
         if config.mainWin.stack.currentIndex() != 0:
+            justSwitched = True
             config.mainWin.stack.setCurrentIndex(0)
         # if we click the currently selected one then nothing should happen
-        if self == config.selectedOption and "ai" not in self.type:
+        if self == config.selectedOption and "ai" not in self.type and justSwitched == False:
             return
         # if we clicked an option button
         elif self.isOption == True:

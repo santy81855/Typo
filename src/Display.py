@@ -60,7 +60,6 @@ class Passage(QTextEdit):
         config.wpm = chars / config.avgWordLen / minutes
         if config.timeCount == config.numTime and config.selectedOption.type == "time": 
             config.timeCount = 0
-            config.timer = None
             # update the wpm label
             config.mainWin.results.wpmLabel.setText("WPM:\n" + str(round(config.wpm, 2)))
             accuracy = config.right / (config.right + config.wrong) * 100
@@ -130,7 +129,6 @@ class Passage(QTextEdit):
                 config.totalTypedText += event.text()
                 # if this is the first character that is typed then we start the timer so we can count down from the time limit and keep track of the wpm
                 if len(config.typedText) == 0:
-                    config.timer = None
                     config.timer = QTimer(self)
                     milliseconds = 1000
                     # the timer will call the timerEnd function when it reaches its end
@@ -384,8 +382,9 @@ class Passage(QTextEdit):
         config.totalTypedText = ""
         # reset the wpm
         config.wpm = 0
-        # reset the timer
-        config.timer = None
+        # reset the timer if it has been created already
+        if config.timer != None:
+            config.timer.stop()
         # reset the counter for the timer
         config.timeCount = 0
         config.typedText = ""
