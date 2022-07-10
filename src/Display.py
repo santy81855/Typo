@@ -59,9 +59,15 @@ class Passage(QTextEdit):
         minutes = config.timeCount / 60
         config.wpm = chars / config.avgWordLen / minutes
         if config.timeCount == config.numTime and config.selectedOption.type == "time": 
-            print("time ended")
             config.timeCount = 0
             config.timer = None
+            # update the wpm label
+            config.mainWin.results.wpmLabel.setText("WPM:\n" + str(round(config.wpm, 2)))
+            accuracy = config.right / (config.right + config.wrong) * 100
+            # update the accuracy label
+            config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
+            # switch to the results page on the stacked widget
+            config.mainWin.stack.setCurrentIndex(1)
 
     def keyPressEvent(self, event):           
         global typedText
@@ -110,7 +116,6 @@ class Passage(QTextEdit):
         elif event.key() == 16777234 or event.key() == 16777235 or event.key() == 16777236 or event.key() == 16777237: # arrows
             return 
         elif config.gettingInput == True:
-            print("here")
             config.inputText += event.text()
             self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["accentColor"]) + config.inputText + '</a>')
             for i in range(0, len(config.inputText)):
@@ -125,6 +130,7 @@ class Passage(QTextEdit):
                 config.totalTypedText += event.text()
                 # if this is the first character that is typed then we start the timer so we can count down from the time limit and keep track of the wpm
                 if len(config.typedText) == 0:
+                    config.timer = None
                     config.timer = QTimer(self)
                     milliseconds = 1000
                     # the timer will call the timerEnd function when it reaches its end
@@ -234,8 +240,13 @@ class Passage(QTextEdit):
                             self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
                     # if there is no more text
                     else:
-                        print('complete: your wpm is: ')
-                        print(config.wpm)
+                        # update the wpm label
+                        config.mainWin.results.wpmLabel.setText("WPM:\n" + str(round(config.wpm, 2)))
+                        accuracy = config.right / (config.right + config.wrong) * 100
+                        # update the accuracy label
+                        config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
+                        # switch to the results page on the stacked widget
+                        config.mainWin.stack.setCurrentIndex(1)
                         return
                 # we want to underline the next character, but only if there is text left to write
                 elif len(config.shortText) >= 1:
@@ -317,7 +328,13 @@ class Passage(QTextEdit):
                     return
                 # if there is no more text to write then just end it #
                 else:
-                    print('complete: your wpm is: ' + str(config.wpm))
+                    # update the wpm label
+                    config.mainWin.results.wpmLabel.setText("WPM:\n" + str(round(config.wpm, 2)))
+                    accuracy = config.right / (config.right + config.wrong) * 100
+                    # update the accuracy label
+                    config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
+                    # switch to the results page on the stacked widget
+                    config.mainWin.stack.setCurrentIndex(1)
                     self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["textHighlight"]) + config.typedText + '</a>')
                     if "center" in settings["textAlign"]:
                         self.setAlignment(Qt.AlignCenter)
@@ -362,6 +379,9 @@ class Passage(QTextEdit):
         global timeCount
         global wpm
         global inputText
+        global totalTypedText
+        # reset total typed text
+        config.totalTypedText = ""
         # reset the wpm
         config.wpm = 0
         # reset the timer

@@ -156,7 +156,8 @@ class MainWindow(QFrame):
         self.stack.addWidget(self.textDisplay)
         # add the results page to the stack widget
         self.results = Results.ResultsPage(self)
-
+        self.stack.addWidget(self.results)
+        #self.stack.setCurrentIndex(1)
         
         # add the stack widget to the main layout
         self.layout.addWidget(self.stack)
