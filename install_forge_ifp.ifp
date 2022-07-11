@@ -1,0 +1,410 @@
+﻿
+[Header]
+ProjectFileVersion = 1.1
+[General]
+Program name = FlyType
+Program version = 1.0
+Windows 2000 = 0
+Windows XP = 0
+Windows Server 2003 = 0
+Windows Vista = 0
+Windows Server 2008 = 0
+Windows 7 = 1
+Windows 8 = 1
+Windows 10 = 1
+Windows Server 2016 = 0
+DoNotCheckOS = 0
+Company name = Santy
+Website = 
+SFA = 0
+DFA = 1
+Comp = 1
+[Graphics]
+Wizard image = <main>
+Header image = <main>
+Show Label = 1
+VisualStylesEnabled = 1
+[Files]
+Installation path = <ProgramFiles>\<Company>\<AppName>\
+Autcip = 1
+[Uninstall]
+Vwau = 0
+Website = https://
+Include uninstaller = 1
+Uninstaller filename = Uninstall
+UseCustomDisplayIcon = 0
+CustomDisplayIcon = <InstallPath>\
+[Licence]
+Licence dialog = 0
+[Finish]
+Sart program = 1
+Reboot computer = 0
+Program = <InstallPath>\AutoGrid.exe
+ProgramArguments = 
+[Shortcuts]
+Allowtc = 0
+Shortcut path = <Company>\<AppName>\
+[Serialoptions]
+Allows = 0
+Number = 1000
+Mask = #####-#####-#####-#####
+[SplashScreen]
+Image = 
+Sound = 
+Time = 2
+PlaySound = 0
+Allow = 0
+[Build]
+File = C:\Users\mynam\Documents\GitHub_Repositories\Typing_Counter\FlyType_Installer.exe
+SetupIconPath = C:\Users\mynam\Documents\test\logo.ico
+UninstallIconPath = C:\Users\mynam\Documents\test\logo.ico
+CompressionMethod = 0
+CompressionLevel = 2
+[Updater]
+Allow = 0
+1 = <AppName>
+2 = <AppVersion>
+3 = http://
+4 = http://
+5 = http://
+6 = Update
+Language = 0
+RunProg = 
+RunProgs = 0
+Execdlls = 0
+[Languages]
+[Files/Dirs]
+C:\Users\mynam\Documents\test\dist\FlyType\images\
+N/A
+[Folder]
+C:\Users\mynam\Documents\test\dist\FlyType\PyQt5\
+N/A
+[Folder]
+C:\Users\mynam\Documents\test\dist\FlyType\settings\
+N/A
+[Folder]
+C:\Users\mynam\Documents\test\dist\FlyType\words\
+N/A
+[Folder]
+C:\Users\mynam\Documents\test\dist\FlyType\_asyncio.pyd
+59 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_bz2.pyd
+80 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_ctypes.pyd
+125.5 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_decimal.pyd
+283 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_hashlib.pyd
+35 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_lzma.pyd
+175 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_multiprocessing.pyd
+22.5 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_overlapped.pyd
+39 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_queue.pyd
+21 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_socket.pyd
+71.5 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_ssl.pyd
+155 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\_win32sysloader.pyd
+10.5 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-console-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-datetime-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-debug-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-errorhandling-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-file-l1-1-0.dll
+21.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-file-l1-2-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-file-l2-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-handle-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-heap-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-interlocked-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-libraryloader-l1-1-0.dll
+19.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-localization-l1-2-0.dll
+20.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-memory-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-namedpipe-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-processenvironment-l1-1-0.dll
+19.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-processthreads-l1-1-0.dll
+20.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-processthreads-l1-1-1.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-profile-l1-1-0.dll
+17.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-rtlsupport-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-string-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-synch-l1-1-0.dll
+20.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-synch-l1-2-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-sysinfo-l1-1-0.dll
+19.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-timezone-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-core-util-l1-1-0.dll
+18.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-conio-l1-1-0.dll
+19.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-convert-l1-1-0.dll
+22.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-environment-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-filesystem-l1-1-0.dll
+20.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-heap-l1-1-0.dll
+19.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-locale-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-math-l1-1-0.dll
+27.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-process-l1-1-0.dll
+19.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-runtime-l1-1-0.dll
+22.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-stdio-l1-1-0.dll
+24.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-string-l1-1-0.dll
+24.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-time-l1-1-0.dll
+20.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\api-ms-win-crt-utility-l1-1-0.dll
+18.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\base_library.zip
+777.3 KB
+zip
+C:\Users\mynam\Documents\test\dist\FlyType\config.py
+3.5 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\d3dcompiler_47.dll
+4 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Display.py
+27.4 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\FlyType.exe
+2.2 MB
+exe
+C:\Users\mynam\Documents\test\dist\FlyType\FlyType.py
+30.2 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\FlyType.spec
+1.2 KB
+spec
+C:\Users\mynam\Documents\test\dist\FlyType\Install_forge_save.ifp
+6.6 KB
+ifp
+C:\Users\mynam\Documents\test\dist\FlyType\libcrypto-1_1-x64.dll
+3.1 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\libeay32.dll
+1.9 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\libEGL.dll
+24.5 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\libffi-7.dll
+32 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\libGLESv2.dll
+3.2 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\libssl-1_1-x64.dll
+665.5 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\logo.ico
+8.9 KB
+ico
+C:\Users\mynam\Documents\test\dist\FlyType\logo=logo.spec
+1 KB
+spec
+C:\Users\mynam\Documents\test\dist\FlyType\logo='logo.spec
+1 KB
+spec
+C:\Users\mynam\Documents\test\dist\FlyType\MSVCP140.dll
+576.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\MSVCP140_1.dll
+31 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\opengl32sw.dll
+20 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\OptionButton.py
+11 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\pyexpat.pyd
+201 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\python3.dll
+50.5 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\python38.dll
+4.6 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\pywintypes38.dll
+131 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Core.dll
+5.7 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5DBus.dll
+426.5 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Gui.dll
+6.7 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Multimedia.dll
+729 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Network.dll
+1.3 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Qml.dll
+3.4 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5QmlModels.dll
+428.5 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Quick.dll
+4 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Svg.dll
+323 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5WebSockets.dll
+146 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\Qt5Widgets.dll
+5.2 MB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\RestartButton.py
+2.6 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\Results.py
+2 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\ScrollBar.py
+2.3 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\select.pyd
+19 KB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\Snap.py
+9.1 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\SnapButton.py
+4.7 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\ssleay32.dll
+353.5 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\TitleBar.py
+10.3 KB
+py
+C:\Users\mynam\Documents\test\dist\FlyType\ucrtbase.dll
+992.8 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\unicodedata.pyd
+1 MB
+pyd
+C:\Users\mynam\Documents\test\dist\FlyType\VCRUNTIME140.dll
+99.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\VCRUNTIME140_1.dll
+43.3 KB
+dll
+C:\Users\mynam\Documents\test\dist\FlyType\win32api.pyd
+124 KB
+pyd
+[Licence_Begin]
+114
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+\viewkind4\uc1\pard\fs20\par
+}
+ [Licence_End]
+[Registry]
+[Variables]
+[SCs]
+Startmenu
+FlyType
+<InstallPath>\FlyType.exe
+
+<InstallPath>\logo.ico
+0
+Desktop
+FlyType
+<InstallPath>\FlyType.exe
+
+<InstallPath>\logo.ico
+0
+[IFP_End]
+[Serials]
+[Serials_End]
+[Commands]
