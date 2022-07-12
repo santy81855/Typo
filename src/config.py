@@ -93,6 +93,7 @@ selectedOption = None
 infoBar = True
 # set the font size
 fontSize = 30
+# below is an example of how to get info from the settings json file
 '''
 # open the settings file
 settingsFile = open("settings/settings.json", "r")

@@ -236,7 +236,7 @@ class OButton(QLabel):
             
             #*** this is where the ai stuff goes ***#
             else:
-                print("ai suboptions")
+                return
 
     
     def mouseMoveEvent(self, event):

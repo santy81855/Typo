@@ -98,9 +98,6 @@ class SnapButton(QPushButton):
 
         QApplication.setOverrideCursor(Qt.PointingHandCursor)
         mainPosition = self.parent.mapToGlobal(QPoint(0,self.parent.height()))
-        print(mainPosition.y())
-        print(config.mainWin.height())
-        print(height)
         self.parent.snapWidget.show()
         # the -50 in the y coordinate accounts for the padding and the spacing between layouts
         config.mainWin.snapWidget.setGeometry(mainPosition.x() + (config.mainWin.width() - self.parent.snapWidget.width()) / 2, mainPosition.y() - height - 50 - self.height(), width, height)

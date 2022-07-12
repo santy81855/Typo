@@ -346,7 +346,6 @@ class Passage(QTextEdit):
                     config.typedText = ""
             # if there is no more text to write then just ignore
             elif len(config.shortText) == 0 and config.curIndex == len(config.curText):
-                print("stop typing bitch")
                 return
             else:
                 config.wrong += 1
