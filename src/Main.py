@@ -471,8 +471,7 @@ class MainWindow(QFrame):
             selection-color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
             margin-left: """+marginStr+""";
             margin-right: """+marginStr+""";
-            margin-top: """+marginStr+""";
-            margin-bottom: """+marginStr+""";
+            margin-top: """+marginStr+"""
         }
         """)
 
@@ -584,7 +583,6 @@ class MainWindow(QFrame):
                 margin-left: """+marginStr+""";
                 margin-right: """+marginStr+""";
                 margin-top: """+marginStr+""";
-                margin-bottom: """+marginStr+""";
             }
             """)
             # resize from the top

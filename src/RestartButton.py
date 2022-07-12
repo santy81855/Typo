@@ -55,7 +55,7 @@ class RestartButton(QPushButton):
                 # prompt the user to enter text on the textbox
                 config.mainWin.textDisplay.clear()
                 config.mainWin.textDisplay.setReadOnly(False)
-                config.mainWin.textDisplay.setPlaceholderText(config.aiPlaceholderText)
+                config.mainWin.textDisplay.setPlaceholderText(settings["aiPlaceholderText"])
                 config.mainWin.textDisplay.setFocus(True)
                 config.gettingInput = True
     

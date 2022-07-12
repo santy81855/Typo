@@ -33,7 +33,6 @@ class Passage(QTextEdit):
             margin-left: """+marginStr+""";
             margin-right: """+marginStr+""";
             margin-top: """+marginStr+""";
-            margin-bottom: """+marginStr+""";
         }
         """)
         
@@ -422,7 +421,11 @@ class Passage(QTextEdit):
                         text = text + r.text[index]
                         index += 1
                     break
-        
+            # now that we have the text, let's limit it to 100 words so they don't have to type forever
+            if len(text.split(" ")) > 100:
+                text = text.split(" ")[0:100]
+                text = " ".join(text)
+
         elif "words" in config.selectedOption.type:
             text = ""
             my_file = open(settings["wordList"], "r")
