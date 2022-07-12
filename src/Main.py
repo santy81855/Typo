@@ -454,6 +454,28 @@ class MainWindow(QFrame):
         self.snapWidget.hide()
         config.isSnapWidget = False
 
+        # if resizing then change margins of the textDisplay
+        # calculate margins
+        if self.height() < config.tooSmall or self.width() < config.tooSmall:
+            margin = 0
+        else:
+            margin = self.width() * 0.08
+        marginStr = str(margin) + "px"
+        self.textDisplay.setStyleSheet("""
+        QTextEdit
+        {
+            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            border: none;
+            selection-background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            selection-color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            margin-left: """+marginStr+""";
+            margin-right: """+marginStr+""";
+            margin-top: """+marginStr+""";
+            margin-bottom: """+marginStr+""";
+        }
+        """)
+
         # if snapping we need to change the textDisplay
         self.textDisplay.generatePassage()
     
@@ -546,7 +568,10 @@ class MainWindow(QFrame):
         if self.pressing and self.resizingWindow:
             # if resizing then change margins of the textDisplay
             # calculate margins
-            margin = self.width() * 0.08
+            if self.height() < config.tooSmall or self.width() < config.tooSmall:
+                margin = 0
+            else:
+                margin = self.width() * 0.08
             marginStr = str(margin) + "px"
             self.textDisplay.setStyleSheet("""
             QTextEdit
