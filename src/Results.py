@@ -4,11 +4,6 @@ from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDes
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
 import config
-import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 class ResultsPage(QWidget):
     def __init__(self, parent):
@@ -24,8 +19,8 @@ class ResultsPage(QWidget):
         self.wpmLabel.setAlignment(Qt.AlignCenter)
         self.wpmLabel.setStyleSheet("""
         QLabel {
-            background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
-            color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
+            background-color: """ + config.backgroundColor + """;
+            color: """ + config.accentColor + """;
         }
         """)
         # create a Label to display accuracy
@@ -34,8 +29,8 @@ class ResultsPage(QWidget):
         self.accuracyLabel.setAlignment(Qt.AlignCenter)
         self.accuracyLabel.setStyleSheet("""
         QLabel {
-            background-color: """ + settings["themes"][settings["selectedTheme"]]["backgroundColor"] + """;
-            color: """ + settings["themes"][settings["selectedTheme"]]["accentColor"] + """;
+            background-color: """ + config.backgroundColor + """;
+            color: """ + config.accentColor + """;
         }
         """)
         # add stretch 

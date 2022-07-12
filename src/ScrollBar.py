@@ -4,11 +4,6 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QScrollBar, QApplication
 import config
-import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 class ScrollBar(QScrollBar):
     def __init__(self, parent):
@@ -59,12 +54,12 @@ class ScrollBar(QScrollBar):
         }
         QScrollBar::handle:vertical
         {
-            background-color:"""+str(settings["themes"][settings["selectedTheme"]]["backgroundColor"])+"""; 
+            background-color:"""+str(config.backgroundColor)+"""; 
             border:none;  
         }
         QScrollBar::handle:horizontal
         {
-            background-color:"""+str(settings["themes"][settings["selectedTheme"]]["backgroundColor"])+"""; 
+            background-color:"""+str(config.backgroundColor)+"""; 
             border:none;  
         }
         QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical 

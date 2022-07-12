@@ -1,16 +1,11 @@
 import sys
 from PyQt5 import QtGui, QtCore, QtMultimedia
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton, QScrollArea
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QColor, QCursor, QKeySequence, QFont
-import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton
+import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton, SettingsPage, SettingsButton
 from platform import system
 operatingSystem = system()
-import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 # Windows
 if operatingSystem == 'Windows':
@@ -70,7 +65,7 @@ class MainWindow(QFrame):
         # add a drop shadow before the next thing
         self.dropShadow = QLabel("")
         self.dropShadow.setStyleSheet("""
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            background-color: """+config.backgroundColor+""";
             border: none;
                                         """)
         self.dropShadow.setFixedHeight(1)
@@ -80,6 +75,18 @@ class MainWindow(QFrame):
         #self.layout.addStretch(-1)
 
         #-----------------------------------------ADD YOUR WIDGETS HERE-------------------------------------------------------#
+        # add the settings button
+        self.settingsButton = SettingsButton.SettingsButton(self)
+        # create hor layout 
+        self.settingsHorLayout = QHBoxLayout()
+        self.settingsHorLayout.setSpacing(0)
+        # add a stretch to the horizontal layout
+        self.settingsHorLayout.addStretch(-1)
+        # add the settings button to the horizontal layout
+        self.settingsHorLayout.addWidget(self.settingsButton)
+        # add the hor layout to the main layout
+        self.layout.addLayout(self.settingsHorLayout)
+        
         global options
         global subOptions
         # add horizontal layout to display the options
@@ -157,7 +164,20 @@ class MainWindow(QFrame):
         # add the results page to the stack widget
         self.results = Results.ResultsPage(self)
         self.stack.addWidget(self.results)
-        #self.stack.setCurrentIndex(1)
+        
+        # create a scroll area for the settings page
+        self.scroll = QScrollArea(self)
+        self.scroll.setWidgetResizable(True) 
+        #self.scroll.setStyleSheet("background-color: red;")
+
+        # create the settings page
+        self.settingsPage = SettingsPage.SettingsPage(self)
+        # set the settings page as the widget of the scroll area
+        self.scroll.setWidget(self.settingsPage)
+        
+        # add the scroll area to the stack widget
+        self.stack.addWidget(self.scroll)
+        #self.stack.setCurrentIndex(2)
         
         # add the stack widget to the main layout
         self.layout.addWidget(self.stack)
@@ -202,7 +222,7 @@ class MainWindow(QFrame):
         # add a drop shadow2 before the next thing
         self.dropshadow2 = QLabel("")
         self.dropshadow2.setStyleSheet("""
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            background-color: """+config.backgroundColor+""";
             border: none;
         
                                         """)
@@ -210,9 +230,8 @@ class MainWindow(QFrame):
         self.dropshadow2.setGraphicsEffect(self.shadow2)
         # only add the info bar to the main window if it is toggled in the config file
         if config.infoBar == True:
-            self.layout.addWidget(self.dropshadow2)
-            # add the infobar to the main layout
-            self.layout.addLayout(self.infobarlayout)
+            # function to add infobar to the layout
+            self.addInfoBar()
         
         # set the layout for the main window
         self.setLayout(self.layout)
@@ -225,10 +244,10 @@ class MainWindow(QFrame):
         self.resizingWindow = False
         self.start = QPoint(0, 0)
         self.setStyleSheet("""
-            background-color:"""+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            background-color:"""+config.backgroundColor+""";
             border-style: solid;
             border-width: 1px;
-            border-color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            border-color:"""+config.accentColor+""";
                           """)
         # set the margins for the main window
         self.layout.setContentsMargins(config.MARGIN,config.MARGIN,config.MARGIN,config.MARGIN)
@@ -256,6 +275,12 @@ class MainWindow(QFrame):
         self.shortcut_snapBottom.activated.connect(lambda: self.snapWin("bottom"))
         # set focus to the textbox
         self.textDisplay.setFocus()
+    
+    def addInfoBar(self):
+        if config.infoBar == True:
+            self.layout.addWidget(self.dropshadow2)
+            # add the infobar to the main layout
+            self.layout.addLayout(self.infobarlayout)
     
     def snapWin(self, direction):
         global rightDown
@@ -464,11 +489,11 @@ class MainWindow(QFrame):
         self.textDisplay.setStyleSheet("""
         QTextEdit
         {
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
-            color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            background-color: """+config.backgroundColor+""";
+            color: """+config.accentColor+""";
             border: none;
-            selection-background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
-            selection-color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            selection-background-color: """+config.backgroundColor+""";
+            selection-color: """+config.accentColor+""";
             margin-left: """+marginStr+""";
             margin-right: """+marginStr+""";
             margin-top: """+marginStr+"""
@@ -477,11 +502,13 @@ class MainWindow(QFrame):
 
         # if snapping we need to change the textDisplay
         self.textDisplay.generatePassage()
+        # if snapping we need to change the scroll area size
+        self.scroll.setMinimumHeight(self.height() - self.snapButton.height() - 50)
     
     def on_focusChanged(self, old, new):
         # set the opacity to 1 if not focused
         if self.isActiveWindow():
-            self.setWindowOpacity(settings["opacity"])
+            self.setWindowOpacity(config.opacity)
         else:
             self.setWindowOpacity(1.0)
 
@@ -575,11 +602,11 @@ class MainWindow(QFrame):
             self.textDisplay.setStyleSheet("""
             QTextEdit
             {
-                background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
-                color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+                background-color: """+config.backgroundColor+""";
+                color: """+config.accentColor+""";
                 border: none;
-                selection-background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
-                selection-color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+                selection-background-color: """+config.backgroundColor+""";
+                selection-color: """+config.accentColor+""";
                 margin-left: """+marginStr+""";
                 margin-right: """+marginStr+""";
                 margin-top: """+marginStr+""";
@@ -644,6 +671,9 @@ class MainWindow(QFrame):
                     self.setGeometry(self.pos().x(), self.pos().y(), self.width(), pos) 
                 elif self.width() - event.pos().x() > config.minSize:
                     self.setGeometry(self.pos().x() + event.pos().x(), self.pos().y(), self.width() - event.pos().x(), self.height())
+            
+            # if resizing then change scroll area size
+            self.scroll.setMinimumHeight(self.height() - self.snapButton.height() - 50)
             
     # if the mouse button is released then set 'pressing' as false
     def mouseReleaseEvent(self, event):

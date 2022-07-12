@@ -89,26 +89,35 @@ rightDown = False
 isSnapWidget = False
 # variable to track which main option is selected
 selectedOption = None
-# Toggle the bar at the bottom with the snap features
-infoBar = True
 # set the font size
 fontSize = 30
 # below is an example of how to get info from the settings json file
-'''
+
 # open the settings file
 settingsFile = open("settings/settings.json", "r")
 # convert the json file into a dictionary
 settings = json.load(settingsFile)
 # set the variables that can be changed by the user
 # Opacity of the window
-opacity = settings["opacity"]
+if settings["opacity"] > 1 or settings["opacity"] < 0:
+    settings["opacity"] = 0.98
+else:
+    opacity = settings["opacity"]
+# infobar
+infoBar = True
 # variable that can easily change the placeholder text for the ai input box
-aiPlaceholderText = settings["aiPlaceholderText"]
+if settings["aiPlaceholderText"] == "":
+    aiPlaceholderText = "Type any text here, and a passage will be generated!"
+else:
+    aiPlaceholderText = settings["aiPlaceholderText"]
 # variable to change text alignment
 textAlign = settings["textAlign"]
 # list of words
 content_list = []
-my_file = open(settings["wordList"], "r")
+if settings["wordList"] == "":
+    my_file = open("words/1000words.txt", "r")
+else:
+    my_file = open(settings["wordList"], "r")
 content = my_file.read()
 content_list = content.split("\n")
 my_file.close()
@@ -120,4 +129,53 @@ closeButtonHoverColor = settings["closeButtonHoverColor"]
 backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
 accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
 textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]
-'''
+
+def reloadSettings():
+    global opacity
+    global infoBar
+    global aiPlaceholderText
+    global textAlign
+    global content_list
+    global symbols
+    global closeButtonHoverColor
+    global backgroundColor
+    global accentColor
+    global textHighlight
+
+    # open the settings file
+    settingsFile = open("settings/settings.json", "r")
+    # convert the json file into a dictionary
+    settings = json.load(settingsFile)
+
+    # set the variables that can be changed by the user
+    # Opacity of the window
+    if settings["opacity"] > 1 or settings["opacity"] < 0:
+        settings["opacity"] = 0.98
+    else:
+        opacity = settings["opacity"]
+    # whether they have an info bar at the bottom or not
+    infoBar = settings["infoBar"]
+    # variable that can easily change the placeholder text for the ai input box
+    aiPlaceholderText = settings["aiPlaceholderText"]
+    # variable to change text alignment
+    if settings["textAlign"] == "":
+        textAlign = "Center"
+    else:
+        textAlign = settings["textAlign"]
+    # list of words
+    content_list = []
+    if settings["wordList"] == "":
+        my_file = open("words/1000words.txt", "r")
+    else:
+        my_file = open(settings["wordList"], "r")
+    content = my_file.read()
+    content_list = content.split("\n")
+    my_file.close()
+    # variables for what can show up in the passage
+    symbols = settings["symbols"]
+    closeButtonHoverColor = settings["closeButtonHoverColor"]
+
+    # get the variables in the theme
+    backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
+    accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
+    textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]

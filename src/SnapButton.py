@@ -3,11 +3,6 @@ from PyQt5.QtWidgets import QApplication, QPushButton
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QFont
 import config
-import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 class SnapButton(QPushButton):
     def __init__(self, parent):
@@ -19,9 +14,9 @@ class SnapButton(QPushButton):
         self.setStyleSheet("""
             QPushButton
             {
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+"""; 
+            background-color: """+config.backgroundColor+"""; 
             border:none;
-            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color:"""+config.accentColor+""";
             font: 12pt "Consolas";
             padding-left: 5px;
             padding-right: 5px;

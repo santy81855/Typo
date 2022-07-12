@@ -8,11 +8,6 @@ import config, ScrollBar
 import requests
 import time
 import random
-import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 class Passage(QTextEdit):
     def __init__(self, parent):
@@ -25,11 +20,11 @@ class Passage(QTextEdit):
         self.setStyleSheet("""
         QTextEdit
         {
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
-            color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            background-color: """+config.backgroundColor+""";
+            color: """+config.accentColor+""";
             border: none;
-            selection-background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
-            selection-color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            selection-background-color: """+config.backgroundColor+""";
+            selection-color: """+config.accentColor+""";
             margin-left: """+marginStr+""";
             margin-right: """+marginStr+""";
             margin-top: """+marginStr+""";
@@ -115,7 +110,7 @@ class Passage(QTextEdit):
             return 
         elif config.gettingInput == True:
             config.inputText += event.text()
-            self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["accentColor"]) + config.inputText + '</a>')
+            self.setText('<a style="color:{};">'.format(config.accentColor) + config.inputText + '</a>')
             for i in range(0, len(config.inputText)):
                 self.moveCursor(QTextCursor.Right, QTextCursor.MoveAnchor)
         else: # normal keys
@@ -216,21 +211,21 @@ class Passage(QTextEdit):
                     # if the next character is just a space don't underline it
                     if len(config.shortText) >= 1:
                         if config.shortText[0] == " ":
-                            self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["textHighlight"]) + config.typedText + '</a>' + config.shortText[0] + config.shortText[1:])
-                            if "center" in settings["textAlign"]:
+                            self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + config.shortText[0] + config.shortText[1:])
+                            if "center" in config.textAlign:
                                 self.setAlignment(Qt.AlignCenter)
-                            elif "left" in settings["textAlign"]:
+                            elif "left" in config.textAlign:
                                 self.setAlignment(Qt.AlignLeft)
-                            elif "right" in settings["textAlign"]:
+                            elif "right" in config.textAlign:
                                 self.setAlignment(Qt.AlignRight)
                         # if it is not a space then underline it
                         else:
-                            self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["textHighlight"]) + config.typedText + '</a>' + '<u>' + config.shortText[0] + '</u>'+ config.shortText[1:])
-                            if "center" in settings["textAlign"]:
+                            self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + '<u>' + config.shortText[0] + '</u>'+ config.shortText[1:])
+                            if "center" in config.textAlign:
                                 self.setAlignment(Qt.AlignCenter)
-                            elif "left" in settings["textAlign"]:
+                            elif "left" in config.textAlign:
                                 self.setAlignment(Qt.AlignLeft)
-                            elif "right" in settings["textAlign"]:
+                            elif "right" in config.textAlign:
                                 self.setAlignment(Qt.AlignRight)
                         # move the cursor to the right spot
                         for i in range(0, len(config.typedText)):                    
@@ -249,21 +244,21 @@ class Passage(QTextEdit):
                 elif len(config.shortText) >= 1:
                     # if the next character is just a space don't underline it
                     if config.shortText[0] == " ":
-                        self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["textHighlight"]) + config.typedText + '</a>' + config.shortText[0] + config.shortText[1:])
-                        if "center" in settings["textAlign"]:
+                        self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + config.shortText[0] + config.shortText[1:])
+                        if "center" in config.textAlign:
                             self.setAlignment(Qt.AlignCenter)
-                        elif "left" in settings["textAlign"]:
+                        elif "left" in config.textAlign:
                             self.setAlignment(Qt.AlignLeft)
-                        elif "right" in settings["textAlign"]:
+                        elif "right" in config.textAlign:
                             self.setAlignment(Qt.AlignRight)
                     # if it is not a space then underline it
                     else:
-                        self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["textHighlight"]) + config.typedText + '</a>' + '<u>' + config.shortText[0] + '</u>'+ config.shortText[1:])
-                        if "center" in settings["textAlign"]:
+                        self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>' + '<u>' + config.shortText[0] + '</u>'+ config.shortText[1:])
+                        if "center" in config.textAlign:
                             self.setAlignment(Qt.AlignCenter)
-                        elif "left" in settings["textAlign"]:
+                        elif "left" in config.textAlign:
                             self.setAlignment(Qt.AlignLeft)
-                        elif "right" in settings["textAlign"]:
+                        elif "right" in config.textAlign:
                             self.setAlignment(Qt.AlignRight)
                     # move the cursor to the right spot
                     for i in range(0, len(config.typedText)):                    
@@ -314,12 +309,12 @@ class Passage(QTextEdit):
                         config.curIndex = len(config.curText)
                     # update the text shown
                     self.clear()
-                    self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["accentColor"]) + config.shortText + '</a>')
-                    if "center" in settings["textAlign"]:
+                    self.setText('<a style="color:{};">'.format(config.accentColor) + config.shortText + '</a>')
+                    if "center" in config.textAlign:
                         self.setAlignment(Qt.AlignCenter)
-                    elif "left" in settings["textAlign"]:
+                    elif "left" in config.textAlign:
                         self.setAlignment(Qt.AlignLeft)
-                    elif "right" in settings["textAlign"]:
+                    elif "right" in config.textAlign:
                         self.setAlignment(Qt.AlignRight)
                     self.moveCursor(QTextCursor.Start, QTextCursor.MoveAnchor)
                     return
@@ -332,12 +327,12 @@ class Passage(QTextEdit):
                     config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
                     # switch to the results page on the stacked widget
                     config.mainWin.stack.setCurrentIndex(1)
-                    self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["textHighlight"]) + config.typedText + '</a>')
-                    if "center" in settings["textAlign"]:
+                    self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>')
+                    if "center" in config.textAlign:
                         self.setAlignment(Qt.AlignCenter)
-                    elif "left" in settings["textAlign"]:
+                    elif "left" in config.textAlign:
                         self.setAlignment(Qt.AlignLeft)
-                    elif "right" in settings["textAlign"]:
+                    elif "right" in config.textAlign:
                         self.setAlignment(Qt.AlignRight)
                     self.setReadOnly(True)
                     # reset the word per minute counter so that we are ready for the new one
@@ -414,7 +409,7 @@ class Passage(QTextEdit):
                             index += 2
                             continue
                         # if we don't want symbols and the character is not alphanumeric then we skip it
-                        if settings["symbols"] == False and r.text[index].isalnum() == False and r.text[index] not in config.punctuation:
+                        if config.symbols == False and r.text[index].isalnum() == False and r.text[index] not in config.punctuation:
                             index += 1
                             continue
                         text = text + r.text[index]
@@ -427,29 +422,23 @@ class Passage(QTextEdit):
 
         elif "words" in config.selectedOption.type:
             text = ""
-            my_file = open(settings["wordList"], "r")
-            content = my_file.read()
-            content_list = content.split("\n")
+            content_list = config.content_list
             # generate a list of words of length config.numWords
             for i in range(0, config.numWords):
                 if i == 0:
                     text = text + str(random.choice(content_list))
                 else:
                     text = text + ' ' + str(random.choice(content_list))
-            my_file.close()
         
         elif "time" in config.selectedOption.type:
             text = ""
-            my_file = open(settings["wordList"], "r")
-            content = my_file.read()
-            content_list = content.split("\n")
+            content_list = config.content_list
             # generate a crazy long list of words
             for i in range(0, 1000):
                 if i == 0:
                     text = text + str(random.choice(content_list))
                 else:
                     text = text + ' ' + str(random.choice(content_list))
-            my_file.close()
         # get the length of one line and multiply it by 3 to get numChars
         self.getNumChars(text)
 
@@ -459,7 +448,7 @@ class Passage(QTextEdit):
     def getNumChars(self, text):
         global numChars
 
-        self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["backgroundColor"]) + text + '</a>')
+        self.setText('<a style="color:{};">'.format(config.backgroundColor) + text + '</a>')
         # get the cursor of the textEdit
         cursor = QTextCursor(self.document())
         # now get how many lines there are
@@ -515,12 +504,12 @@ class Passage(QTextEdit):
         config.allText = config.shortText
 
         # set the shorttext
-        self.setText('<a style="color:{};">'.format(settings["themes"][settings["selectedTheme"]]["accentColor"]) + config.shortText + '</a>')
-        if "center" in settings["textAlign"]:
+        self.setText('<a style="color:{};">'.format(config.accentColor) + config.shortText + '</a>')
+        if "center" in config.textAlign:
             self.setAlignment(Qt.AlignCenter)
-        elif "left" in settings["textAlign"]:
+        elif "left" in config.textAlign:
             self.setAlignment(Qt.AlignLeft)
-        elif "right" in settings["textAlign"]:
+        elif "right" in config.textAlign:
             self.setAlignment(Qt.AlignRight)
         self.setReadOnly(False)
     
