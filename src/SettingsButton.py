@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QPlainTextEdit, QScrollArea, QFileDialog
-from PyQt5.QtCore import Qt, QPoint, QDir
+from PyQt5.QtCore import Qt, QPoint, QDir, QProcess
 from PyQt5.QtGui import QCursor, QFont, QTextCursor, QIcon
 import config, RestartButton
 import json

@@ -22,15 +22,19 @@ class SettingsPage(QWidget):
         self.setLayout(self.layout)
         # split the page into left and right
         self.left = QVBoxLayout()
+        self.left.setSpacing(0)
         self.right = QVBoxLayout()
 
         # display all settings and store each settings entry in a dictionary
         self.entries = {}
+        self.left.addStretch(-1)
         for item in settings:
             if item != "themes" and item != "symbols":
                 self.entries[item] = SettingsEntry.SettingsEntry(self, item)
                 self.left.addWidget(self.entries[item])
+        self.left.addStretch(-1)
         self.right.addWidget(SettingsEntry.SettingsEntry(self, "save"))
+        
 
         # add the left and right layouts to the main layout
         self.layout.addLayout(self.left)

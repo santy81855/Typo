@@ -2,10 +2,10 @@
     "wordList": "words/1000words.txt",
     "opacity": 0.98,
     "infoBar": true,
-    "aiPlaceholderText": "",
+    "aiPlaceholderText": "Type any text here, and a passage will be generated!",
     "textAlign": "center",
     "symbols": false,
-    "selectedTheme": "Nord",
+    "selectedTheme": "Forest",
     "themes": {
         "Nord": {
             "name": "Nord",

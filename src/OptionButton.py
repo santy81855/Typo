@@ -2,6 +2,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QLabel
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QFont
+import urllib.request
 import config, Display
 
 class OButton(QLabel):
@@ -110,6 +111,8 @@ class OButton(QLabel):
         if config.mainWin.stack.currentIndex() != 0:
             justSwitched = True
             config.mainWin.stack.setCurrentIndex(0)
+        # if the restart button is hidden from having no internet, just show it again
+        config.mainWin.restart.setVisible(True)
         # if we click the currently selected one then nothing should happen
         if self == config.selectedOption and "ai" not in self.type and justSwitched == False:
             return
@@ -157,27 +160,45 @@ class OButton(QLabel):
                 config.textbox.generatePassage()
             # if we click the AI button
             else:
-                # clear the inputText
-                config.inputText = ""
-                # hide all suboptions
-                for i in range(0, len(config.subOptions)):
-                    config.subOptions[i].setVisible(False)
-                # make the new selection stand out
-                self.changeSelection(self, None)
-                config.selectedOption.selected = False
-                self.selected = True
-                config.selectedOption = self
-                # set the getting input button to true
-                config.gettingInput = True
-                # set the restart button to say "generate"
-                config.mainWin.restart.setText("Generate")
-                # prompt the user to enter text on the textbox
-                config.mainWin.textDisplay.clear()
-                config.mainWin.textDisplay.setReadOnly(False)
-                config.mainWin.textDisplay.setPlaceholderText(config.aiPlaceholderText)
-                # set focus to the textbox
-                config.mainWin.textDisplay.setFocus(True)
-            
+                # check for internet connection since the AI generator requires internet
+                if self.internetConnection() == True:                 
+                    # clear the inputText
+                    config.inputText = ""
+                    # hide all suboptions
+                    for i in range(0, len(config.subOptions)):
+                        config.subOptions[i].setVisible(False)
+                    # make the new selection stand out
+                    self.changeSelection(self, None)
+                    config.selectedOption.selected = False
+                    self.selected = True
+                    config.selectedOption = self
+                    # set the getting input button to true
+                    config.gettingInput = True
+                    # set the restart button to say "generate"
+                    config.mainWin.restart.setText("Generate")
+                    # prompt the user to enter text on the textbox
+                    config.mainWin.textDisplay.clear()
+                    config.mainWin.textDisplay.setReadOnly(False)
+                    config.mainWin.textDisplay.setPlaceholderText(config.aiPlaceholderText)
+                    # set focus to the textbox
+                    config.mainWin.textDisplay.setFocus(True)
+                # if no internet
+                else:
+                    # hide all suboptions
+                    for i in range(0, len(config.subOptions)):
+                        config.subOptions[i].setVisible(False)
+                    # make the new selection stand out
+                    self.changeSelection(self, None)
+                    config.selectedOption.selected = False
+                    self.selected = True
+                    config.selectedOption = self
+                    # just change the text to say "no internet connection"
+                    config.mainWin.textDisplay.clear()
+                    config.mainWin.textDisplay.setReadOnly(True)
+                    config.mainWin.textDisplay.setPlaceholderText("No internet connection...")
+                    # hide the restart button
+                    config.mainWin.restart.setVisible(False)
+
         # if we clicked a suboption
         elif self.isOption == False:
             # if it is a suboption for words
@@ -233,6 +254,12 @@ class OButton(QLabel):
             else:
                 return
 
+    def internetConnection(self, host='http://google.com'):
+                    try:
+                        urllib.request.urlopen(host)
+                        return True
+                    except:
+                        return False
     
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.PointingHandCursor)    

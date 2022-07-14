@@ -86,9 +86,12 @@ class SettingsEntry(QWidget):
             self.layout.addWidget(self.textEdit)
         
         elif "infobar" in key.lower():
-            self.label.setText("Bottom Bar: ")
+            self.label.setText("Bottom Bar: (requires restart)")
             self.textEdit = SettingsTextLabel.SettingsTextLabel(self, 60, 40, "infobar")
-            self.textEdit.setText("On")
+            if settings[key] == True:
+                self.textEdit.setText("On")
+            else:
+                self.textEdit.setText("Off")
             self.textEdit.setAlignment(Qt.AlignCenter)
             self.textEdit.setFont(font)
             self.textEdit.setStyleSheet("""
@@ -134,7 +137,7 @@ class SettingsEntry(QWidget):
             self.layout.addWidget(self.textEdit)
         
         elif "selectedtheme" in key.lower():
-            self.label.setText("Selected Theme: ")
+            self.label.setText("Selected Theme: (requires restart)")
             # create the dropdown menu
             self.themeDropdown = QComboBox()
             # set the size of the month select dropdown menu

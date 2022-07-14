@@ -43,7 +43,10 @@ class SettingsSave(QPushButton):
         else:
             settings["infoBar"] = False
         # aiplaceholder text
-        settings["aiPlaceholderText"] = config.mainWin.settingsPage.entries["aiPlaceholderText"].textEdit.toPlainText()
+        if config.mainWin.settingsPage.entries["aiPlaceholderText"].textEdit.toPlainText() == "":
+            settings["aiPlaceholderText"] = "Type any text here, and a passage will be generated!"
+        else:
+            settings["aiPlaceholderText"] = config.mainWin.settingsPage.entries["aiPlaceholderText"].textEdit.toPlainText()
         # text align
         if config.mainWin.settingsPage.entries["textAlign"].textEdit.toPlainText() == "On":
             settings["textAlign"] = "center"
@@ -64,11 +67,22 @@ class SettingsSave(QPushButton):
         # reload the settings in the config file
         config.reloadSettings()
 
-        # show all the options and suboptions
-        for option in config.options:
-            option.show()
+        # show the selected options and suboptions
+        optionType = None
         for suboption in config.subOptions:
-            suboption.show()
+            if suboption == config.selectedOption:
+                optionType = suboption.type
+        if optionType == None:
+            # show the ai
+            for option in config.options:
+                option.show()
+        else:
+            for suboption in config.subOptions:
+                if suboption.type == optionType:
+                    suboption.show()
+            for option in config.options:
+                option.show()
+        
         # move the stack to the typing page
         config.mainWin.stack.setCurrentIndex(0)
         # show the restart button

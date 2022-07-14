@@ -91,7 +91,8 @@ isSnapWidget = False
 selectedOption = None
 # set the font size
 fontSize = 30
-# below is an example of how to get info from the settings json file
+# number of items in main vertical layout with infoBar
+numLayoutItems = 10
 
 # open the settings file
 settingsFile = open("settings/settings.json", "r")
@@ -104,7 +105,7 @@ if settings["opacity"] > 1 or settings["opacity"] < 0:
 else:
     opacity = settings["opacity"]
 # infobar
-infoBar = True
+infoBar = settings["infoBar"]
 # variable that can easily change the placeholder text for the ai input box
 if settings["aiPlaceholderText"] == "":
     aiPlaceholderText = "Type any text here, and a passage will be generated!"
@@ -125,6 +126,9 @@ my_file.close()
 symbols = settings["symbols"]
 closeButtonHoverColor = settings["closeButtonHoverColor"]
 
+# get the selected theme
+selectedTheme = settings["selectedTheme"]
+
 # get the variables in the theme
 backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
 accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
@@ -141,7 +145,10 @@ def reloadSettings():
     global backgroundColor
     global accentColor
     global textHighlight
-
+    global selectedTheme
+    global application
+    
+    closeApp = False
     # open the settings file
     settingsFile = open("settings/settings.json", "r")
     # convert the json file into a dictionary
@@ -154,6 +161,8 @@ def reloadSettings():
     else:
         opacity = settings["opacity"]
     # whether they have an info bar at the bottom or not
+    if infoBar != settings["infoBar"]:
+        closeApp = True
     infoBar = settings["infoBar"]
     # variable that can easily change the placeholder text for the ai input box
     aiPlaceholderText = settings["aiPlaceholderText"]
@@ -175,7 +184,16 @@ def reloadSettings():
     symbols = settings["symbols"]
     closeButtonHoverColor = settings["closeButtonHoverColor"]
 
+    if selectedTheme != settings["selectedTheme"]:
+        closeApp = True
+    # get the selected theme
+    selectedTheme = settings["selectedTheme"]
+
     # get the variables in the theme
     backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
     accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
     textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]
+
+    # close the app if they changed either the theme or the infobar
+    if closeApp:
+        application.quit()

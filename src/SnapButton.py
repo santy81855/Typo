@@ -18,10 +18,6 @@ class SnapButton(QPushButton):
             border:none;
             color:"""+config.accentColor+""";
             font: 12pt "Consolas";
-            padding-left: 5px;
-            padding-right: 5px;
-            padding-top: 5px;
-            padding-bottom: 5px;
             }
                                 """)
         self.setMouseTracking(True)

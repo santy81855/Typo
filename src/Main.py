@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtGui, QtCore, QtMultimedia
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton, QScrollArea
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton, QScrollArea, QWidget, QSizePolicy
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QColor, QCursor, QKeySequence, QFont
 import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton, SettingsPage, SettingsButton
@@ -50,7 +50,7 @@ class MainWindow(QFrame):
             workingHeight = resolution.height()
         # start the window on the middle of the screen
         self.setGeometry(workingWidth/7, 0, workingWidth - (2 * workingWidth / 7), workingHeight)
-        # vertical layout
+        # vertical layout 
         self.layout = QVBoxLayout()
         self.layout.setSpacing(10)
         # add the title bar
@@ -203,7 +203,7 @@ class MainWindow(QFrame):
         # add a stretch to the infobar to center the snap button
         self.infobarlayout.addStretch(-1)
         # left, top, right, bottom
-        #self.infobarlayout.setContentsMargins(0, 12, 10, 0)
+        self.infobarlayout.setContentsMargins(0, 0, 0, 0)
         self.infobarlayout.setSpacing(0)
         # create a button to go in the middle for snapping the window
         self.snapButton = SnapButton.SnapButton(self)
@@ -224,13 +224,14 @@ class MainWindow(QFrame):
         self.dropshadow2.setStyleSheet("""
             background-color: """+config.backgroundColor+""";
             border: none;
+            padding-top: 200px;
         
                                         """)
         self.dropshadow2.setFixedHeight(1)
         self.dropshadow2.setGraphicsEffect(self.shadow2)
-        # only add the info bar to the main window if it is toggled in the config file
+
+        # hide infoBar if its false
         if config.infoBar == True:
-            # function to add infobar to the layout
             self.addInfoBar()
         
         # set the layout for the main window
@@ -277,10 +278,25 @@ class MainWindow(QFrame):
         self.textDisplay.setFocus()
     
     def addInfoBar(self):
-        if config.infoBar == True:
-            self.layout.addWidget(self.dropshadow2)
-            # add the infobar to the main layout
-            self.layout.addLayout(self.infobarlayout)
+        # add the infobar
+        self.infoBar = QWidget()
+        self.infoBar.setStyleSheet("""
+            background-color:"""+config.backgroundColor+""";
+            border: none;
+        """)
+        self.infoBar.setFixedHeight(20)
+        self.infoBar.setLayout(self.infobarlayout)
+        self.layout.addWidget(self.dropshadow2)
+        # add the infobar to the main layout
+        self.layout.addWidget(self.infoBar)
+
+    def addBar(self):
+        self.infoBar.setVisible(True)
+        self.dropshadow2.setVisible(True)
+
+    def removeBar(self):
+        self.infoBar.setVisible(False)
+        self.dropshadow2.setVisible(False)
     
     def snapWin(self, direction):
         global rightDown
@@ -693,7 +709,11 @@ class MainWindow(QFrame):
         self.tl = False
         self.top = False
 
-if __name__ == "__main__":
+# make the application global
+app = None
+
+def mainFunction():
+    global app
     app = QApplication(sys.argv)
     config.application = app
     # set the logo
@@ -712,3 +732,6 @@ if __name__ == "__main__":
     mw.show()
 
     sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    mainFunction()
