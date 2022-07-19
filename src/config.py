@@ -2,7 +2,7 @@ import json
 
 # unchangeable settings
 # The name that appears at the top of the title bar
-appName = "FlyType"
+appName = "Typo"
 # The logo for the taskbar
 logoName = "logo.ico"
 # make the resolution global variables
@@ -135,6 +135,11 @@ accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
 textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]
 
 def reloadSettings():
+    # make the file not read only
+    import os
+    from stat import S_IRWXO
+    os.chmod("settings/settings.json", S_IRWXO)
+
     global opacity
     global infoBar
     global aiPlaceholderText

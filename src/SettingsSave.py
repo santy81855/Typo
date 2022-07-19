@@ -24,6 +24,10 @@ class SettingsSave(QPushButton):
         QApplication.setOverrideCursor(Qt.PointingHandCursor)
 
     def buttonPressed(self):
+        # make the file not read only
+        import os
+        from stat import S_IRWXO
+        os.chmod("settings/settings.json", S_IRWXO)
         # store all the changes in the settings file
         # open the settings file
         with open("settings/settings.json", "r") as settingsFile:
