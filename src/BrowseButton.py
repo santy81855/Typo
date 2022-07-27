@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDes
 from PyQt5.QtCore import Qt, QPoint, QDir
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
 import config, RestartButton
-import json
 
 class BrowseButton(QPushButton):
     def __init__(self, parent, text):

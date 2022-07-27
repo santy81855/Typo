@@ -4,11 +4,6 @@ from PyQt5.QtGui import QCursor
 import config
 from platform import system
 operatingSystem = system()
-import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 # Windows
 if operatingSystem == 'Windows':

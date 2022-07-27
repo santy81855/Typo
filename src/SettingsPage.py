@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDes
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
 import config, SettingsEntry, SettingsSave
-import json
 
 class SettingsPage(QWidget):
     def __init__(self, parent):
