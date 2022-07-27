@@ -7,58 +7,88 @@ from appdirs import *
 # The name that appears at the top of the title bar
 appName = "Typo"
 appAuthor = "Santy"
-# get the user data directory
-userDataPath = user_data_dir(appName, appAuthor)
-userDataPath += "/settings"
-userDataPath = userDataPath.replace('Local', 'LocalLow')
-# make the settings folder if it doesn't exist
-if not os.path.exists(userDataPath):
-    os.makedirs(userDataPath)
-# add the settings file if it doesn't exist
-if not os.path.exists(userDataPath + "/settings.json"):
-    shutil.copy2("settings/settings.json", userDataPath)
-# add the settings file to the path
-userDataPath += "/settings.json"
 
-# open the settings file
-settingsFile = open(userDataPath, "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
+class theme:
+    def __init__(self, name, backgroundColor, accentColor, textHighlight):
+        self.name = name
+        self.backgroundColor = backgroundColor
+        self.accentColor = accentColor
+        self.textHighlight = textHighlight
+
+# check if the settings have been stored, and if not store the default settings
+from PyQt5.QtCore import QSettings, QStandardPaths
+#print(str(QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)))
+settings = QSettings(appAuthor, appName)
+# store all the settings as default values if they haven't been set yet
+if settings.contains("opacity") == False:
+    settings.setValue("opacity", 0.98)
+if settings.contains("infoBar") == False:
+    settings.setValue("infoBar", "False")
+if settings.contains("aiPlaceholderText") == False:
+    settings.setValue("aiPlaceholderText", "Type any text here, and a passage will be generated!")
+if settings.contains("textAlign") == False:
+    settings.setValue("textAlign", "Center")
+if settings.contains("wordList") == False:
+    settings.setValue("wordList", "words/1000words.txt")
+if settings.contains("closeButtonHoverColor") == False:
+    settings.setValue("closeButtonHoverColor", "#990000")
+if settings.contains("selectedTheme") == False:
+    settings.setValue("selectedTheme", "Forest")
+if settings.contains("symbols") == False:
+    settings.setValue("symbols", "False")
+if settings.contains("themes") == False:
+    # create a dictionary of theme objects
+    themes = {}
+    # add the themes to the dictionary
+    themes["Nord"] = theme("Nord", "#3B4252", "#8FBCBB", "#D08770")
+    themes["Forest"] = theme("Forest", "#121e26", "#f4efeb", "#8FBCBB")
+    themes["Baby"] = theme("Baby", "#9df9ef", "#a28089", "#ffa8B6")
+    themes["Desert"] = theme("Desert", "#2d545e", "#e1b382", "#c89666")
+    # add the themes to the settings
+    settings.setValue("themes", themes)
+
 # set the variables that can be changed by the user
 # Opacity of the window
-if settings["opacity"] > 1 or settings["opacity"] < 0:
-    settings["opacity"] = 0.98
+if float(settings.value("opacity")) > 1 or float(settings.value("opacity")) < 0:
+    settings.setValue("opacity", 0.98)
+    opacity = 0.98
 else:
-    opacity = settings["opacity"]
+    opacity = float(settings.value("opacity"))
 # infobar
-infoBar = settings["infoBar"]
+if settings.value("infoBar") == "True":
+    infoBar = True
+else:
+    infoBar = False
 # variable that can easily change the placeholder text for the ai input box
-if settings["aiPlaceholderText"] == "":
+if settings.value("aiPlaceholderText") == "":
     aiPlaceholderText = "Type any text here, and a passage will be generated!"
 else:
-    aiPlaceholderText = settings["aiPlaceholderText"]
+    aiPlaceholderText = settings.value("aiPlaceholderText")
 # variable to change text alignment
-textAlign = settings["textAlign"]
+textAlign = settings.value("textAlign")
 # list of words
 content_list = []
-if settings["wordList"] == "":
+if settings.value("wordList") == "":
     my_file = open("words/1000words.txt", "r")
 else:
-    my_file = open(settings["wordList"], "r")
+    my_file = open(settings.value("wordList"), "r")
 content = my_file.read()
 content_list = content.split("\n")
 my_file.close()
-# variables for what can show up in the passage
-symbols = settings["symbols"]
-closeButtonHoverColor = settings["closeButtonHoverColor"]
+# variables for what can show up in the 
+if settings.value("symbols") == "True":
+    symbols = True
+else:
+    symbols = False
+closeButtonHoverColor = settings.value("closeButtonHoverColor")
 
 # get the selected theme
-selectedTheme = settings["selectedTheme"]
+selectedTheme = settings.value("selectedTheme")
 
 # get the variables in the theme
-backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
-accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
-textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]
+backgroundColor = settings.value("themes")[selectedTheme].backgroundColor
+accentColor = settings.value("themes")[selectedTheme].accentColor
+textHighlight = settings.value("themes")[selectedTheme].textHighlight
 
 
 # unchangeable settings
@@ -155,11 +185,6 @@ fontSize = 30
 numLayoutItems = 10
 
 def reloadSettings():
-    # make the file not read only
-    import os
-    from stat import S_IRWXO
-    os.chmod("settings/settings.json", S_IRWXO)
-
     global opacity
     global infoBar
     global aiPlaceholderText
@@ -172,52 +197,56 @@ def reloadSettings():
     global textHighlight
     global selectedTheme
     global application
-    
+
     closeApp = False
-    # open the settings file
-    settingsFile = open(userDataPath, "r")
-    # convert the json file into a dictionary
-    settings = json.load(settingsFile)
 
     # set the variables that can be changed by the user
     # Opacity of the window
-    if settings["opacity"] > 1 or settings["opacity"] < 0:
-        settings["opacity"] = 0.98
+    if float(settings.value("opacity")) > 1 or float(settings.value("opacity")) < 0:
+        settings.setValue("opacity", 0.98)
+        opacity = 0.98
     else:
-        opacity = settings["opacity"]
-    # whether they have an info bar at the bottom or not
-    if infoBar != settings["infoBar"]:
+        opacity = float(settings.value("opacity"))
+    # infobar
+    if settings.value("infoBar") == "True":
+        value = True
+    else:
+        value = False
+    if infoBar != value:
         closeApp = True
-    infoBar = settings["infoBar"]
+    infoBar = value
     # variable that can easily change the placeholder text for the ai input box
-    aiPlaceholderText = settings["aiPlaceholderText"]
-    # variable to change text alignment
-    if settings["textAlign"] == "":
-        textAlign = "Center"
+    if settings.value("aiPlaceholderText") == "":
+        aiPlaceholderText = "Type any text here, and a passage will be generated!"
     else:
-        textAlign = settings["textAlign"]
+        aiPlaceholderText = settings.value("aiPlaceholderText")
+    # variable to change text alignment
+    textAlign = settings.value("textAlign")
     # list of words
     content_list = []
-    if settings["wordList"] == "":
+    if settings.value("wordList") == "":
         my_file = open("words/1000words.txt", "r")
     else:
-        my_file = open(settings["wordList"], "r")
+        my_file = open(settings.value("wordList"), "r")
     content = my_file.read()
     content_list = content.split("\n")
     my_file.close()
     # variables for what can show up in the passage
-    symbols = settings["symbols"]
-    closeButtonHoverColor = settings["closeButtonHoverColor"]
-
-    if selectedTheme != settings["selectedTheme"]:
+    if settings.value("symbols") == "True":
+        value = True
+    else:
+        value = False
+    symbols = value
+    closeButtonHoverColor = settings.value("closeButtonHoverColor")
+    if selectedTheme != settings.value("selectedTheme"):
         closeApp = True
     # get the selected theme
-    selectedTheme = settings["selectedTheme"]
+    selectedTheme = settings.value("selectedTheme")
 
     # get the variables in the theme
-    backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
-    accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
-    textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]
+    backgroundColor = settings.value("themes")[selectedTheme].backgroundColor
+    accentColor = settings.value("themes")[selectedTheme].accentColor
+    textHighlight = settings.value("themes")[selectedTheme].textHighlight
 
     # close the app if they changed either the theme or the infobar
     if closeApp:

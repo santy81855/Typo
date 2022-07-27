@@ -5,10 +5,6 @@ from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
 import config, SettingsEntry, SettingsSave
 import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 class SettingsPage(QWidget):
     def __init__(self, parent):
@@ -24,6 +20,8 @@ class SettingsPage(QWidget):
         self.left = QVBoxLayout()
         self.left.setSpacing(0)
         self.right = QVBoxLayout()
+
+        settings = config.settings.allKeys()
 
         # display all settings and store each settings entry in a dictionary
         self.entries = {}

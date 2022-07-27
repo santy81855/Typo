@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtGui, QtCore, QtMultimedia
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton, QScrollArea, QWidget, QSizePolicy
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtCore import Qt, QPoint, QSettings
 from PyQt5.QtGui import QColor, QCursor, QKeySequence, QFont
 import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton, SettingsPage, SettingsButton
 from platform import system
@@ -229,7 +229,6 @@ class MainWindow(QFrame):
                                         """)
         self.dropshadow2.setFixedHeight(1)
         self.dropshadow2.setGraphicsEffect(self.shadow2)
-
         # hide infoBar if its false
         if config.infoBar == True:
             self.addInfoBar()
@@ -716,6 +715,9 @@ def mainFunction():
     global app
     app = QApplication(sys.argv)
     config.application = app
+    # configure the QSettings
+    app.setOrganizationName(config.appAuthor)
+    app.setApplicationName(config.appName)
     # set the logo
     app.setWindowIcon(QtGui.QIcon(config.logoName))   
     # find the resolution of the monitor the user is on

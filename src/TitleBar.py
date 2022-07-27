@@ -41,15 +41,15 @@ class MyBar(QWidget):
         self.btn_close.setStyleSheet("""
             QPushButton
             {
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+"""; 
+            background-color: """+config.backgroundColor+"""; 
             border:none;
-            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color:"""+config.accentColor+""";
             font: 14pt "Consolas";
             }
             QPushButton::hover
             {
-                background-color :"""+settings["closeButtonHoverColor"]+""";
-                color: """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+                background-color :"""+config.closeButtonHoverColor+""";
+                color: """+config.accentColor+""";
             }
                                 """)
         self.btn_close.setMouseTracking(True)
@@ -60,15 +60,15 @@ class MyBar(QWidget):
         self.btn_min.setStyleSheet("""
             QPushButton
             {
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+"""; 
+            background-color: """+config.backgroundColor+"""; 
             border:none;
-            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color:"""+config.accentColor+""";
             font: 14pt "Consolas";
             }
             QPushButton::hover
             {
-                background-color : """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
-                color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+                background-color : """+config.accentColor+""";
+                color: """+config.backgroundColor+""";
             }
                                 """)
         self.btn_min.setMouseTracking(True)
@@ -78,15 +78,15 @@ class MyBar(QWidget):
         self.btn_max.setStyleSheet("""
             QPushButton
             {
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+"""; 
+            background-color: """+config.backgroundColor+"""; 
             border:none;
-            color:"""+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color:"""+config.accentColor+""";
             font: 14pt "Consolas";
             }
             QPushButton::hover
             {
-                background-color : """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
-                color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+                background-color : """+config.accentColor+""";
+                color: """+config.backgroundColor+""";
             }
                                 """)
         self.btn_max.setMouseTracking(True)
@@ -99,9 +99,9 @@ class MyBar(QWidget):
         self.layout.addWidget(self.btn_close)
 
         self.title.setStyleSheet("""
-            background-color: """+settings["themes"][settings["selectedTheme"]]["backgroundColor"]+""";
+            background-color: """+config.backgroundColor+""";
             border:none;
-            color : """+settings["themes"][settings["selectedTheme"]]["accentColor"]+""";
+            color : """+config.accentColor+""";
             font: 14pt "Consolas";
             """)
         self.setLayout(self.layout)

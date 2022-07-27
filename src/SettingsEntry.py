@@ -5,10 +5,6 @@ from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
 import config, BrowseButton, SettingsTextLabel, SettingsSave
 import json
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
 
 class SettingsEntry(QWidget):
     def __init__(self, parent, key):
@@ -38,12 +34,10 @@ class SettingsEntry(QWidget):
             color: """+config.accentColor+""";
             border: none;
         """)
-
-        if key in settings:
-            # get the type of the setting
-            settingType = type(settings[key])
+        settings = config.settings
+        if settings.contains(key):
             # get the content of the setting
-            content = str(settings[key])
+            content = str(settings.value(key))
 
         # if the content is a string then we just need a QplainTextEdits
         # although wordlist is a string, we want a qfiledialog
@@ -88,7 +82,8 @@ class SettingsEntry(QWidget):
         elif "infobar" in key.lower():
             self.label.setText("Bottom Bar: (requires restart)")
             self.textEdit = SettingsTextLabel.SettingsTextLabel(self, 60, 40, "infobar")
-            if settings[key] == True:
+            
+            if settings.value(key) == "True":
                 self.textEdit.setText("On")
             else:
                 self.textEdit.setText("Off")
@@ -147,8 +142,14 @@ class SettingsEntry(QWidget):
             # add the months to the combobox
             self.themeDropdown.addItem('Select a theme: ')
             # for every theme available in the json we will add a new item to the dropdown
-            for theme in settings["themes"]:
+            # get all theme names into a list
+            themeNames = []
+            keyList = list(settings.value("themes"))
+            for key in keyList:
+                themeNames.append(settings.value("themes")[key].name)
+            for theme in themeNames:
                 self.themeDropdown.addItem(theme)
+    
             self.themeDropdown.setStyleSheet("""
                 text-align:center;
                 border: 2px solid """+config.textHighlight+""";
