@@ -1,8 +1,68 @@
 import json
-
-# unchangeable settings
+import os
+# module to copy a file into another directory
+import shutil
+# module to get the appdata folder
+from appdirs import *
 # The name that appears at the top of the title bar
 appName = "Typo"
+appAuthor = "Santy"
+# get the user data directory
+userDataPath = user_data_dir(appName, appAuthor)
+userDataPath += "/settings"
+userDataPath = userDataPath.replace('Local', 'LocalLow')
+# make the settings folder if it doesn't exist
+if not os.path.exists(userDataPath):
+    os.makedirs(userDataPath)
+# add the settings file if it doesn't exist
+if not os.path.exists(userDataPath + "/settings.json"):
+    shutil.copy2("settings/settings.json", userDataPath)
+# add the settings file to the path
+userDataPath += "/settings.json"
+
+# open the settings file
+settingsFile = open(userDataPath, "r")
+# convert the json file into a dictionary
+settings = json.load(settingsFile)
+# set the variables that can be changed by the user
+# Opacity of the window
+if settings["opacity"] > 1 or settings["opacity"] < 0:
+    settings["opacity"] = 0.98
+else:
+    opacity = settings["opacity"]
+# infobar
+infoBar = settings["infoBar"]
+# variable that can easily change the placeholder text for the ai input box
+if settings["aiPlaceholderText"] == "":
+    aiPlaceholderText = "Type any text here, and a passage will be generated!"
+else:
+    aiPlaceholderText = settings["aiPlaceholderText"]
+# variable to change text alignment
+textAlign = settings["textAlign"]
+# list of words
+content_list = []
+if settings["wordList"] == "":
+    my_file = open("words/1000words.txt", "r")
+else:
+    my_file = open(settings["wordList"], "r")
+content = my_file.read()
+content_list = content.split("\n")
+my_file.close()
+# variables for what can show up in the passage
+symbols = settings["symbols"]
+closeButtonHoverColor = settings["closeButtonHoverColor"]
+
+# get the selected theme
+selectedTheme = settings["selectedTheme"]
+
+# get the variables in the theme
+backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
+accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
+textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]
+
+
+# unchangeable settings
+
 # The logo for the taskbar
 logoName = "logo.ico"
 # make the resolution global variables
@@ -94,46 +154,6 @@ fontSize = 30
 # number of items in main vertical layout with infoBar
 numLayoutItems = 10
 
-# open the settings file
-settingsFile = open("settings/settings.json", "r")
-# convert the json file into a dictionary
-settings = json.load(settingsFile)
-# set the variables that can be changed by the user
-# Opacity of the window
-if settings["opacity"] > 1 or settings["opacity"] < 0:
-    settings["opacity"] = 0.98
-else:
-    opacity = settings["opacity"]
-# infobar
-infoBar = settings["infoBar"]
-# variable that can easily change the placeholder text for the ai input box
-if settings["aiPlaceholderText"] == "":
-    aiPlaceholderText = "Type any text here, and a passage will be generated!"
-else:
-    aiPlaceholderText = settings["aiPlaceholderText"]
-# variable to change text alignment
-textAlign = settings["textAlign"]
-# list of words
-content_list = []
-if settings["wordList"] == "":
-    my_file = open("words/1000words.txt", "r")
-else:
-    my_file = open(settings["wordList"], "r")
-content = my_file.read()
-content_list = content.split("\n")
-my_file.close()
-# variables for what can show up in the passage
-symbols = settings["symbols"]
-closeButtonHoverColor = settings["closeButtonHoverColor"]
-
-# get the selected theme
-selectedTheme = settings["selectedTheme"]
-
-# get the variables in the theme
-backgroundColor = settings["themes"][settings["selectedTheme"]]["backgroundColor"]
-accentColor = settings["themes"][settings["selectedTheme"]]["accentColor"]
-textHighlight = settings["themes"][settings["selectedTheme"]]["textHighlight"]
-
 def reloadSettings():
     # make the file not read only
     import os
@@ -155,7 +175,7 @@ def reloadSettings():
     
     closeApp = False
     # open the settings file
-    settingsFile = open("settings/settings.json", "r")
+    settingsFile = open(userDataPath, "r")
     # convert the json file into a dictionary
     settings = json.load(settingsFile)
 

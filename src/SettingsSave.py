@@ -27,10 +27,10 @@ class SettingsSave(QPushButton):
         # make the file not read only
         import os
         from stat import S_IRWXO
-        os.chmod("settings/settings.json", S_IRWXO)
+        os.chmod(config.userDataPath, S_IRWXO)
         # store all the changes in the settings file
         # open the settings file
-        with open("settings/settings.json", "r") as settingsFile:
+        with open(config.userDataPath, "r") as settingsFile:
             # convert the json file into a dictionary
             settings = json.load(settingsFile)
         
@@ -62,7 +62,7 @@ class SettingsSave(QPushButton):
         
         
         # finish editing the file
-        with open("settings/settings.json", "w") as settingsFile:
+        with open(config.userDataPath, "w") as settingsFile:
             json.dump(settings, settingsFile, indent=4)
         
         # close the file
