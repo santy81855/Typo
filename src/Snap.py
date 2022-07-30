@@ -12,7 +12,7 @@ class ButtonFormat(QPushButton):
         font = QFont()
         font.setFamily("Verdana")
         font.setFixedPitch( True )
-        font.setPointSize( config.mainWin.width() / 105 )
+        font.setPointSize( int(config.mainWin.width() / 105) )
         self.setFont(font)
         self.parent = parent
         self.setStyleSheet("""
@@ -44,7 +44,7 @@ class SnapBox(QFrame):
         font = QFont()
         font.setFamily("Verdana")
         font.setFixedPitch( True )
-        font.setPointSize( self.parent.width() / 105 )
+        font.setPointSize( int(self.parent.width() / 105) )
         
         self.setMouseTracking(True)
         self.setStyleSheet("""

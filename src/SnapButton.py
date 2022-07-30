@@ -61,7 +61,7 @@ class SnapButton(QPushButton):
         font = QFont()
         font.setFamily("Verdana")
         font.setFixedPitch( True )
-        font.setPointSize(width / 50)
+        font.setPointSize( int(width / 50) )
 
         # now set the buttons
         self.parent.snapWidget.max.setFixedSize(middleWidth, middleHeight)
@@ -91,6 +91,6 @@ class SnapButton(QPushButton):
         mainPosition = self.parent.mapToGlobal(QPoint(0,self.parent.height()))
         self.parent.snapWidget.show()
         # the -50 in the y coordinate accounts for the padding and the spacing between layouts
-        config.mainWin.snapWidget.setGeometry(mainPosition.x() + (config.mainWin.width() - self.parent.snapWidget.width()) / 2, mainPosition.y() - height - 50 - self.height(), width, height)
+        config.mainWin.snapWidget.setGeometry( int(mainPosition.x() + (config.mainWin.width() - self.parent.snapWidget.width()) / 2), int(mainPosition.y() - height - 50 - self.height()), int(width), int(height))
         config.isSnapWidget = True
         

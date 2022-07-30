@@ -197,6 +197,7 @@ def reloadSettings():
     global textHighlight
     global selectedTheme
     global application
+    global mainWin
 
     closeApp = False
 
@@ -250,4 +251,7 @@ def reloadSettings():
 
     # close the app if they changed either the theme or the infobar
     if closeApp:
-        application.quit()
+        #application.quit() 
+        mainWin.close()
+        import Typo
+        Typo.createMain()
