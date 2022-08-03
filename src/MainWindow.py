@@ -90,10 +90,6 @@ class MainWindow(QFrame):
         self.settingsHorLayout.addWidget(self.profileButton)
         # add the hor layout to the main layout
         self.layout.addLayout(self.settingsHorLayout)
-
-        # create a horizontal layout to store the profile page
-        self.profileHorLayout = QHBoxLayout()
-        self.profileHorLayout.setSpacing(0)
         
         global options
         global subOptions
@@ -185,6 +181,10 @@ class MainWindow(QFrame):
         # add the settings page to the stack widget
         self.stack.addWidget(self.settingsPage)
         #self.stack.setCurrentIndex(2)
+
+        # add a profile page
+        self.profilePage = ProfileTab.ProfileTab(self)
+        self.stack.addWidget(self.profilePage)
         
         # add the stack widget to the main layout
         self.layout.addWidget(self.stack)
@@ -199,15 +199,6 @@ class MainWindow(QFrame):
         self.restartLayout.addStretch(-1)
         self.layout.addLayout(self.restartLayout)
         self.layout.addStretch(-1)
-        
-        # create a profile page
-        self.profile = ProfileTab.ProfileTab(self)
-        
-        # add the layout to the profile horizontal layout
-        #self.profileHorLayout.addLayout(self.layout)
-        # add the profile page to the profile horizontal layout
-        self.profileHorLayout.addWidget(self.profile)
-        self.profile.setVisible(False)
 
         showLogin = True
         # display the login page if the user is not logged in
@@ -305,12 +296,21 @@ class MainWindow(QFrame):
         self.textDisplay.setFocus()
     
     def showOptions(self):
-        # show the options
-        for i in range(len(config.options)):
-            config.options[i].setVisible(True)
-        # show the suboptions
-        for i in range(len(config.subOptions)):
-            config.subOptions[i].setVisible(True)
+        # show the selected options and suboptions
+        optionType = None
+        for suboption in config.subOptions:
+            if suboption == config.selectedOption:
+                optionType = suboption.type
+        if optionType == None:
+            # show the ai
+            for option in config.options:
+                option.show()
+        else:
+            for suboption in config.subOptions:
+                if suboption.type == optionType:
+                    suboption.show()
+            for option in config.options:
+                option.show()
     
     def hideOptions(self):
         # hide the options and suboptions

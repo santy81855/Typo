@@ -19,9 +19,15 @@ class ProfileButton(QPushButton):
             padding: 0px;
         """)
         self.setMouseTracking(True)
+        self.clicked.connect(self.buttonPressed)
 
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.PointingHandCursor)
 
     def buttonPressed(self):
-        print("hello")
+        # switch to the profile page
+        config.mainWin.stack.setCurrentIndex(5)
+        # hide the options
+        config.mainWin.hideOptions()
+        # hide the restart button
+        config.mainWin.restart.setVisible(False)

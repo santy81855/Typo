@@ -43,6 +43,25 @@ class SignUpPage(QWidget):
             color: """ + config.accentColor + """;
         }
         """)
+        # text area to input first, last and username
+        # put first and last name in the same line
+        self.nameLayout = QHBoxLayout()
+        self.nameLayout.setSpacing(10)
+        self.firstName = LoginInput.LoginInput(self, "First Name", 220, 60)
+        self.lastName = LoginInput.LoginInput(self, "Last Name", 220, 60)
+        self.nameLayout.addStretch()
+        self.nameLayout.addWidget(self.firstName)
+        self.nameLayout.addWidget(self.lastName)
+        self.nameLayout.addStretch()
+        self.username = LoginInput.LoginInput(self, "Username", 450, 60)
+        # create the error label
+        self.errorLabelUser = QLabel("Username not available")
+        self.errorLabelUser.setStyleSheet("""
+            background-color: """ + config.backgroundColor + """;
+            color: """ + config.backgroundColor + """;
+        """)
+        self.errorLabelUser.setFont(smallFont)
+        self.errorLabelUser.setAlignment(Qt.AlignCenter)
         # create a text area to enter their email/username
         self.emailLabel = LoginInput.LoginInput(self, "Email", 450, 60)
         # create the error label
@@ -93,6 +112,11 @@ class SignUpPage(QWidget):
         self.vLayout.addStretch(-1)
         # add the labels to the vertical layout
         self.vLayout.addWidget(self.title)
+        self.vLayout.addSpacing(20)
+        self.vLayout.addLayout(self.nameLayout)
+        self.vLayout.addSpacing(20)
+        self.vLayout.addWidget(self.username)
+        self.vLayout.addWidget(self.errorLabelUser)
         self.vLayout.addSpacing(20)
         self.vLayout.addWidget(self.emailLabel)
         self.vLayout.addWidget(self.errorLabel)

@@ -22,6 +22,8 @@ settings = QSettings(appAuthor, appName)
 # store all the settings as default values if they haven't been set yet
 if settings.contains("user") == False:
     settings.setValue("user", "")
+if settings.contains("username") == False:
+    settings.setValue("username", "")
 if settings.contains("opacity") == False:
     settings.setValue("opacity", 0.98)
 if settings.contains("infoBar") == False:

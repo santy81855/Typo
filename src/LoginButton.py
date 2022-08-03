@@ -3,7 +3,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QPlainTextEdit, QScrollArea, QFileDialog
 from PyQt5.QtCore import Qt, QPoint, QDir
 from PyQt5.QtGui import QCursor, QFont, QTextCursor, QIcon
-import config, FirebaseAuth
+import config, FirebaseAuth, FirebaseDB
 
 class LoginButton(QPushButton):
     def __init__(self, parent, text, width, height):
@@ -30,7 +30,12 @@ class LoginButton(QPushButton):
 
     def buttonPressed(self):
         loginPage = self.parent
-        success = FirebaseAuth.signin(loginPage.emailLabel.text(), loginPage.passLabel.text())
+        # check if they put in their username rather than email
+        user = FirebaseDB.get_user(loginPage.emailLabel.text())
+        if user is not None:
+            success = FirebaseAuth.signin(user['email'], loginPage.passLabel.text())
+        else:
+            success = FirebaseAuth.signin(loginPage.emailLabel.text(), loginPage.passLabel.text())
         # if they log in successfully go to the main page
         if success:
             # show all the options buttons

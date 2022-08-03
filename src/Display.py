@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDes
 from PyQt5.QtCore import Qt, QPoint, QTimer
 from PyQt5 import QtMultimedia
 from PyQt5.QtGui import QCursor, QFont, QTextCursor, QFontMetrics
-import config, ScrollBar
+import config, ScrollBar, FirebaseDB
 import requests
 import time
 import random
@@ -59,8 +59,11 @@ class Passage(QTextEdit):
             accuracy = config.right / (config.right + config.wrong) * 100
             # update the accuracy label
             config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
+            # add this result to the results list
+            data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
+            FirebaseDB.update_user_results(config.settings.value('username'), data) 
             # switch to the results page on the stacked widget
-            config.mainWin.stack.setCurrentIndex(1)
+            config.mainWin.stack.setCurrentIndex(3)
 
     def keyPressEvent(self, event):           
         global typedText
@@ -237,8 +240,16 @@ class Passage(QTextEdit):
                         accuracy = config.right / (config.right + config.wrong) * 100
                         # update the accuracy label
                         config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
+                        # update the wpm label
+                        config.mainWin.results.wpmLabel.setText("WPM:\n" + str(round(config.wpm, 2)))
+                        accuracy = config.right / (config.right + config.wrong) * 100
+                        # update the accuracy label
+                        config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
+                        # add this result to the results list
+                        data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
+                        FirebaseDB.update_user_results(config.settings.value('username'), data) 
                         # switch to the results page on the stacked widget
-                        config.mainWin.stack.setCurrentIndex(1)
+                        config.mainWin.stack.setCurrentIndex(3)
                         return
                 # we want to underline the next character, but only if there is text left to write
                 elif len(config.shortText) >= 1:
@@ -325,8 +336,12 @@ class Passage(QTextEdit):
                     accuracy = config.right / (config.right + config.wrong) * 100
                     # update the accuracy label
                     config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
+                    # add this result to the results list
+                    # add this result to the results list
+                    data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
+                    FirebaseDB.update_user_results(config.settings.value('username'), data) 
                     # switch to the results page on the stacked widget
-                    config.mainWin.stack.setCurrentIndex(1)
+                    config.mainWin.stack.setCurrentIndex(3)
                     self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>')
                     if "center" in config.textAlign:
                         self.setAlignment(Qt.AlignCenter)

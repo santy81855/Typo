@@ -3,7 +3,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QLineEdit
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
-import config, LoginButton, LoginInput, SignUp, GoogleButton
+import config, LogOutButton
 
 class ProfileTab(QWidget):
     def __init__(self, parent):
@@ -34,7 +34,7 @@ class ProfileTab(QWidget):
         smallFont.setItalic(True)
         smallFont.setPointSize( 10 )
         # create a title label 
-        self.title = QLabel("Sign In:")
+        self.title = QLabel("Profile:")
         self.title.setFont(font)
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet("""
@@ -43,58 +43,17 @@ class ProfileTab(QWidget):
             color: """ + config.accentColor + """;
         }
         """)
-        # create a text area to enter their email/username
-        self.emailLabel = LoginInput.LoginInput(self, "Email", 450, 60)
-        # create a text area to enter their password
-        self.passLabel = LoginInput.LoginInput(self, "Password", 450, 60)
-        # create the error label
-        self.errorLabel = QLabel("Incorrect email or password")
-        self.errorLabel.setStyleSheet("""
-            background-color: """ + config.backgroundColor + """;
-            color: """ + config.backgroundColor + """;
-        """)
-        self.errorLabel.setFont(smallFont)
-        self.errorLabel.setAlignment(Qt.AlignCenter)
+
         # create a button to sign in
-        self.loginButton = LoginButton.LoginButton(self, "Login", self.passLabel.width(), self.passLabel.height())
-        # create a layout for asking if they don't have an account
-        self.smallLayout = QHBoxLayout()
-        self.smallLayout.setSpacing(5)
-        # add a label for if they don't have an account
-        self.createAccountLabel = QLabel("Don't have an account?")
-        self.createAccountLabel.setStyleSheet("""
-            background-color: """ + config.backgroundColor + """;
-            color: """ + config.accentColor + """;
-        """)
-        self.createAccountLabel.setFont(smallFont)
-        # create a small button to sign up
-        self.createAccountButton = SignUp.SignUpButton(self, "Sign Up", 60, 20)
-        # add the labels to the small layout
-        self.smallLayout.addStretch()
-        self.smallLayout.addWidget(self.createAccountLabel)
-        self.smallLayout.addWidget(self.createAccountButton)
-        self.smallLayout.addStretch()
-
-        # add the option to continue with google
-        # create the button
-        self.googleButton = GoogleButton.GoogleButton(self, "Continue with Google", self.passLabel.width(), self.passLabel.height())
-
+        self.loginButton = LogOutButton.LogOutButton(self, "Logout", 60, 30)
 
         # add stretch 
         self.vLayout.addStretch(-1)
         # add the labels to the vertical layout
         self.vLayout.addWidget(self.title)
         self.vLayout.addSpacing(20)
-        self.vLayout.addWidget(self.emailLabel)
-        self.vLayout.addSpacing(30)
-        self.vLayout.addWidget(self.passLabel)
-        self.vLayout.addWidget(self.errorLabel)
-        self.vLayout.addSpacing(20)
         self.vLayout.addWidget(self.loginButton)
-        self.vLayout.addSpacing(20)
-        self.vLayout.addLayout(self.smallLayout)
-        self.vLayout.addSpacing(30)
-        self.vLayout.addWidget(self.googleButton)
+
         # add stretch
         self.vLayout.addStretch(-1)
         # add a stretch to main layout

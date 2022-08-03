@@ -112,9 +112,9 @@ class OButton(QLabel):
         global numTime
         # if we are not on index 0 of the stack then we want to switch to index 0
         justSwitched = False
-        if config.mainWin.stack.currentIndex() != 0:
+        if config.mainWin.stack.currentIndex() != 2:
             justSwitched = True
-            config.mainWin.stack.setCurrentIndex(0)
+            config.mainWin.stack.setCurrentIndex(2)
         # if the restart button is hidden from having no internet, just show it again
         config.mainWin.restart.setVisible(True)
         # if we click the currently selected one then nothing should happen

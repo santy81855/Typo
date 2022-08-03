@@ -44,7 +44,7 @@ class LoginPage(QWidget):
         }
         """)
         # create a text area to enter their email/username
-        self.emailLabel = LoginInput.LoginInput(self, "Email", 450, 60)
+        self.emailLabel = LoginInput.LoginInput(self, "Email/Username", 450, 60)
         # create a text area to enter their password
         self.passLabel = LoginInput.LoginInput(self, "Password", 450, 60)
         # create the error label
