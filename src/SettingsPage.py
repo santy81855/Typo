@@ -15,6 +15,12 @@ class SettingsPage(QScrollArea):
         self.setVerticalScrollBar(self.scrollbarV)
         self.setHorizontalScrollBar(self.scrollbarH)
         self.widget = QWidget()
+        # create the font
+        font = QFont()
+        font.setFamily("Serif")
+        font.setFixedPitch( True )
+        font.setPointSize( 20 )
+        font.setBold( True )
         # center the whole thing
         self.mainLayout = QHBoxLayout()
         self.mainLayout.addStretch(-1)
@@ -23,6 +29,17 @@ class SettingsPage(QScrollArea):
         self.layout = QVBoxLayout()
         # set the spacing
         self.layout.setSpacing(10)
+
+        # add a title to the settings page
+        self.title = QLabel("Settings")
+        self.title.setStyleSheet("color: "+config.accentColor+";")
+        self.title.setFont(font)
+        # add save button to horizontal layout to center it
+        self.titleLayout = QHBoxLayout()
+        self.titleLayout.addStretch(-1)
+        self.titleLayout.addWidget(self.title)
+        self.titleLayout.addStretch(-1)
+        self.layout.addLayout(self.titleLayout)
 
         settings = config.settings.allKeys()
 
