@@ -54,19 +54,19 @@ class ScrollBar(QScrollBar):
         }
         QScrollBar::handle:vertical
         {
-            background-color:"""+str(config.backgroundColor)+"""; 
+            background-color:"""+str(config.accentColor)+"""; 
             border:none;  
         }
         QScrollBar::handle:horizontal
         {
-            background-color:"""+str(config.backgroundColor)+"""; 
+            background-color:"""+str(config.accentColor)+"""; 
             border:none;  
         }
         QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical 
         {
             background: none;
         }
-        QScrollBar::add-page:vertical, QScrollBar::sub-page:horizontal
+        QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
         {
             background: none;
         }
@@ -74,3 +74,4 @@ class ScrollBar(QScrollBar):
         #3B4252
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.ArrowCursor)
+        return QScrollBar.mouseMoveEvent(self, event)

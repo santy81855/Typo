@@ -79,7 +79,7 @@ class SettingsEntry(QWidget):
             self.layout.addWidget(self.textEdit)
         
         elif "infobar" in key.lower():
-            self.label.setText("Bottom Bar: (requires restart)")
+            self.label.setText("Bottom Bar: ")
             self.textEdit = SettingsTextLabel.SettingsTextLabel(self, 60, 40, "infobar")
             
             if settings.value(key) == "True":
@@ -131,7 +131,7 @@ class SettingsEntry(QWidget):
             self.layout.addWidget(self.textEdit)
         
         elif "selectedtheme" in key.lower():
-            self.label.setText("Selected Theme: (requires restart)")
+            self.label.setText("Selected Theme: ")
             # create the dropdown menu
             self.themeDropdown = QComboBox()
             # set the size of the month select dropdown menu
@@ -162,16 +162,8 @@ class SettingsEntry(QWidget):
         elif "save" in key.lower():
             # add a button to save the settings
             self.save = SettingsSave.SettingsSave(self)
-            # place the button in a horizontal layout
-            self.hor = QHBoxLayout()
-            self.hor.addStretch(-1)
-            self.hor.addWidget(self.save)
-            self.hor.addStretch(-1)
-            # add the horizontal layout to the layout
-            self.layout.addLayout(self.hor)
-
-        # add stretch to center settings
-        self.layout.addStretch(-1)
+            # add the button to the layout
+            self.layout.addWidget(self.save)
 
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.ArrowCursor)

@@ -165,18 +165,11 @@ class MainWindow(QFrame):
         self.results = Results.ResultsPage(self)
         self.stack.addWidget(self.results)
         
-        # create a scroll area for the settings page
-        self.scroll = QScrollArea(self)
-        self.scroll.setWidgetResizable(True) 
-        #self.scroll.setStyleSheet("background-color: red;")
-
         # create the settings page
         self.settingsPage = SettingsPage.SettingsPage(self)
-        # set the settings page as the widget of the scroll area
-        self.scroll.setWidget(self.settingsPage)
         
-        # add the scroll area to the stack widget
-        self.stack.addWidget(self.scroll)
+        # add the settings page to the stack widget
+        self.stack.addWidget(self.settingsPage)
         #self.stack.setCurrentIndex(2)
         
         # add the stack widget to the main layout
@@ -518,7 +511,7 @@ class MainWindow(QFrame):
         # if snapping we need to change the textDisplay
         self.textDisplay.generatePassage()
         # if snapping we need to change the scroll area size
-        self.scroll.setMinimumHeight(self.height() - self.snapButton.height() - 50)
+        self.settingsPage.setMinimumHeight(self.height() - self.snapButton.height() - 100)
     
     def on_focusChanged(self, old, new):
         # set the opacity to 1 if not focused
@@ -686,9 +679,8 @@ class MainWindow(QFrame):
                     self.setGeometry(self.pos().x(), self.pos().y(), self.width(), pos) 
                 elif self.width() - event.pos().x() > config.minSize:
                     self.setGeometry(self.pos().x() + event.pos().x(), self.pos().y(), self.width() - event.pos().x(), self.height())
-            
-            # if resizing then change scroll area size
-            self.scroll.setMinimumHeight(self.height() - self.snapButton.height() - 50)
+            # if resizing we need to change the scroll area size
+            self.settingsPage.setMinimumHeight(self.height() - self.snapButton.height() - 100)
             
     # if the mouse button is released then set 'pressing' as false
     def mouseReleaseEvent(self, event):

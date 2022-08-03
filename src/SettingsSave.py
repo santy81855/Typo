@@ -10,6 +10,12 @@ class SettingsSave(QPushButton):
         super(SettingsSave, self).__init__()
         self.parent = parent
         self.setFixedSize(100, 50)
+        # create the font
+        font = QFont()
+        font.setFamily("Serif")
+        font.setFixedPitch( True )
+        font.setPointSize( 20 )
+        self.setFont(font)
         self.setText("Save")
         self.setStyleSheet("""
             background-color: """+config.textHighlight+""";

@@ -107,7 +107,7 @@ res["3440x1440"] = [3440/2, 0] # ultrawide
 res["3840x2160"] = [3840/2, 0] # 4k
 focused = False # variable to track if the gui is focused so it knows to track typing or not
 # variable for the minimum resolution (minSize x minSize)
-minSize = 100
+minSize = 500
 # variable to track what the smallest screen size is that still needs a margin
 tooSmall = 800
 # variable to track the margins used on the main layout
