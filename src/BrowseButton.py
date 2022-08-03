@@ -42,22 +42,10 @@ class BrowseButton(QPushButton):
         fileName=QFileDialog.getOpenFileName(self, 'open file', QDir.currentPath() + "/words", 'TXT files (*.txt)')
         # display only the last part of the path
         self.parent.pathLabel.setText(fileName[0].split("/")[-1])
-
-        # open the settings file
-        with open("settings/settings.json", "r") as settingsFile:
-            # convert the json file into a dictionary
-            settings = json.load(settingsFile)
         
         # change the path of the wordlist
         if fileName[0] != "":
-            settings[self.parent.key] = fileName[0]
-        
-        # finish editing the file
-        with open("settings/settings.json", "w") as settingsFile:
-            json.dump(settings, settingsFile, indent=4)
-        
-        # close the file
-        settingsFile.close()
+            config.settings.setValue("wordList", fileName[0])
 
         # reload the settings in the config file
         config.reloadSettings()
