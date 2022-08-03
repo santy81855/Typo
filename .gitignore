@@ -9,9 +9,6 @@ __pycache__/
 # setup file for install forge
 *.ifp
 
-# serviceaccountkey
-src/DB/serviceaccountkey.json
-
 # Distribution / packaging
 .Python
 build/

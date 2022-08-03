@@ -34,7 +34,7 @@ class ProfileTab(QWidget):
         smallFont.setItalic(True)
         smallFont.setPointSize( 10 )
         # create a title label 
-        self.title = QLabel("Profile:")
+        self.title = QLabel("Hello, {}!:".format(config.settings.value("username")))
         self.title.setFont(font)
         self.title.setAlignment(Qt.AlignCenter)
         self.title.setStyleSheet("""
