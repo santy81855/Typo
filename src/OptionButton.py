@@ -9,7 +9,7 @@ class OButton(QLabel):
     def __init__(self, parent, text, width, isOption, textType):
         super(OButton, self).__init__()
         self.parent = parent
-        self.text = text
+        self.buttonText = text
         self.type = textType
         self.isOption = isOption
         global selectedOption
@@ -33,7 +33,7 @@ class OButton(QLabel):
             self.setText("time");
 
         # we default to 10 words so we select it when we create the 10 words suboption
-        elif isOption == False and "words" in self.type and self.text == "10":
+        elif isOption == False and "words" in self.type and self.buttonText == "10":
             self.setStyleSheet("""
                 background-color: """ + config.backgroundColor + """;
                 color: """ + config.textHighlight + """;
@@ -41,7 +41,7 @@ class OButton(QLabel):
                 border: none;
             """)  
             config.selectedOption = self
-            self.setText(self.text)
+            self.setText(self.buttonText)
 
         else:
             self.setStyleSheet("""
@@ -64,7 +64,11 @@ class OButton(QLabel):
             font.setPointSize( config.subOptionButtonSize )
         self.setFont(font)
         # set the size
-        self.setFixedSize(width, 30)
+        # get the width of the text
+        textWidth = self.fontMetrics().width(self.text())
+        # set the width to be the width of the text
+        self.setFixedSize(textWidth + 5, 30)
+        #self.setMinimumSize(1, 30)
         # variable to track whether its selected or not
         self.selected = False
         self.setMouseTracking(True)
@@ -204,7 +208,7 @@ class OButton(QLabel):
             # if it is a suboption for words
             if "words" in self.type:
                 # set the number of words to the number of words in the suboption
-                config.numWords = int(self.text)
+                config.numWords = int(self.buttonText)
                 # make all the other word suboptions normal and make this one stand out
                 for i in range(0, 4):
                     config.subOptions[i].setStyleSheet("""
@@ -228,7 +232,7 @@ class OButton(QLabel):
             
             elif "time" in self.type:
                 # set the time
-                config.numTime = int(self.text)
+                config.numTime = int(self.buttonText)
                 # make all the other word suboptions normal and make this one stand out
                 for i in range(4, len(config.subOptions)):
                     config.subOptions[i].setStyleSheet("""
