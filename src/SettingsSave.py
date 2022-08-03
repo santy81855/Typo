@@ -75,7 +75,7 @@ class SettingsSave(QPushButton):
                 option.show()
         
         # move the stack to the typing page
-        config.mainWin.stack.setCurrentIndex(0)
+        config.mainWin.stack.setCurrentIndex(2)
         # show the restart button
         config.mainWin.restart.show()
         # show the settings button

@@ -343,6 +343,7 @@ class Passage(QTextEdit):
             elif len(config.shortText) == 0 and config.curIndex == len(config.curText):
                 return
             else:
+                print("wrong")
                 config.wrong += 1
                 
         # accuracy

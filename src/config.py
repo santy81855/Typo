@@ -20,6 +20,8 @@ from PyQt5.QtCore import QSettings, QStandardPaths
 #print(str(QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)))
 settings = QSettings(appAuthor, appName)
 # store all the settings as default values if they haven't been set yet
+if settings.contains("user") == False:
+    settings.setValue("user", "")
 if settings.contains("opacity") == False:
     settings.setValue("opacity", 0.98)
 if settings.contains("infoBar") == False:
@@ -183,6 +185,10 @@ selectedOption = None
 fontSize = 30
 # number of items in main vertical layout with infoBar
 numLayoutItems = 10
+# background color for the google login button
+googleButtonBackground = "#76A7FA"
+errorColor = "#FF3131"
+profileIconColor = "#ffffff"
 
 def reloadSettings():
     global opacity

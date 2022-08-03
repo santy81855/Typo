@@ -3,7 +3,7 @@ from PyQt5 import QtGui, QtCore, QtMultimedia
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton, QScrollArea, QWidget, QSizePolicy
 from PyQt5.QtCore import Qt, QPoint, QSettings
 from PyQt5.QtGui import QColor, QCursor, QKeySequence, QFont
-import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton, SettingsPage, SettingsButton
+import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton, SettingsPage, SettingsButton, Login, SignUpPage, ProfileButton, ProfileTab
 from platform import system
 operatingSystem = system()
 
@@ -77,6 +77,8 @@ class MainWindow(QFrame):
         #-----------------------------------------ADD YOUR WIDGETS HERE-------------------------------------------------------#
         # add the settings button
         self.settingsButton = SettingsButton.SettingsButton(self)
+        # add the profile button
+        self.profileButton = ProfileButton.ProfileButton(self)
         # create hor layout 
         self.settingsHorLayout = QHBoxLayout()
         self.settingsHorLayout.setSpacing(0)
@@ -84,8 +86,14 @@ class MainWindow(QFrame):
         self.settingsHorLayout.addStretch(-1)
         # add the settings button to the horizontal layout
         self.settingsHorLayout.addWidget(self.settingsButton)
+        # add the profile button to the horizontal layout
+        self.settingsHorLayout.addWidget(self.profileButton)
         # add the hor layout to the main layout
         self.layout.addLayout(self.settingsHorLayout)
+
+        # create a horizontal layout to store the profile page
+        self.profileHorLayout = QHBoxLayout()
+        self.profileHorLayout.setSpacing(0)
         
         global options
         global subOptions
@@ -157,6 +165,12 @@ class MainWindow(QFrame):
         self.stack.setStyleSheet("""
             border: none;
         """)
+        # create a login page
+        self.loginPage = Login.LoginPage(self)
+        self.stack.addWidget(self.loginPage)
+        # create a signup page
+        self.signupPage = SignUpPage.SignUpPage(self)
+        self.stack.addWidget(self.signupPage)
         # create the main text area
         self.textDisplay = Display.Passage(self)
         # add the text area to the stack widget
@@ -185,10 +199,31 @@ class MainWindow(QFrame):
         self.restartLayout.addStretch(-1)
         self.layout.addLayout(self.restartLayout)
         self.layout.addStretch(-1)
+        
+        # create a profile page
+        self.profile = ProfileTab.ProfileTab(self)
+        
+        # add the layout to the profile horizontal layout
+        #self.profileHorLayout.addLayout(self.layout)
+        # add the profile page to the profile horizontal layout
+        self.profileHorLayout.addWidget(self.profile)
+        self.profile.setVisible(False)
 
-
-
-
+        showLogin = True
+        # display the login page if the user is not logged in
+        if config.settings.value("user") == "":
+        #if showLogin:
+            # hide the options and suboptions if on the login page
+            self.hideOptions()
+            # hide the settings button if on the login page
+            self.settingsButton.setVisible(False)
+            # hide the restart button if on the login page
+            self.restart.setVisible(False)
+            # show the login page
+            self.stack.setCurrentIndex(0)
+        # display the main text area if the user is logged in
+        else:
+            self.stack.setCurrentIndex(2)
         #---------------------------------------------------------------------------------------------------------------------#
 
         # add the infobar at the bottom
@@ -268,6 +303,21 @@ class MainWindow(QFrame):
         self.shortcut_snapBottom.activated.connect(lambda: self.snapWin("bottom"))
         # set focus to the textbox
         self.textDisplay.setFocus()
+    
+    def showOptions(self):
+        # show the options
+        for i in range(len(config.options)):
+            config.options[i].setVisible(True)
+        # show the suboptions
+        for i in range(len(config.subOptions)):
+            config.subOptions[i].setVisible(True)
+    
+    def hideOptions(self):
+        # hide the options and suboptions
+        for i in range(0, len(config.options)):
+            config.options[i].setVisible(False)
+        for i in range(0, len(config.subOptions)):
+            config.subOptions[i].setVisible(False)
     
     def addInfoBar(self):
         # add the infobar
