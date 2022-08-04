@@ -51,15 +51,12 @@ class SettingsPage(QScrollArea):
                 self.entries[item] = SettingsEntry.SettingsEntry(self, item)
                 self.layout.addWidget(self.entries[item])
         
-        # add save button to horizontal layout to center it
-        self.horLayout = QHBoxLayout()
-        self.horLayout.addStretch(-1)
-        self.horLayout.addWidget(SettingsEntry.SettingsEntry(self, "save"))
-        self.horLayout.addStretch(-1)
+        self.saveButton = SettingsEntry.SettingsEntry(self, "save")
         
-        # add the horizontal layout to the vertical layout
+        # add the save button to the vertical layout
         self.layout.addStretch(-1)
-        self.layout.addLayout(self.horLayout)
+        self.layout.addWidget(self.saveButton)
+        self.layout.setAlignment(self.saveButton, Qt.AlignHCenter)
         self.layout.addStretch(-1)
 
         self.mainLayout.addLayout(self.layout)

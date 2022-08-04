@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QPlainTextEdit, QScrollArea, QFileDialog
-from PyQt5.QtCore import Qt, QPoint, QDir
+from PyQt5.QtCore import Qt, QPoint, QDir, QPropertyAnimation, QRect
 from PyQt5.QtGui import QCursor, QFont, QTextCursor, QIcon
 import config, FirebaseAuth, FirebaseDB
 
@@ -47,6 +47,8 @@ class LoginButton(QPushButton):
             config.mainWin.restart.setVisible(True)
             # show the settings button
             config.mainWin.settingsButton.setVisible(True)
+            # show the profile button
+            config.mainWin.profileButton.setVisible(True)
             config.mainWin.stack.setCurrentIndex(2)
         # if the login fails, tell them
         else:

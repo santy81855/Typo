@@ -32,6 +32,6 @@ class SettingsButton(QPushButton):
         # make the settings page big
         self.parent.settingsPage.setMinimumHeight(self.parent.height() - self.parent.snapButton.height() - 50)
         # hide the restart button
-        self.parent.restart.hide()
+        self.parent.restart.setVisible(False)
         # hide the settings button
-        self.hide()
+        self.setVisible(False)

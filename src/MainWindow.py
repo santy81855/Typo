@@ -191,21 +191,17 @@ class MainWindow(QFrame):
 
         # create a restart button
         self.restart = RestartButton.RestartButton(self, "Restart")
-        # add the restart button to the main layout
-        self.restartLayout = QHBoxLayout()
-        self.restartLayout.setSpacing(0)
-        self.restartLayout.addStretch(-1)
-        self.restartLayout.addWidget(self.restart)
-        self.restartLayout.addStretch(-1)
-        self.layout.addLayout(self.restartLayout)
-        self.layout.addStretch(-1)
 
-        showLogin = True
+        self.layout.addWidget(self.restart)
+        self.layout.setAlignment(self.restart, Qt.AlignHCenter)
+        
+
         # display the login page if the user is not logged in
         if config.settings.value("user") == "":
-        #if showLogin:
             # hide the options and suboptions if on the login page
             self.hideOptions()
+            # hide the profile button
+            self.profileButton.setVisible(False)
             # hide the settings button if on the login page
             self.settingsButton.setVisible(False)
             # hide the restart button if on the login page
@@ -384,6 +380,7 @@ class MainWindow(QFrame):
         
         monitor = QDesktopWidget().screenGeometry(self)
 
+        # variables to store the inital position of the window
         startx = self.pos().x()
         starty = self.pos().y()
 
@@ -574,7 +571,10 @@ class MainWindow(QFrame):
         # if snapping we need to change the textDisplay
         self.textDisplay.generatePassage()
         # if snapping we need to change the scroll area size
-        self.settingsPage.setMinimumHeight(self.height() - self.snapButton.height() - 100)
+        if config.infoBar == True:
+            self.settingsPage.setMinimumHeight(self.height() - self.snapButton.height() - 100)
+        else:
+            self.settingsPage.setMinimumHeight(self.height() - self.snapButton.height() - 250)
     
     def on_focusChanged(self, old, new):
         # set the opacity to 1 if not focused

@@ -29,5 +29,7 @@ class ProfileButton(QPushButton):
         config.mainWin.stack.setCurrentIndex(5)
         # hide the options
         config.mainWin.hideOptions()
+        # hide the profile button
+        config.mainWin.profileButton.setVisible(False)
         # hide the restart button
         config.mainWin.restart.setVisible(False)

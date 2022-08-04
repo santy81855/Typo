@@ -30,9 +30,9 @@ class RestartButton(QPushButton):
     def restart(self):
         global gettingInput
         global inputText
-        # if we are not on index 0 of the stack then we want to switch to index 0
-        if config.mainWin.stack.currentIndex() != 0:
-            config.mainWin.stack.setCurrentIndex(0)
+        # if we are not on the typing page then go to it
+        if config.mainWin.stack.currentIndex() != 2:
+            config.mainWin.stack.setCurrentIndex(2)
         if "ai" not in config.selectedOption.type.lower():
             self.parent.textDisplay.generatePassage()
             config.mainWin.textDisplay.setFocus(True)

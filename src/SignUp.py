@@ -37,6 +37,7 @@ class SignUpButton(QPushButton):
             config.mainWin.snapWin("place")
             # change the stack to the signup page
             config.mainWin.stack.setCurrentIndex(1)
+        # if it's the signin button take them to log in page
         else:
             # change the stack to the login page
             config.mainWin.stack.setCurrentIndex(0)

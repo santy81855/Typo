@@ -57,26 +57,35 @@ class SettingsSave(QPushButton):
 
         # reload the settings in the config file
         config.reloadSettings()
-
-        # show the selected options and suboptions
-        optionType = None
-        for suboption in config.subOptions:
-            if suboption == config.selectedOption:
-                optionType = suboption.type
-        if optionType == None:
-            # show the ai
-            for option in config.options:
-                option.show()
-        else:
+        # if user is logged in send them back to typing page
+        if config.settings.value("user") != "":
+            # show the selected options and suboptions
+            optionType = None
             for suboption in config.subOptions:
-                if suboption.type == optionType:
-                    suboption.show()
-            for option in config.options:
-                option.show()
-        
-        # move the stack to the typing page
-        config.mainWin.stack.setCurrentIndex(2)
-        # show the restart button
-        config.mainWin.restart.show()
-        # show the settings button
-        config.mainWin.settingsButton.show()
+                if suboption == config.selectedOption:
+                    optionType = suboption.type
+            if optionType == None:
+                # show the ai
+                for option in config.options:
+                    option.show()
+            else:
+                for suboption in config.subOptions:
+                    if suboption.type == optionType:
+                        suboption.show()
+                for option in config.options:
+                    option.show()
+            
+            # move the stack to the typing page
+            config.mainWin.stack.setCurrentIndex(2)
+            # show the restart button
+            config.mainWin.restart.setVisible(True)
+            # show the settings button
+            config.mainWin.settingsButton.setVisible(True)
+        # otherwise send them to login page
+        else:
+            # move the stack to the login page
+            config.mainWin.stack.setCurrentIndex(0)
+            # hide the restart button
+            config.mainWin.restart.setVisible(False)
+            # hide the settings button
+            config.mainWin.hideOptions()
