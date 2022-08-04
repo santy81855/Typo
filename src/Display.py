@@ -60,8 +60,7 @@ class Passage(QTextEdit):
             # update the accuracy label
             config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
             # add this result to the results list
-            data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
-            FirebaseDB.update_user_results(config.settings.value('username'), data) 
+            self.addResultDB()
             # switch to the results page on the stacked widget
             config.mainWin.stack.setCurrentIndex(3)
 
@@ -246,8 +245,7 @@ class Passage(QTextEdit):
                         # update the accuracy label
                         config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
                         # add this result to the results list
-                        data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
-                        FirebaseDB.update_user_results(config.settings.value('username'), data) 
+                        self.addResultDB()
                         # switch to the results page on the stacked widget
                         config.mainWin.stack.setCurrentIndex(3)
                         return
@@ -337,9 +335,7 @@ class Passage(QTextEdit):
                     # update the accuracy label
                     config.mainWin.results.accuracyLabel.setText("Accuracy:\n" + str(round(accuracy, 2)) + "%")
                     # add this result to the results list
-                    # add this result to the results list
-                    data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
-                    FirebaseDB.update_user_results(config.settings.value('username'), data) 
+                    self.addResultDB()
                     # switch to the results page on the stacked widget
                     config.mainWin.stack.setCurrentIndex(3)
                     self.setText('<a style="color:{};">'.format(config.textHighlight) + config.typedText + '</a>')
@@ -363,6 +359,12 @@ class Passage(QTextEdit):
                 
         # accuracy
         #print(config.right / (config.wrong + config.right))
+    
+    def addResultDB(self):
+        accuracy = config.right / (config.right + config.wrong) * 100
+        # add this result to the results list
+        data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
+        FirebaseDB.update_user_results(config.settings.value('username'), data) 
 
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.IBeamCursor)

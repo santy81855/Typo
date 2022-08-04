@@ -30,8 +30,11 @@ class LoginButton(QPushButton):
 
     def buttonPressed(self):
         loginPage = self.parent
-        # check if they put in their username rather than email
-        user = FirebaseDB.get_user(loginPage.emailLabel.text())
+        if loginPage.emailLabel.text() == "":
+            user = None
+        else:
+            # check if they put in their username rather than email
+            user = FirebaseDB.get_user(loginPage.emailLabel.text())
         if user is not None:
             success = FirebaseAuth.signin(user['email'], loginPage.passLabel.text())
         else:

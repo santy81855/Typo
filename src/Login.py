@@ -17,6 +17,7 @@ class LoginPage(QWidget):
         self.vLayout = QVBoxLayout()
         # set the spacing
         self.vLayout.setSpacing(0)
+        self.vLayout.setAlignment(Qt.AlignVCenter)
         # create the font
         font = QFont()
         font.setFamily("Serif")
@@ -49,6 +50,7 @@ class LoginPage(QWidget):
         self.passLabel = LoginInput.LoginInput(self, "Password", 450, 60)
         # create the error label
         self.errorLabel = QLabel("Incorrect email or password")
+        self.errorLabel.setFixedHeight(20)
         self.errorLabel.setStyleSheet("""
             background-color: """ + config.backgroundColor + """;
             color: """ + config.backgroundColor + """;
@@ -86,15 +88,21 @@ class LoginPage(QWidget):
         self.vLayout.addWidget(self.title)
         self.vLayout.addSpacing(20)
         self.vLayout.addWidget(self.emailLabel)
-        self.vLayout.addSpacing(30)
+        self.vLayout.setAlignment(self.emailLabel, Qt.AlignHCenter)
+        self.vLayout.addSpacing(20)
         self.vLayout.addWidget(self.passLabel)
+        self.vLayout.setAlignment(self.passLabel, Qt.AlignHCenter)
+        self.vLayout.addSpacing(15)
         self.vLayout.addWidget(self.errorLabel)
+        self.vLayout.setAlignment(self.errorLabel, Qt.AlignHCenter)
         self.vLayout.addSpacing(20)
         self.vLayout.addWidget(self.loginButton)
+        self.vLayout.setAlignment(self.loginButton, Qt.AlignHCenter)
         self.vLayout.addSpacing(20)
         self.vLayout.addLayout(self.smallLayout)
-        self.vLayout.addSpacing(30)
+        self.vLayout.addSpacing(20)
         self.vLayout.addWidget(self.googleButton)
+        self.vLayout.setAlignment(self.googleButton, Qt.AlignHCenter)
         # add stretch
         self.vLayout.addStretch(-1)
         # add a stretch to main layout
