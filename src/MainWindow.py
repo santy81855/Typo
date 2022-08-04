@@ -383,7 +383,20 @@ class MainWindow(QFrame):
             workingHeight = QDesktopWidget().screenGeometry(self).height()
         
         monitor = QDesktopWidget().screenGeometry(self)
+
+        startx = self.pos().x()
+        starty = self.pos().y()
+
         self.move(monitor.left(), monitor.top())
+
+        if direction == "place":
+            #print(config.mainWin.pos().x())
+            self.setGeometry(self.pos().x() + startx, self.pos().y() + starty, self.width(), self.height())
+            # set all to false
+            config.rightDown = False
+            config.leftDown = False
+            config.downDown = False
+            config.upDown = False
 
         # middle window from right
         if direction == "left" and config.rightDown == True:

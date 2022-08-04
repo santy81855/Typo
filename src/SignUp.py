@@ -33,6 +33,8 @@ class SignUpButton(QPushButton):
     def buttonPressed(self):
         # if its the sign-up button take them to sign up page
         if "up" in self.text.lower():
+            # snap in place
+            config.mainWin.snapWin("place")
             # change the stack to the signup page
             config.mainWin.stack.setCurrentIndex(1)
         else:

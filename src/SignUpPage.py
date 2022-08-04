@@ -1,13 +1,24 @@
 from PyQt5 import QtCore
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QLineEdit
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QLineEdit, QScrollArea
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
-import config, CreateAccountButton, LoginInput, SignUp, GoogleButton, FirebaseAuth
+import config, CreateAccountButton, LoginInput, SignUp, GoogleButton, FirebaseAuth, ScrollBar
 
-class SignUpPage(QWidget):
+class SignUpPage(QScrollArea):
     def __init__(self, parent):
         super(SignUpPage, self).__init__()
+        #self.setBaseSize(self.width(), 800)
+        #self.setFixedHeight(800)
+        print(self.height())
+        self.setWidgetResizable(True)
+        
+        # create a new scrollbar that looks nicer
+        self.scrollbarV = ScrollBar.ScrollBar(self)
+        self.scrollbarH = ScrollBar.ScrollBar(self)
+        self.setVerticalScrollBar(self.scrollbarV)
+        self.setHorizontalScrollBar(self.scrollbarH)
+        self.widget = QWidget()
         self.parent = parent
         # create the main layout to be horizontal so everything is centered
         self.layout = QHBoxLayout()
@@ -145,11 +156,14 @@ class SignUpPage(QWidget):
         # add a stretch to main layout
         self.layout.addStretch(-1)
         # add the vertical layout to the main layout
-        self.layout.addLayout(self.vLayout)
+        
         # add a stretch to main layout
         self.layout.addStretch(-1)
         # set the layout
-        self.setLayout(self.layout)
+        self.widget.setLayout(self.vLayout)
+        # set the widget of the scrollarea
+        self.setWidget(self.widget)
+        #self.setLayout(self.layout)
         self.setMouseTracking(True)
     
     def mouseMoveEvent(self, event):
