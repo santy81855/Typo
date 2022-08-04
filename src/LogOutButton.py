@@ -29,11 +29,14 @@ class LogOutButton(QPushButton):
         QApplication.setOverrideCursor(Qt.PointingHandCursor)
 
     def buttonPressed(self):
-        if "out" in self.text.lower():
+        if "out" in self.text().lower():
             config.settings.setValue("user", "")
             config.settings.setValue("username", "")
             config.mainWin.stack.setCurrentIndex(0)
         else:
+            config.mainWin.showOptions()
+            config.mainWin.settingsButton.setVisible(True)
+            config.mainWin.restart.setVisible(True)
             config.mainWin.stack.setCurrentIndex(2)
 
 

@@ -19,8 +19,8 @@ def set_user(username, data):
 
 def get_user_by_email(email):
     result = db.collection("users").where("email", "==", email).get()
-    if result.exists:
-        return result.to_dict()
+    if result[0].exists:
+        return result[0].to_dict()
     else:
         return None
 
