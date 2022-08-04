@@ -38,12 +38,13 @@ class LogOutButton(QPushButton):
             config.mainWin.stack.setCurrentIndex(0)
         # if used as the back button right next to the log out button
         else:
-            config.mainWin.showOptions()
+            # go to typing page
+            config.mainWin.stack.setCurrentIndex(2)
             # show the profile button
             config.mainWin.profileButton.setVisible(True)
+            # show the settings button
             config.mainWin.settingsButton.setVisible(True)
-            config.mainWin.restart.setVisible(True)
-            config.mainWin.stack.setCurrentIndex(2)
+            
 
 
         

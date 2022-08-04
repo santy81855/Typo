@@ -24,7 +24,7 @@ class MyBar(QWidget):
         # also 8 margin at the top so that the buttons don't get in the way of resizing
         # left, top, right, bottom
         # add left margin to account for 3 corner buttons so the title is centered
-        self.layout.setContentsMargins(btn_size*3,0,0,0)
+        self.layout.setContentsMargins((btn_size+25)*3,0,0,0)
         self.layout.setSpacing(0)
         self.title = QLabel(config.appName)
         self.title.setMouseTracking(True)

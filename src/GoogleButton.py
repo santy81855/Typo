@@ -3,7 +3,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QPlainTextEdit, QScrollArea, QFileDialog
 from PyQt5.QtCore import Qt, QPoint, QDir, QSize
 from PyQt5.QtGui import QCursor, QFont, QTextCursor, QIcon, QPixmap
-import config
+import config, FirebaseAuth
 
 class GoogleButton(QPushButton):
     def __init__(self, parent, text, width, height):
@@ -33,4 +33,4 @@ class GoogleButton(QPushButton):
         QApplication.setOverrideCursor(Qt.PointingHandCursor)
 
     def buttonPressed(self):
-        print("google")
+        print("google button")

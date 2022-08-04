@@ -32,15 +32,87 @@ class CreateAccountButton(QPushButton):
         loginPage = self.parent
         passwordMatch = (loginPage.passLabel.text() == loginPage.passLabel2.text())
         passwordEmpty = (loginPage.passLabel.text() == "" or loginPage.passLabel2.text() == "")
-        # Query database to ensure this is a unique username
-        uniqueUserName = FirebaseDB.get_user(loginPage.username.text())
-        # if we get a result for this username it means it is taken
-        if uniqueUserName is not None:
-            loginPage.errorLabelUser.setStyleSheet("""
-                background-color:"""+config.backgroundColor+""";
-                color: """+config.errorColor+""";
+
+        error = False
+        if passwordMatch and passwordEmpty == False:
+            loginPage.errorLabel2.setStyleSheet("""
+                    background-color:"""+config.backgroundColor+""";
+                    color: """+config.backgroundColor+""";
+            """)
+            loginPage.passLabel.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.accentColor+""";
+                border-radius: 5px;
+            """)
+            loginPage.passLabel2.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.accentColor+""";
+                border-radius: 5px;
             """)
 
+        # if the user did not input anything for the email
+        if loginPage.emailLabel.text() == "":
+            loginPage.emailLabel.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.errorColor+""";
+                border-radius: 5px;
+            """)
+            error = True
+        else:
+            loginPage.emailLabel.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.accentColor+""";
+                border-radius: 5px;
+            """)
+        if loginPage.firstName.text() == "":
+            loginPage.firstName.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.errorColor+""";
+                border-radius: 5px;
+            """)
+            error = True
+        else:
+            loginPage.firstName.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.accentColor+""";
+                border-radius: 5px;
+            """)
+        if loginPage.lastName.text() == "":
+            loginPage.lastName.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.errorColor+""";
+                border-radius: 5px;
+            """)
+            error = True
+        else:
+            loginPage.lastName.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.accentColor+""";
+                border-radius: 5px;
+            """)
+        if loginPage.username.text() == "":
+            loginPage.username.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.errorColor+""";
+                border-radius: 5px;
+            """)
+            error = True
+        else:
+            loginPage.username.setStyleSheet("""
+                    background-color: white;
+                    color: """+config.backgroundColor+""";
+                    border: 2px solid """+config.accentColor+""";
+                    border-radius: 5px;
+                """)
         if passwordMatch == False or passwordEmpty == True:
             loginPage.passLabel.setStyleSheet("""
                 background-color: white;
@@ -58,19 +130,29 @@ class CreateAccountButton(QPushButton):
                     background-color:"""+config.backgroundColor+""";
                     color: """+config.errorColor+""";
             """)
+            error = True
+
+        if error == True:
+            return
+
+        # Query database to ensure this is a unique username
+        uniqueUserName = FirebaseDB.get_user(loginPage.username.text())
+        # if we get a result for this username it means it is taken
+        if uniqueUserName is not None:
+            loginPage.errorLabelUser.setStyleSheet("""
+                background-color:"""+config.backgroundColor+""";
+                color: """+config.errorColor+""";
+            """)
 
         # only proceed if they have entered the same password in both fields
         if (passwordMatch and not passwordEmpty and uniqueUserName is None):
             success = FirebaseAuth.signup(loginPage.emailLabel.text(), loginPage.passLabel.text(), loginPage.firstName.text(), loginPage.lastName.text(), loginPage.username.text())
             # if they successfully create account, go to the main page
             if success:
-                # show all the options buttons
-                config.mainWin.showOptions()
-                # show the restart button
-                config.mainWin.restart.setVisible(True)
+                # go to the typing page
+                config.mainWin.stack.setCurrentIndex(2)
                 # show the settings button
                 config.mainWin.settingsButton.setVisible(True)
-                config.mainWin.stack.setCurrentIndex(2)
             # if the signup fails, tell them
             else:
                 loginPage.emailLabel.setStyleSheet("""

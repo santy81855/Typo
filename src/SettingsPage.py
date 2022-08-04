@@ -51,19 +51,27 @@ class SettingsPage(QScrollArea):
                 self.entries[item] = SettingsEntry.SettingsEntry(self, item)
                 self.layout.addWidget(self.entries[item])
         
-        self.saveButton = SettingsEntry.SettingsEntry(self, "save")
+        #self.saveButton = SettingsEntry.SettingsEntry(self, "save")
+        self.saveButton = SettingsSave.SettingsSave(self, "Save")
+        self.backButton = SettingsSave.SettingsSave(self, "Back")
+
+        # add bothe buttons to a holrizontal layout
+        self.horLayout = QHBoxLayout()
+        self.horLayout.setSpacing(10)
+        self.horLayout.addStretch(-1)
+        self.horLayout.addWidget(self.backButton)
+        self.horLayout.addWidget(self.saveButton)
+        self.horLayout.addStretch(-1)
         
-        # add the save button to the vertical layout
+        # add the button layout to the main layout
         self.layout.addStretch(-1)
-        self.layout.addWidget(self.saveButton)
-        self.layout.setAlignment(self.saveButton, Qt.AlignHCenter)
+        self.layout.addLayout(self.horLayout)
+        #self.layout.setAlignment(self.saveButton, Qt.AlignHCenter)
         self.layout.addStretch(-1)
 
         self.mainLayout.addLayout(self.layout)
         self.mainLayout.addStretch(-1)
 
-        print(self.parent.stack.width())
-        print(self.width())
         # set the layout
         self.widget.setLayout(self.mainLayout)
         # set the widget of the scrollarea

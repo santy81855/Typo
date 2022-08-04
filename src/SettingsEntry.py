@@ -165,5 +165,6 @@ class SettingsEntry(QWidget):
             # add the button to the layout
             self.layout.addWidget(self.save)
 
+
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.ArrowCursor)

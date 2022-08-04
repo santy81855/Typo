@@ -3,14 +3,11 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QLineEdit, QScrollArea
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
-import config, CreateAccountButton, LoginInput, SignUp, GoogleButton, FirebaseAuth, ScrollBar
+import config, CreateAccountButton, LoginInput, SignUp, GoogleButton, FirebaseAuth, ScrollBar, BasicWidget
 
 class SignUpPage(QScrollArea):
     def __init__(self, parent):
         super(SignUpPage, self).__init__()
-        #self.setBaseSize(self.width(), 800)
-        #self.setFixedHeight(800)
-        print(self.height())
         self.setWidgetResizable(True)
         
         # create a new scrollbar that looks nicer
@@ -18,7 +15,7 @@ class SignUpPage(QScrollArea):
         self.scrollbarH = ScrollBar.ScrollBar(self)
         self.setVerticalScrollBar(self.scrollbarV)
         self.setHorizontalScrollBar(self.scrollbarH)
-        self.widget = QWidget()
+        self.widget = BasicWidget.BasicWidget(self)
         self.parent = parent
         # create the main layout to be horizontal so everything is centered
         self.layout = QHBoxLayout()
@@ -148,9 +145,9 @@ class SignUpPage(QScrollArea):
         self.vLayout.setAlignment(self.loginButton, Qt.AlignHCenter)
         self.vLayout.addSpacing(20)
         self.vLayout.addLayout(self.smallLayout)
-        self.vLayout.addSpacing(30)
-        self.vLayout.addWidget(self.googleButton)
-        self.vLayout.setAlignment(self.googleButton, Qt.AlignHCenter)
+        #self.vLayout.addSpacing(30)
+        #self.vLayout.addWidget(self.googleButton)
+        #self.vLayout.setAlignment(self.googleButton, Qt.AlignHCenter)
         # add stretch
         self.vLayout.addStretch(-1)
         # add a stretch to main layout
@@ -163,7 +160,6 @@ class SignUpPage(QScrollArea):
         self.widget.setLayout(self.vLayout)
         # set the widget of the scrollarea
         self.setWidget(self.widget)
-        #self.setLayout(self.layout)
         self.setMouseTracking(True)
     
     def mouseMoveEvent(self, event):

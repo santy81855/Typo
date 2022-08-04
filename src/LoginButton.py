@@ -41,15 +41,12 @@ class LoginButton(QPushButton):
             success = FirebaseAuth.signin(loginPage.emailLabel.text(), loginPage.passLabel.text())
         # if they log in successfully go to the main page
         if success:
-            # show all the options buttons
-            config.mainWin.showOptions()
-            # show the restart button
-            config.mainWin.restart.setVisible(True)
+            # switch to typing page
+            config.mainWin.stack.setCurrentIndex(2)
             # show the settings button
             config.mainWin.settingsButton.setVisible(True)
             # show the profile button
             config.mainWin.profileButton.setVisible(True)
-            config.mainWin.stack.setCurrentIndex(2)
         # if the login fails, tell them
         else:
             loginPage.emailLabel.setStyleSheet("""

@@ -100,9 +100,9 @@ class LoginPage(QWidget):
         self.vLayout.setAlignment(self.loginButton, Qt.AlignHCenter)
         self.vLayout.addSpacing(20)
         self.vLayout.addLayout(self.smallLayout)
-        self.vLayout.addSpacing(20)
-        self.vLayout.addWidget(self.googleButton)
-        self.vLayout.setAlignment(self.googleButton, Qt.AlignHCenter)
+        #self.vLayout.addSpacing(20)
+        # self.vLayout.addWidget(self.googleButton)
+        # self.vLayout.setAlignment(self.googleButton, Qt.AlignHCenter)
         # add stretch
         self.vLayout.addStretch(-1)
         # add a stretch to main layout

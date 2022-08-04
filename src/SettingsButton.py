@@ -22,16 +22,9 @@ class SettingsButton(QPushButton):
         QApplication.setOverrideCursor(Qt.PointingHandCursor)
 
     def buttonPressed(self):
-        # hide all the options and suboptions
-        for option in config.options:
-            option.hide()
-        for suboption in config.subOptions:
-            suboption.hide()
-        # move the stack to the settings page
+        # change to settings index
         self.parent.stack.setCurrentIndex(4)
         # make the settings page big
         self.parent.settingsPage.setMinimumHeight(self.parent.height() - self.parent.snapButton.height() - 50)
-        # hide the restart button
-        self.parent.restart.setVisible(False)
         # hide the settings button
         self.setVisible(False)

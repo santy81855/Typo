@@ -3,7 +3,7 @@ from PyQt5 import QtGui, QtCore, QtMultimedia
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QShortcut, QApplication, QGraphicsDropShadowEffect, QLabel, QDesktopWidget, QFrame, QStackedWidget, QPushButton, QScrollArea, QWidget, QSizePolicy
 from PyQt5.QtCore import Qt, QPoint, QSettings
 from PyQt5.QtGui import QColor, QCursor, QKeySequence, QFont
-import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton, SettingsPage, SettingsButton, Login, SignUpPage, ProfileButton, ProfileTab
+import config, TitleBar, Snap, SnapButton, Display, OptionButton, Results, RestartButton, SettingsPage, SettingsButton, Login, SignUpPage, ProfileButton, ProfileTab, TypingPage
 from platform import system
 operatingSystem = system()
 
@@ -90,6 +90,9 @@ class MainWindow(QFrame):
         self.settingsHorLayout.addWidget(self.profileButton)
         # add the hor layout to the main layout
         self.layout.addLayout(self.settingsHorLayout)
+
+        # create the typing page
+        self.typingPage = TypingPage.TypingPage(self)
         
         global options
         global subOptions
@@ -112,8 +115,8 @@ class MainWindow(QFrame):
         self.optionsLayout.addWidget(self.generated)
         # stretch on the right
         self.optionsLayout.addStretch(-1)
-        # add the hor layout to main layout
-        self.layout.addLayout(self.optionsLayout)        
+        # add the hor layout to the typing page layout
+        self.typingPage.layout.addLayout(self.optionsLayout)
 
         # add 3 horizontal layouts to display the suboptions for each of the 3 options
         self.subOptionsWordsLayout = QHBoxLayout()
@@ -145,8 +148,8 @@ class MainWindow(QFrame):
 
         self.subOptionsWordsLayout.addStretch(-1)
 
-        # add the horizontal layout to the main layout
-        self.layout.addLayout(self.subOptionsWordsLayout)
+        # add the horizontal layout to the typing page layout
+        self.typingPage.layout.addLayout(self.subOptionsWordsLayout)
 
         # add the suboptions to the suboptions arr
         config.subOptions = [self.words1, self.words2, self.words3, self.words4, self.time1, self.time2, self.time3, self.time4]
@@ -169,8 +172,12 @@ class MainWindow(QFrame):
         self.stack.addWidget(self.signupPage)
         # create the main text area
         self.textDisplay = Display.Passage(self)
-        # add the text area to the stack widget
-        self.stack.addWidget(self.textDisplay)
+        # add the text area to the typing page layout
+        self.typingPage.layout.addStretch()
+        self.typingPage.layout.addWidget(self.textDisplay)
+        self.typingPage.layout.addStretch()
+        # add the typing page to the stack widget
+        self.stack.addWidget(self.typingPage)
         # add the results page to the stack widget
         self.results = Results.ResultsPage(self)
         self.stack.addWidget(self.results)
@@ -191,23 +198,21 @@ class MainWindow(QFrame):
 
         # create a restart button
         self.restart = RestartButton.RestartButton(self, "Restart")
-
-        self.layout.addWidget(self.restart)
-        self.layout.setAlignment(self.restart, Qt.AlignHCenter)
+        # add the restart button to the typing page layout
+        self.typingPage.layout.addWidget(self.restart)
+        self.typingPage.layout.setAlignment(self.restart, Qt.AlignHCenter)
+        # add a stretch to the typing page
+        self.typingPage.layout.addStretch(-1)
         
 
         # display the login page if the user is not logged in
         if config.settings.value("user") == "":
-            # hide the options and suboptions if on the login page
-            self.hideOptions()
+            # show the login page
+            self.stack.setCurrentIndex(0)
             # hide the profile button
             self.profileButton.setVisible(False)
             # hide the settings button if on the login page
             self.settingsButton.setVisible(False)
-            # hide the restart button if on the login page
-            self.restart.setVisible(False)
-            # show the login page
-            self.stack.setCurrentIndex(0)
         # display the main text area if the user is logged in
         else:
             self.stack.setCurrentIndex(2)
@@ -290,31 +295,7 @@ class MainWindow(QFrame):
         self.shortcut_snapBottom.activated.connect(lambda: self.snapWin("bottom"))
         # set focus to the textbox
         self.textDisplay.setFocus()
-    
-    def showOptions(self):
-        # show the selected options and suboptions
-        optionType = None
-        for suboption in config.subOptions:
-            if suboption == config.selectedOption:
-                optionType = suboption.type
-        if optionType == None:
-            # show the ai
-            for option in config.options:
-                option.show()
-        else:
-            for suboption in config.subOptions:
-                if suboption.type == optionType:
-                    suboption.show()
-            for option in config.options:
-                option.show()
-    
-    def hideOptions(self):
-        # hide the options and suboptions
-        for i in range(0, len(config.options)):
-            config.options[i].setVisible(False)
-        for i in range(0, len(config.subOptions)):
-            config.subOptions[i].setVisible(False)
-    
+
     def addInfoBar(self):
         # add the infobar
         self.infoBar = QWidget()

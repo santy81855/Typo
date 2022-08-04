@@ -361,9 +361,12 @@ class Passage(QTextEdit):
         #print(config.right / (config.wrong + config.right))
     
     def addResultDB(self):
+        # get the date
+        from datetime import date
+        today = date.today()
         accuracy = config.right / (config.right + config.wrong) * 100
         # add this result to the results list
-        data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy': accuracy}
+        data = {'type': config.selectedOption.type, 'length': config.selectedOption.buttonText, 'wpm': config.wpm, 'accuracy' : accuracy, 'date' : today.strftime("%Y-%m-%d")}
         FirebaseDB.update_user_results(config.settings.value('username'), data) 
 
     def mouseMoveEvent(self, event):
