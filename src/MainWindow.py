@@ -204,18 +204,6 @@ class MainWindow(QFrame):
         # add a stretch to the typing page
         self.typingPage.layout.addStretch(-1)
         
-
-        # display the login page if the user is not logged in
-        if config.settings.value("user") == "":
-            # show the login page
-            self.stack.setCurrentIndex(0)
-            # hide the profile button
-            self.profileButton.setVisible(False)
-            # hide the settings button if on the login page
-            self.settingsButton.setVisible(False)
-        # display the main text area if the user is logged in
-        else:
-            self.stack.setCurrentIndex(2)
         #---------------------------------------------------------------------------------------------------------------------#
 
         # add the infobar at the bottom
@@ -293,8 +281,22 @@ class MainWindow(QFrame):
         self.shortcut_snapTop.activated.connect(lambda: self.snapWin("top"))
         self.shortcut_snapBottom = QShortcut(QKeySequence('Ctrl+Alt+Down'), self)
         self.shortcut_snapBottom.activated.connect(lambda: self.snapWin("bottom"))
-        # set focus to the textbox
-        self.textDisplay.setFocus()
+        # display the login page if the user is not logged in
+        if config.settings.value("user") == "":
+            # show the login page
+            self.stack.setCurrentIndex(0)
+            # hide the profile button
+            self.profileButton.setVisible(False)
+            # hide the settings button if on the login page
+            self.settingsButton.setVisible(False)
+            # set the login qlineedit to be focused
+            config.mainWin.loginPage.emailLabel.setFocus(True)
+        # display the main text area if the user is logged in
+        else:
+            # display text area
+            self.stack.setCurrentIndex(2)
+            # set focus to the textbox
+            self.textDisplay.setFocus()
 
     def addInfoBar(self):
         # add the infobar
@@ -743,28 +745,3 @@ class MainWindow(QFrame):
         self.tr = False
         self.tl = False
         self.top = False
-
-# def mainFunction():
-#     config.application = QApplication(sys.argv)
-#     # configure the QSettings
-#     config.application.setOrganizationName(config.appAuthor)
-#     config.application.setApplicationName(config.appName)
-#     # set the logo
-#     config.application.setWindowIcon(QtGui.QIcon(config.logoName))   
-#     # find the resolution of the monitor the user is on
-#     screen_resolution = config.application.desktop().screenGeometry()
-#     width, height = screen_resolution.width(), screen_resolution.height()
-#     key = str(width) + "x" + str(height)
-#     startingLocation = []
-#     if key not in config.res:
-#         startingLocation = [500, 500]
-#     else:
-#         startingLocation = config.res[key]
-#     # create the main window widget and display it
-#     mw = MainWindow()
-#     mw.show()
-
-#     sys.exit(config.application.exec_())
-
-# if __name__ == "__main__":
-#     mainFunction()

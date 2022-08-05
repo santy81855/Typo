@@ -35,7 +35,14 @@ class LogOutButton(QPushButton):
             config.mainWin.profileButton.setVisible(False)
             config.settings.setValue("user", "")
             config.settings.setValue("username", "")
+            # go to login page
             config.mainWin.stack.setCurrentIndex(0)
+            # clear all the login fields
+            config.mainWin.loginPage.clearFields()
+            # set the fields of the login page to normal
+            config.mainWin.loginPage.setNormal()
+            # set the emailLabel to be focused
+            config.mainWin.loginPage.emailLabel.setFocus(True)
         # if used as the back button right next to the log out button
         else:
             # go to typing page

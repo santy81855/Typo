@@ -37,7 +37,19 @@ class SignUpButton(QPushButton):
             config.mainWin.snapWin("place")
             # change the stack to the signup page
             config.mainWin.stack.setCurrentIndex(1)
+            # delete all the information in the signup page
+            config.mainWin.signupPage.clearFields()
+            # make all the fields normal in the signup page
+            config.mainWin.signupPage.setNormal()
+            # set the first name qlineedit to be focused
+            config.mainWin.signupPage.firstName.setFocus(True)
         # if it's the signin button take them to log in page
         else:
             # change the stack to the login page
             config.mainWin.stack.setCurrentIndex(0)
+            # clear all the fields in the lolgin page
+            config.mainWin.loginPage.clearFields()
+            # make all the fields normal in the login page
+            config.mainWin.loginPage.setNormal()
+            # set the login qlineedit to be focused
+            config.mainWin.loginPage.emailLabel.setFocus(True)

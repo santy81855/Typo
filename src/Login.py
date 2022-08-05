@@ -115,5 +115,32 @@ class LoginPage(QWidget):
         self.setLayout(self.layout)
         self.setMouseTracking(True)
     
+    # make all the fields normal
+    def setNormal(self):
+        self.emailLabel.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.passLabel.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.errorLabel.setStyleSheet("""
+            background-color: """ + config.backgroundColor + """;
+            color: """ + config.backgroundColor + """;
+        """)
+    
+    # function to press the login button
+    def submit(self):
+        self.loginButton.buttonPressed()
+    
+    def clearFields(self):
+        self.emailLabel.clear()
+        self.passLabel.clear()
+    
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.ArrowCursor)

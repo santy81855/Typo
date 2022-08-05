@@ -32,6 +32,10 @@ class LoginInput(QLineEdit):
 
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.IBeamCursor)
-
-    def buttonPressed(self):
-        print("hello")
+        return QLineEdit.mouseMoveEvent(self, event)
+    
+    def keyPressEvent(self, event):
+        # if they press enter
+        if event.key() == Qt.Key_Return:
+            self.parent.submit()
+        return QLineEdit.keyPressEvent(self, event)

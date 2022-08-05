@@ -161,6 +161,68 @@ class SignUpPage(QScrollArea):
         # set the widget of the scrollarea
         self.setWidget(self.widget)
         self.setMouseTracking(True)
+
+    def setNormal(self):
+        self.firstName.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.lastName.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.username.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.emailLabel.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.passLabel.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.passLabel2.setStyleSheet("""
+            background-color: white;
+            color: """+config.backgroundColor+""";
+            border: 2px solid """+config.textHighlight+""";
+            border-radius: 5px;
+        """)
+        self.errorLabelUser.setStyleSheet("""
+            background-color: """ + config.backgroundColor + """;
+            color: """ + config.backgroundColor + """;
+        """)
+        self.errorLabel.setStyleSheet("""
+            background-color: """ + config.backgroundColor + """;
+            color: """ + config.backgroundColor + """;
+        """)
+        self.errorLabel2.setStyleSheet("""
+            background-color: """ + config.backgroundColor + """;
+            color: """ + config.backgroundColor + """;
+        """)
+
+    
+    def submit(self):
+        self.loginButton.buttonPressed()
+    
+    def clearFields(self):
+        self.firstName.clear()
+        self.lastName.clear()
+        self.username.clear()
+        self.emailLabel.clear()
+        self.passLabel.clear()
+        self.passLabel2.clear()
     
     def mouseMoveEvent(self, event):
         QApplication.setOverrideCursor(Qt.ArrowCursor)

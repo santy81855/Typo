@@ -153,6 +153,8 @@ class CreateAccountButton(QPushButton):
                 config.mainWin.stack.setCurrentIndex(2)
                 # show the settings button
                 config.mainWin.settingsButton.setVisible(True)
+                # shaw the profile button
+                config.mainWin.profileButton.setVisible(True)
             # if the signup fails, tell them
             else:
                 loginPage.emailLabel.setStyleSheet("""
