@@ -10,7 +10,10 @@ class ProfileButton(QPushButton):
         super(ProfileButton, self).__init__()
         self.parent = parent
         self.setFixedSize(60, 30)
-        pixmap = QPixmap("images/profileIcon.png");
+        if config.settings.value("selectedTheme") == "Light":
+            pixmap = QPixmap("images/profile_black.jpg")
+        else:
+            pixmap = QPixmap("images/profileIcon.png")
         profileIcon = QIcon(pixmap);
         self.setIcon(profileIcon)
         

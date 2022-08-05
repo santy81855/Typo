@@ -48,8 +48,10 @@ if settings.contains("themes") == False:
     themes["Forest"] = theme("Forest", "#121e26", "#f4efeb", "#8FBCBB")
     themes["Baby"] = theme("Baby", "#9df9ef", "#a28089", "#ffa8B6")
     themes["Desert"] = theme("Desert", "#2d545e", "#e1b382", "#c89666")
+    themes["Light"] = theme("Light", "#F1F1F1", "#0F3D3E", "#395B64")
     # add the themes to the settings
     settings.setValue("themes", themes)
+
 
 # set the variables that can be changed by the user
 # Opacity of the window

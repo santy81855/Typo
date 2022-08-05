@@ -10,7 +10,10 @@ class SettingsButton(QPushButton):
         super(SettingsButton, self).__init__()
         self.parent = parent
         self.setFixedSize(60, 30)
-        self.setIcon(QIcon('images/settings_white.png'))
+        if config.settings.value("selectedTheme") == "Light":
+            self.setIcon(QIcon('images/settings_black.png'))
+        else:
+            self.setIcon(QIcon('images/settings_white.png'))
         self.setStyleSheet("""
             border: none;
             padding: 0px;
