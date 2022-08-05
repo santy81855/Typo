@@ -31,10 +31,17 @@ class LoginButton(QPushButton):
     def buttonPressed(self):
         loginPage = self.parent
         if loginPage.emailLabel.text() == "":
-            user = None
+            loginPage.emailLabel.setStyleSheet("""
+                background-color: white;
+                color: """+config.backgroundColor+""";
+                border: 2px solid """+config.errorColor+""";
+                border-radius: 5px;
+            """)
+            return
         else:
             # check if they put in their username rather than email
             user = FirebaseDB.get_user(loginPage.emailLabel.text())
+            print(user)
         if user is not None:
             success = FirebaseAuth.signin(user['email'], loginPage.passLabel.text())
         else:

@@ -27,5 +27,7 @@ class ProfileButton(QPushButton):
     def buttonPressed(self):
         # switch to the profile page
         config.mainWin.stack.setCurrentIndex(5)
+        # update the username in case it changed
+        config.mainWin.profilePage.title.setText("Hello, " + config.settings.value("username")+"!")
         # hide the profile button
         config.mainWin.profileButton.setVisible(False)
