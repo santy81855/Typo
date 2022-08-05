@@ -40,17 +40,16 @@ if settings.contains("selectedTheme") == False:
     settings.setValue("selectedTheme", "Forest")
 if settings.contains("symbols") == False:
     settings.setValue("symbols", "False")
-if settings.contains("themes") == False:
-    # create a dictionary of theme objects
-    themes = {}
-    # add the themes to the dictionary
-    themes["Nord"] = theme("Nord", "#3B4252", "#8FBCBB", "#D08770")
-    themes["Forest"] = theme("Forest", "#121e26", "#f4efeb", "#8FBCBB")
-    themes["Baby"] = theme("Baby", "#9df9ef", "#a28089", "#ffa8B6")
-    themes["Desert"] = theme("Desert", "#2d545e", "#e1b382", "#c89666")
-    themes["Light"] = theme("Light", "#F1F1F1", "#0F3D3E", "#395B64")
-    # add the themes to the settings
-    settings.setValue("themes", themes)
+# create a dictionary of theme objects
+themes = {}
+# add the themes to the dictionary
+themes["Nord"] = theme("Nord", "#3B4252", "#8FBCBB", "#D08770")
+themes["Forest"] = theme("Forest", "#121e26", "#f4efeb", "#8FBCBB")
+themes["Baby"] = theme("Baby", "#9df9ef", "#a28089", "#ffa8B6")
+themes["Desert"] = theme("Desert", "#2d545e", "#e1b382", "#c89666")
+themes["Light"] = theme("Light", "#F1F1F1", "#0F3D3E", "#395B64")
+# add the themes to the settings
+settings.setValue("themes", themes)
 
 
 # set the variables that can be changed by the user

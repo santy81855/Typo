@@ -165,37 +165,37 @@ class SignUpPage(QScrollArea):
     def setNormal(self):
         self.firstName.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)
         self.lastName.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)
         self.username.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)
         self.emailLabel.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)
         self.passLabel.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)
         self.passLabel2.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)

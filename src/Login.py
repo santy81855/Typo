@@ -119,13 +119,13 @@ class LoginPage(QWidget):
     def setNormal(self):
         self.emailLabel.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)
         self.passLabel.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)

@@ -19,7 +19,7 @@ class LoginInput(QLineEdit):
         # edit the stylesheet
         self.setStyleSheet("""
             background-color: white;
-            color: """+config.backgroundColor+""";
+            color: black;
             border: 2px solid """+config.textHighlight+""";
             border-radius: 5px;
         """)

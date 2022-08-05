@@ -69,12 +69,12 @@ class SettingsSave(QPushButton):
             else:
                 # move the stack to the login page
                 config.mainWin.stack.setCurrentIndex(0)
-                # hide the restart button
-                config.mainWin.restart.setVisible(False)
-                # hide the settings button
-                config.mainWin.hideOptions()
+                # make the login text the focus
+                config.mainWin.loginPage.emailLabel.setFocus(True)
         # if its being used as a back button
         else:
+            # show the profile button
+            config.mainWin.profileButton.setVisible(True)
             # move the stack to the typing page
             config.mainWin.stack.setCurrentIndex(2)
             # show the settings button
