@@ -57,3 +57,8 @@ class RestartButton(QPushButton):
     def mouseMoveEvent(self, event):
         # if the mouse is over the button, make it a hand cursor
         QApplication.setOverrideCursor(Qt.PointingHandCursor)
+    
+    def keyPressEvent(self, event): 
+        # only register if they type an enter
+        if event.key() == 16777220:
+            return QPushButton.keyPressEvent(self, event)

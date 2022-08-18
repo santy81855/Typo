@@ -28,6 +28,7 @@ class Passage(QTextEdit):
             margin-left: """+marginStr+""";
             margin-right: """+marginStr+""";
             margin-top: """+marginStr+""";
+            resize: none;
         }
         """)
         
