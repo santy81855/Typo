@@ -3,7 +3,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QApplication, QLabel, QDesktopWidget, QWidget, QPushButton, QFrame, QTextEdit
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QCursor, QFont, QTextCursor
-import config
+import config, RestartButton
 
 class ResultsPage(QWidget):
     def __init__(self, parent):
@@ -38,6 +38,20 @@ class ResultsPage(QWidget):
         # add the labels to the vertical layout
         self.vLayout.addWidget(self.wpmLabel)
         self.vLayout.addWidget(self.accuracyLabel)
+        # create a horizontal layout
+        self.hLayout = QHBoxLayout()
+        # set the spacing
+        self.hLayout.setSpacing(0)
+        # add stretch
+        self.hLayout.addStretch(-1)
+        # create a restart button
+        self.restart = RestartButton.RestartButton(config.mainWin, "Restart")
+        # add the restart button to the horizontal layout
+        self.hLayout.addWidget(self.restart)
+        # add stretch
+        self.hLayout.addStretch(-1)
+        # add the horizontal layout to the vertical layout
+        self.vLayout.addLayout(self.hLayout)
         # add stretch
         self.vLayout.addStretch(-1)
         # set the layout
