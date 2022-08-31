@@ -1,6 +1,6 @@
 # Typo
 
-# [Download](https://github.com/santy81855/Typo/raw/main/Typo_InstallerV2.exe)
+# [Download](https://github.com/santy81855/Typo/raw/main/Typo_Installer.exe)
 
 ## A desktop application to practice typing! You can create a profile and store your results to track your progress.
 ![Image](images/demo1.png)
